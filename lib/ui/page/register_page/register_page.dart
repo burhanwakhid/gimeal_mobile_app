@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/services/firebase_auth_service/firebase_auth_services.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController namaCont = TextEditingController();
   TextEditingController emailCont = TextEditingController();
   TextEditingController passCont = TextEditingController();
+  TextEditingController hpCont = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 18),
                 child: Text(
-                  'Sign In',
+                  'Sign Up',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 30.0,
@@ -42,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 18, bottom: 10),
                 child: Text(
-                  'Silahkan Login',
+                  'Buat akun anda',
                   style: TextStyle(
                     color: Colors.white,
                     height: 1.5,
@@ -67,7 +71,19 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        
+                        TextFormField(
+                          controller: namaCont,
+                          validator: (val) {
+                            if (val.isEmpty) {
+                              return 'Tidak boleh kosong';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(labelText: 'Nama'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         TextFormField(
                           controller: emailCont,
                           validator: (val) {
@@ -77,6 +93,19 @@ class _LoginPageState extends State<LoginPage> {
                             return null;
                           },
                           decoration: InputDecoration(labelText: 'Email'),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: hpCont,
+                          validator: (val) {
+                            if (val.isEmpty) {
+                              return 'Tidak boleh kosong';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(labelText: 'No. Hp'),
                         ),
                         SizedBox(
                           height: 10,
@@ -101,17 +130,19 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () async{
                              if( _formKey.currentState.validate()){
                                print('object');
-                               SignInSignUpResult result = await AuthService.signIn(emailCont.text, passCont.text);
+                               SignInSignUpResult result = await AuthService.signUp(emailCont.text, passCont.text, namaCont.text, hpCont.text);
                                 if(result.user != null){
-                                  Fluttertoast.showToast(msg: 'Login Success');
-                                  // Navigator.pushNamed(context, Routers.loginPage);
+                                  Fluttertoast.showToast(msg: 'Register Success');
+                                  Navigator.pushNamed(context, Routers.loginPage);
                                 }else{
-                                   Fluttertoast.showToast(msg: 'Login gagal, ${result.message}');
+                                   Fluttertoast.showToast(msg: 'Register gagal, ${result.message}');
                                 }
+                              }else{
+                                print(emailCont.text + passCont.text +namaCont.text +hpCont.text);
                               }
                             },
                             child: Text(
-                              'Sign In',
+                              'Sign Up',
                               style: kSubtitleStyle.copyWith(color: Colors.white),
                             ),
                             color: Theme.of(context).accentColor,
