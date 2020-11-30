@@ -8,7 +8,8 @@ class UserServices {
     _collectionReference.doc(userModel.id).set({
       'email': userModel.email,
       'hp': userModel.noHp,
-      'nama': userModel.nama
+      'nama': userModel.nama,
+      'createdAt': userModel.createdAt
     });
   }
 }

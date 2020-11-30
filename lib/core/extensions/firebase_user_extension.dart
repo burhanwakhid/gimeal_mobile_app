@@ -5,9 +5,10 @@ extension FirebaseUserExtension on auth.User {
   UserModel convertToUser(
           {
             String nama = "no name",
-            String hp = "098342"
+            String hp = "098342",
+            String createdAt = ''
           }) =>
-      UserModel(this.uid, this.email, nama: nama, noHp: hp);
+      UserModel(this.uid, this.email, nama: nama, noHp: hp, createdAt: createdAt);
 
   // Future<UserModel> fromFireStore() async => await UserServices.getUser(this.uid);
 }

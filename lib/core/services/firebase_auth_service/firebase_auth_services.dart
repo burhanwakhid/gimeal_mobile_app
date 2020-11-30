@@ -12,7 +12,7 @@ class AuthService {
       UserCredential result = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      UserModel userModel = result.user.convertToUser(nama: nama, hp: noHp);
+      UserModel userModel = result.user.convertToUser(nama: nama, hp: noHp, createdAt: DateTime.now().toIso8601String());
 
       await UserServices.updateUser(userModel);
       
