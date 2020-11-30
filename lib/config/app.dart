@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
+import 'package:gimeal/ui/page/onboarding/onboarding_screen.dart';
+
+import '../ui/page/home_page/home_page.dart';
 
 class App extends StatelessWidget {
   @override
@@ -7,11 +11,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Gimeal',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        accentColor: Color(0xFF72C81A),
+        primarySwatch: kMainColor,
+        accentColor: kAccentColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: Routers.generateRoute,
+      home: Onboarding(),
     );
   }
 }
