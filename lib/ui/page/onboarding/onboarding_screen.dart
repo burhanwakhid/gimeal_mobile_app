@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
-import 'package:gimeal/ui/page/home_page/home_page.dart';
+import 'package:gimeal/config/routers.dart';
+import 'package:gimeal/core/shared%20preferences/config_shared_preferences.dart';
+//import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class Onboarding extends StatefulWidget {
@@ -9,14 +11,16 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  //fungsi ketika selesai dari onboard screen
+  //todo fungsi ketika selesai dari onboard screen
   void _onDone() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(),
-      ),
-    );
+    MainSharedPreferences().openAppFirstTime();
+    Navigator.popAndPushNamed(context, Routers.homePage);
+//    Navigator.pushReplacement(
+//      context,
+//      MaterialPageRoute(
+//        builder: (context) => HomePage(),
+//      ),
+//    );
   }
 
   List<Map<String, dynamic>> _onBoardData = [
@@ -37,10 +41,6 @@ class _OnboardingState extends State<Onboarding> {
       'image': 'assets/Illustrasi/ilustrasi_3.png',
     },
   ];
-
-//  List<PageViewModel> _onBoardPage = [
-//    PageViewModel(title: 'Donasi Makanan Online'),
-//  ];
 
   @override
   Widget build(BuildContext context) {
@@ -74,14 +74,7 @@ class _OnboardingState extends State<Onboarding> {
       onDone: () {
         this._onDone();
       },
-      done: RaisedButton(
-        onPressed: () {
-          this._onDone();
-        },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        color: kMainColor,
-        child: Text('Lewati'),
-      ),
+      done: Container(),
       dotsDecorator: DotsDecorator(
           activeColor: kMainColor, activeSize: Size.fromRadius(8)),
     );
