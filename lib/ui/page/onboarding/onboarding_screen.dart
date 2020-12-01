@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
-import 'package:gimeal/core/shared%20preferences/config_shared_preferences.dart';
-//import 'package:gimeal/ui/page/home_page/home_page.dart';
+import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
+
 import 'package:introduction_screen/introduction_screen.dart';
 
 class Onboarding extends StatefulWidget {
@@ -15,12 +15,6 @@ class _OnboardingState extends State<Onboarding> {
   void _onDone() {
     MainSharedPreferences().openAppFirstTime();
     Navigator.popAndPushNamed(context, Routers.homePage);
-//    Navigator.pushReplacement(
-//      context,
-//      MaterialPageRoute(
-//        builder: (context) => HomePage(),
-//      ),
-//    );
   }
 
   List<Map<String, dynamic>> _onBoardData = [
