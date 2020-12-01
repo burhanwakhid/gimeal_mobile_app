@@ -10,7 +10,7 @@ class UserServices {
       'email': userModel.email,
       'hp': userModel.noHp,
       'nama': userModel.nama,
-      'createdAt': userModel.createdAt
+      'createdAt': Timestamp.now()
     });
   }
 
