@@ -19,9 +19,6 @@ class _BottomNavState extends State<BottomNav> {
       'icon': Icons.add_circle,
     },
     {
-      'icon': Icons.chat,
-    },
-    {
       'icon': Icons.person_outline_rounded,
     },
   ];
@@ -44,16 +41,13 @@ class _BottomNavState extends State<BottomNav> {
       case 3:
         this.navigate(navigateTo: Routers.welcomePage);
         break;
-      case 4:
-        this.navigate(navigateTo: Routers.registerPage);
-        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 2,
+      elevation: 4,
       shadowColor: Colors.blueGrey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
