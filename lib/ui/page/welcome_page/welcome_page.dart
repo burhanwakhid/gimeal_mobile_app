@@ -62,7 +62,29 @@ class WelcomePage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  
+                ),
+                SizedBox(height: 10,),
+                Container(
+                  width: size.width / 2.3,
+                  child: RaisedButton(
+                    onPressed: () async {
+                      Navigator.pushNamed(context, Routers.unggahMakanan);
+                    },
+                    child: Text(
+                      'Test',
+                      style: kSubtitleStyle.copyWith(color: Colors.white),
+                    ),
+                    color: Theme.of(context).accentColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
+                    ),
+                  ),
+                  
                 )
+
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:gimeal/ui/page/login/login_page.dart';
 import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
 import 'package:gimeal/ui/page/register_page/register_page.dart';
+import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
 import 'package:gimeal/ui/page/welcome_page/welcome_page.dart';
 
 class Routers {
@@ -11,6 +12,7 @@ class Routers {
   static const String loginPage = '/loginPage';
   static const String registerPage = '/registerPage';
   static const String welcomePage = '/welcomePage';
+  static const String unggahMakanan = '/unggahMakanan';
   static const String detailMakanan = '/detailMakanan';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -30,6 +32,8 @@ class Routers {
       case registerPage:
         return MaterialPageRoute(builder: (_) => RegisterPage());
         break;
+      case unggahMakanan:
+        return MaterialPageRoute(builder: (_) => UnggahMakananPage());
       case detailMakanan:
         return MaterialPageRoute(builder: (_) => DetailMakanan());
         break;
