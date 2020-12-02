@@ -7,31 +7,43 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Aplikasi Gimeal',
-        ),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(8),
-        children: [
-          ListView.separated(
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                height: 10,
-              );
-            },
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return FoodTileBig();
-            },
-          ),
-        ],
-      ),
+      appBar: _appbar(),
+      body: _body(),
       bottomNavigationBar: BottomNav(),
+    );
+  }
+
+  ListView _body() {
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.all(8),
+      children: [
+        _listFood(),
+      ],
+    );
+  }
+
+  ListView _listFood() {
+    return ListView.separated(
+      separatorBuilder: (context, index) {
+        return SizedBox(
+          height: 10,
+        );
+      },
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: 10,
+      itemBuilder: (context, index) {
+        return FoodTileBig();
+      },
+    );
+  }
+
+  AppBar _appbar() {
+    return AppBar(
+      title: Text(
+        'Aplikasi Gimeal',
+      ),
     );
   }
 }

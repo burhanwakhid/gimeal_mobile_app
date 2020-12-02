@@ -39,7 +39,7 @@ class _BottomNavState extends State<BottomNav> {
         this.navigate(navigateTo: Routers.loginPage);
         break;
       case 3:
-        this.navigate(navigateTo: Routers.welcomePage);
+        this.navigate(navigateTo: Routers.profil);
         break;
     }
   }
