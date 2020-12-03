@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/app.dart';
+import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
+import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
 import 'package:gimeal/ui/widgets/FoodTileBig.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,6 +13,10 @@ class HomePage extends StatelessWidget {
         title: Text(
           'Aplikasi Gimeal',
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
+        child: Icon(Icons.add),
       ),
       body: ListView(
         shrinkWrap: true,
