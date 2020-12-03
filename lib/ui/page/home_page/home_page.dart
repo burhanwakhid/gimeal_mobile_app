@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gimeal/config/app.dart';
-import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/widgets/FoodTileBig.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,12 +7,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: _appbar(),
       body: _body(),
-      bottomNavigationBar: BottomNav(),
     );
   }
 
   ListView _body() {
     return ListView(
+      physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       padding: EdgeInsets.all(8),
       children: [

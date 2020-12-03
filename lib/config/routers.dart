@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:gimeal/ui/page/login/login_page.dart';
 import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
@@ -21,7 +22,7 @@ class Routers {
         return MaterialPageRoute(builder: (_) => WelcomePage());
         break;
       case homePage:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => BottomNav(index: 0));
         break;
       case loginPage:
         return MaterialPageRoute(builder: (_) => LoginPage());
@@ -36,7 +37,7 @@ class Routers {
         return MaterialPageRoute(builder: (_) => DetailMakanan());
         break;
       case profil:
-        return MaterialPageRoute(builder: (_) => Profil());
+        return MaterialPageRoute(builder: (_) => BottomNav(index: 3));
         break;
       default:
         return MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gimeal/config/config.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
@@ -72,7 +71,6 @@ class _ProfilState extends State<Profil> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNav(),
     );
   }
 
