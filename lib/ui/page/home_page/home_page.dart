@@ -15,19 +15,7 @@ class HomePage extends StatelessWidget {
           'Aplikasi Gimeal',
         ),
       ),
-      floatingActionButton: Column(
-        children: [
-          FloatingActionButton(
-            onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
-            // onPressed: () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (_) => TestListPage()),
-            //   );
-            // },
-            child: Icon(Icons.add),
-          ),
-          FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
             // onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
             onPressed: () {
               Navigator.push(
@@ -37,8 +25,6 @@ class HomePage extends StatelessWidget {
             },
             child: Icon(Icons.add),
           ),
-        ],
-      ),
       body: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.all(8),

@@ -1,4 +1,5 @@
 class ListFoodModel {
+  final String idFood;
   final String idUser;
   final String pathFoodPhoto;
   final String foodName;
@@ -13,7 +14,8 @@ class ListFoodModel {
   final DateTime createdAt;
 
   ListFoodModel(
-      {this.idUser,
+      {this.idFood,
+      this.idUser,
       this.pathFoodPhoto,
       this.foodName,
       this.jumlahFood,
