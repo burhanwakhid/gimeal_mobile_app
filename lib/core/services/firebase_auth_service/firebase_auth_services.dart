@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gimeal/core/models/user_model.dart';
 import 'package:gimeal/core/extensions/firebase_user_extension.dart';
 import 'package:gimeal/core/services/firebase_firestore/FireUserService.dart';
+import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 
 class AuthService {
   static FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -14,6 +15,8 @@ class AuthService {
 
       UserModel userModel = result.user.convertToUser(
           nama: nama, hp: noHp, createdAt: DateTime.now().toIso8601String());
+
+      await MainSharedPreferences().setIdUser(userModel.id);
 
       await UserServices.updateUser(userModel);
 
