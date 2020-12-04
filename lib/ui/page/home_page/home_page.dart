@@ -1,47 +1,108 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:gimeal/config/routers.dart';
+import 'package:gimeal/core/store/upload_food_store.dart';
+import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/widgets/FoodTileBig.dart';
+import 'package:mobx/mobx.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appbar(),
-      body: _body(),
-    );
-  }
-
-  ListView _body() {
-    return ListView(
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
-      padding: EdgeInsets.all(8),
-      children: [
-        _listFood(),
-      ],
-    );
-  }
-
-  ListView _listFood() {
-    return ListView.separated(
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 10,
-        );
-      },
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return FoodTileBig();
-      },
-    );
-  }
-
-  AppBar _appbar() {
-    return AppBar(
-      title: Text(
-        'Aplikasi Gimeal',
+      appBar: AppBar(
+        title: Text(
+          'Aplikasi Gimeal',
+        ),
       ),
+      floatingActionButton: Column(
+        children: [
+          FloatingActionButton(
+            onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
+            // onPressed: () {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (_) => TestListPage()),
+            //   );
+            // },
+            child: Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            // onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => TestListPage()),
+              );
+            },
+            child: Icon(Icons.add),
+          ),
+        ],
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.all(8),
+        children: [
+          ListView.separated(
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 10,
+              );
+            },
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return FoodTileBig();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TestListPage extends StatefulWidget {
+  @override
+  _TestListPageState createState() => _TestListPageState();
+}
+
+class _TestListPageState extends State<TestListPage> {
+  UploadFoodStore uploadFoodStore = UploadFoodStore();
+  @override
+  void initState() {
+    uploadFoodStore.listFood();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Observer(builder: (_) {
+        final future = uploadFoodStore.listFoodFuture;
+        switch (future.status) {
+          case FutureStatus.pending:
+            return Center(child: CircularProgressIndicator());
+            break;
+          case FutureStatus.fulfilled:
+            final items = uploadFoodStore.listFoodFuture.value;
+            return Center(
+              child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, i) {
+                  return Text(items[i].foodName);
+                },
+              ),
+            );
+            break;
+          case FutureStatus.rejected:
+            return Center(child: Text('gagal'));
+            break;
+          default:
+            return Text('default');
+            break;
+        }
+      }),
     );
   }
 }

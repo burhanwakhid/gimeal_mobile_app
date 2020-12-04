@@ -15,6 +15,8 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passCont = TextEditingController();
   TextEditingController hpCont = TextEditingController();
 
+  bool securetext = true;
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -85,6 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 10,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           controller: emailCont,
                           validator: (val) {
                             if (val.isEmpty) {
@@ -98,6 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 10,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.phone,
                           controller: hpCont,
                           validator: (val) {
                             if (val.isEmpty) {
@@ -112,6 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextFormField(
                           controller: passCont,
+                          obscureText: securetext,
                           validator: (val) {
                             if (val.isEmpty) {
                               return 'Tidak boleh kosong';

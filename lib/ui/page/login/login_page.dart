@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/services/firebase_auth_service/firebase_auth_services.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
@@ -70,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                         
                         TextFormField(
                           controller: emailCont,
+                          keyboardType: TextInputType.emailAddress,
                           validator: (val) {
                             if (val.isEmpty) {
                               return 'Tidak boleh kosong';
@@ -104,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                SignInSignUpResult result = await AuthService.signIn(emailCont.text, passCont.text);
                                 if(result.user != null){
                                   Fluttertoast.showToast(msg: 'Login Success');
-                                  // Navigator.pushNamed(context, Routers.loginPage);
+                                  Navigator.pushNamedAndRemoveUntil(context, Routers.homePage, (route) => false);
                                 }else{
                                    Fluttertoast.showToast(msg: 'Login gagal, ${result.message}');
                                 }
