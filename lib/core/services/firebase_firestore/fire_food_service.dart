@@ -41,12 +41,21 @@ class FoodServices {
 
   static Future<List<ListFoodModel>> getListFood() async {
     try {
-      QuerySnapshot snapshot = await _collectionReference.get();
+      QuerySnapshot snapshot = await _collectionReference
+          .where(
+            'waktu_penayangan',
+            isGreaterThanOrEqualTo: Timestamp.fromDate(
+              DateTime.now(),
+            ),
+          )
+          .get();
+
       var documents = snapshot.docs;
 
       List<ListFoodModel> listFoodModel = [];
       documents.forEach((doc) {
         Map<String, dynamic> d = doc.data();
+
         var idUser = d['idUser'];
         var pathFoodPhoto = d['path_food_photo'];
         var foodName = d['food_name'];
@@ -60,9 +69,10 @@ class FoodServices {
         double latitude = latlong.latitude;
         double longitude = latlong.longitude;
         Timestamp createdAt = d['created_at'];
-        print(d['currentLocation']);
+
         listFoodModel.add(
           ListFoodModel(
+            idFood: doc.id,
             idUser: idUser,
             pathFoodPhoto: pathFoodPhoto,
             foodName: foodName,
