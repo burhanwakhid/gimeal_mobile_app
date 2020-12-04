@@ -53,12 +53,14 @@ class FoodServices {
         var jumlahFood = d['jumlah_food'];
         var note = d['note'];
         var desc = d['desc'];
-        var waktuPengambilan = d['waktu_pengambilan'];
-        var waktuPenayangan = d['waktu_penayangan'];
+        Timestamp waktuPengambilan = d['waktu_pengambilan'];
+        Timestamp waktuPenayangan = d['waktu_penayangan'];
         var alamatLengkap = d['alamat_lengkap'];
-        var latitude = d['currentLocation']['Latitude'];
-        var longitude = d['currentLocation']['Longitude'];
-        var createdAt = d['created_at'];
+        GeoPoint latlong = d['currentLocation'];
+        double latitude = latlong.latitude;
+        double longitude = latlong.longitude;
+        Timestamp createdAt = d['created_at'];
+        print(d['currentLocation']);
         listFoodModel.add(
           ListFoodModel(
             idUser: idUser,
@@ -67,12 +69,12 @@ class FoodServices {
             jumlahFood: jumlahFood,
             note: note,
             desc: desc,
-            waktuPenayangan: waktuPenayangan,
-            waktuPengambilan: waktuPengambilan,
+            waktuPenayangan: waktuPenayangan.toDate(),
+            waktuPengambilan: waktuPengambilan.toDate(),
             alamatLengkap: alamatLengkap,
             latitude: latitude,
             longitude: longitude,
-            createdAt: createdAt,
+            createdAt: createdAt.toDate(),
           ),
         );
       });

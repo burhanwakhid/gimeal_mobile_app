@@ -9,18 +9,18 @@ part of 'upload_food_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UploadFoodStore on _UploadFoodStore, Store {
-  final _$loadingFutureAtom = Atom(name: '_UploadFoodStore.loadingFuture');
+  final _$listFoodFutureAtom = Atom(name: '_UploadFoodStore.listFoodFuture');
 
   @override
-  ObservableFuture<void> get loadingFuture {
-    _$loadingFutureAtom.reportRead();
-    return super.loadingFuture;
+  ObservableFuture<List<ListFoodModel>> get listFoodFuture {
+    _$listFoodFutureAtom.reportRead();
+    return super.listFoodFuture;
   }
 
   @override
-  set loadingFuture(ObservableFuture<void> value) {
-    _$loadingFutureAtom.reportWrite(value, super.loadingFuture, () {
-      super.loadingFuture = value;
+  set listFoodFuture(ObservableFuture<List<ListFoodModel>> value) {
+    _$listFoodFutureAtom.reportWrite(value, super.listFoodFuture, () {
+      super.listFoodFuture = value;
     });
   }
 
@@ -54,7 +54,7 @@ mixin _$UploadFoodStore on _UploadFoodStore, Store {
   @override
   String toString() {
     return '''
-loadingFuture: ${loadingFuture}
+listFoodFuture: ${listFoodFuture}
     ''';
   }
 }

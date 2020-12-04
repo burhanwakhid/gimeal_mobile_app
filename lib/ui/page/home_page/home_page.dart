@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gimeal/config/app.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:gimeal/config/routers.dart';
+import 'package:gimeal/core/store/upload_food_store.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
-import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
 import 'package:gimeal/ui/widgets/FoodTileBig.dart';
+import 'package:mobx/mobx.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -14,9 +15,29 @@ class HomePage extends StatelessWidget {
           'Aplikasi Gimeal',
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
-        child: Icon(Icons.add),
+      floatingActionButton: Column(
+        children: [
+          FloatingActionButton(
+            onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
+            // onPressed: () {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (_) => TestListPage()),
+            //   );
+            // },
+            child: Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            // onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => TestListPage()),
+              );
+            },
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
       body: ListView(
         shrinkWrap: true,
@@ -38,6 +59,51 @@ class HomePage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNav(),
+    );
+  }
+}
+
+class TestListPage extends StatefulWidget {
+  @override
+  _TestListPageState createState() => _TestListPageState();
+}
+
+class _TestListPageState extends State<TestListPage> {
+  UploadFoodStore uploadFoodStore = UploadFoodStore();
+  @override
+  void initState() {
+    uploadFoodStore.listFood();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Observer(builder: (_) {
+        final future = uploadFoodStore.listFoodFuture;
+        switch (future.status) {
+          case FutureStatus.pending:
+            return Center(child: CircularProgressIndicator());
+            break;
+          case FutureStatus.fulfilled:
+            final items = uploadFoodStore.listFoodFuture.value;
+            return Center(
+              child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, i) {
+                  return Text(items[i].foodName);
+                },
+              ),
+            );
+            break;
+          case FutureStatus.rejected:
+            return Center(child: Text('gagal'));
+            break;
+          default:
+            return Text('default');
+            break;
+        }
+      }),
     );
   }
 }

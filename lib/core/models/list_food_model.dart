@@ -5,12 +5,12 @@ class ListFoodModel {
   final int jumlahFood;
   final String note;
   final String desc;
-  final String waktuPengambilan;
-  final String waktuPenayangan;
+  final DateTime waktuPengambilan;
+  final DateTime waktuPenayangan;
   final String alamatLengkap;
   final double latitude;
   final double longitude;
-  final String createdAt;
+  final DateTime createdAt;
 
   ListFoodModel(
       {this.idUser,
