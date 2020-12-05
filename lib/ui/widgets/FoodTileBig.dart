@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
+import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
+import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
 class FoodTileBig extends StatelessWidget {
@@ -14,7 +16,14 @@ class FoodTileBig extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/detailMakanan');
+//        Navigator.pushNamed(context, '/detailMakanan',
+//            arguments: DetailMakananArgs(listFoodModel: foodData));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailMakanan(
+                      listFoodModel: foodData,
+                    )));
       },
       splashColor: kMainColor.withOpacity(0.1),
       child: Card(
@@ -29,7 +38,7 @@ class FoodTileBig extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(
-              'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${foodData.pathFoodPhoto}?alt=media&token=8361f53e-acca-4cef-b5fc-024a9c228043',
+              'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${foodData.pathFoodPhoto}.png?alt=media&token=8361f53e-acca-4cef-b5fc-024a9c228043',
               fit: BoxFit.cover,
               height: 150,
               width: MediaQuery.of(context).size.width - 20,
