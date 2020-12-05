@@ -28,7 +28,7 @@ class FireFoodTransactionService {
     try {
       _collectionReference
           .doc()
-          .collection('food_transactions')
+          .collection('users')
           .where('idUserPemesan', isEqualTo: '$idUser')
           .get();
     } catch (e) {}
@@ -39,7 +39,7 @@ class FireFoodTransactionService {
     try {
       _collectionReference
           .doc()
-          .collection('food_transactions')
+          .collection('users')
           .where('idFood', isEqualTo: '$idFood')
           .where('idUser', isEqualTo: '$idPembuatMakanan')
           .get();
