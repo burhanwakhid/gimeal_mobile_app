@@ -25,7 +25,7 @@ class FoodServices {
 
     Timestamp waktuPenayanganFormatted = Timestamp.fromDate(waktuPenayangan);
 
-    _collectionReference.doc().set({
+    _collectionReference.doc(await MainSharedPreferences().getIdUser()).set({
       'idUser': await MainSharedPreferences().getIdUser(),
       'path_food_photo': pathFoodPhoto,
       'food_name': foodName,
@@ -77,11 +77,11 @@ class FoodServices {
         double jrk = distance(new LatLng(position.latitude, position.longitude),
             new LatLng(latitude, longitude));
 
-            String jarakFormatted = '';
+        String jarakFormatted = '';
 
         if (jrk < 1000) {
           jarakFormatted = '${jrk.toString()} m';
-        }else {
+        } else {
           jarakFormatted = '${jrk.toString().substring(0, 3)} km';
         }
         listFoodModel.add(
