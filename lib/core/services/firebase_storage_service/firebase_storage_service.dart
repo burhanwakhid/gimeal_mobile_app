@@ -16,4 +16,11 @@ class FirebaseStorageService {
     uploadTask = ref.putFile(image, metadata);
     return Future.value(uploadTask);
   }
+
+  static Future<String> getUrlImage(String path) async {
+    Reference ref =
+        FirebaseStorage.instance.ref().child('foods').child('/$path');
+
+    return ref.getDownloadURL();
+  }
 }

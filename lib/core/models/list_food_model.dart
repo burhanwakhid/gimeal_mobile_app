@@ -1,4 +1,5 @@
 class ListFoodModel {
+  final String idFood;
   final String idUser;
   final String pathFoodPhoto;
   final String foodName;
@@ -10,10 +11,12 @@ class ListFoodModel {
   final String alamatLengkap;
   final double latitude;
   final double longitude;
+  final String jarak;
   final DateTime createdAt;
 
   ListFoodModel(
-      {this.idUser,
+      {this.idFood,
+      this.idUser,
       this.pathFoodPhoto,
       this.foodName,
       this.jumlahFood,
@@ -24,5 +27,6 @@ class ListFoodModel {
       this.alamatLengkap,
       this.latitude,
       this.longitude,
+      this.jarak,
       this.createdAt});
 }

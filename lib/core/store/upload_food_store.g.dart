@@ -24,6 +24,13 @@ mixin _$UploadFoodStore on _UploadFoodStore, Store {
     });
   }
 
+  final _$listFoodAsyncAction = AsyncAction('_UploadFoodStore.listFood');
+
+  @override
+  Future<void> listFood() {
+    return _$listFoodAsyncAction.run(() => super.listFood());
+  }
+
   final _$uploadFoodAsyncAction = AsyncAction('_UploadFoodStore.uploadFood');
 
   @override

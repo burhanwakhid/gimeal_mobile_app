@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
+import 'package:gimeal/core/services/firebase_storage_service/firebase_storage_service.dart';
 import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 import 'package:latlong/latlong.dart';
 
@@ -41,12 +43,24 @@ class FoodServices {
 
   static Future<List<ListFoodModel>> getListFood() async {
     try {
-      QuerySnapshot snapshot = await _collectionReference.get();
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
+      final Distance distance = new Distance();
+      QuerySnapshot snapshot = await _collectionReference
+          // .where(
+          //   'waktu_penayangan',
+          //   // isGreaterThanOrEqualTo: Timestamp.fromDate(
+          //   //   DateTime.now(),
+          //   // ),
+          // )
+          .get();
+
       var documents = snapshot.docs;
 
       List<ListFoodModel> listFoodModel = [];
-      documents.forEach((doc) {
+      documents.forEach((doc) async {
         Map<String, dynamic> d = doc.data();
+
         var idUser = d['idUser'];
         var pathFoodPhoto = d['path_food_photo'];
         var foodName = d['food_name'];
@@ -60,9 +74,19 @@ class FoodServices {
         double latitude = latlong.latitude;
         double longitude = latlong.longitude;
         Timestamp createdAt = d['created_at'];
-        print(d['currentLocation']);
+        double jrk = distance(new LatLng(position.latitude, position.longitude),
+            new LatLng(latitude, longitude));
+
+            String jarakFormatted = '';
+
+        if (jrk < 1000) {
+          jarakFormatted = '${jrk.toString()} m';
+        }else {
+          jarakFormatted = '${jrk.toString().substring(0, 3)} km';
+        }
         listFoodModel.add(
           ListFoodModel(
+            idFood: doc.id,
             idUser: idUser,
             pathFoodPhoto: pathFoodPhoto,
             foodName: foodName,
@@ -74,6 +98,7 @@ class FoodServices {
             alamatLengkap: alamatLengkap,
             latitude: latitude,
             longitude: longitude,
+            jarak: jarakFormatted,
             createdAt: createdAt.toDate(),
           ),
         );
