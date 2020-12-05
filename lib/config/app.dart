@@ -28,7 +28,7 @@ class _AppState extends State<App> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: Routers.generateRoute,
-      home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
+      home: this.widget.firstOpen ? Onboarding() : BottomNav(index: 0),
     );
   }
 }

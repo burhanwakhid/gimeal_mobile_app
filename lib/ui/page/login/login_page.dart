@@ -10,6 +10,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FocusNode _emailFN = FocusNode();
+  final FocusNode _passwordFN = FocusNode();
   TextEditingController emailCont = TextEditingController();
   TextEditingController passCont = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -68,8 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        
                         TextFormField(
+                          focusNode: _emailFN,
                           controller: emailCont,
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) {
@@ -84,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 10,
                         ),
                         TextFormField(
+                          focusNode: _passwordFN,
                           controller: passCont,
                           validator: (val) {
                             if (val.isEmpty) {
@@ -100,21 +103,28 @@ class _LoginPageState extends State<LoginPage> {
                           width: size.width,
                           height: 45,
                           child: RaisedButton(
-                            onPressed: () async{
-                             if( _formKey.currentState.validate()){
-                               print('object');
-                               SignInSignUpResult result = await AuthService.signIn(emailCont.text, passCont.text);
-                                if(result.user != null){
+                            onPressed: () async {
+                              this._emailFN.unfocus();
+                              this._passwordFN.unfocus();
+                              if (_formKey.currentState.validate()) {
+                                print('object');
+                                SignInSignUpResult result =
+                                    await AuthService.signIn(
+                                        emailCont.text, passCont.text);
+                                if (result.user != null) {
                                   Fluttertoast.showToast(msg: 'Login Success');
-                                  Navigator.pushNamedAndRemoveUntil(context, Routers.homePage, (route) => false);
-                                }else{
-                                   Fluttertoast.showToast(msg: 'Login gagal, ${result.message}');
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      Routers.homePage, (route) => false);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: 'Login gagal, ${result.message}');
                                 }
                               }
                             },
                             child: Text(
                               'Sign In',
-                              style: kSubtitleStyle.copyWith(color: Colors.white),
+                              style:
+                                  kSubtitleStyle.copyWith(color: Colors.white),
                             ),
                             color: Theme.of(context).accentColor,
                             shape: RoundedRectangleBorder(
@@ -127,7 +137,6 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: 10,
                         ),
-                       
                       ],
                     ),
                   ),

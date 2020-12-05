@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
-import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:gimeal/ui/page/login/login_page.dart';
 import 'package:gimeal/ui/page/on_progress/on_progress_page.dart';
 import 'package:gimeal/ui/page/profil/profil.dart';
+import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
 
 class BottomNav extends StatefulWidget {
   int index;
@@ -43,7 +43,7 @@ class _BottomNavState extends State<BottomNav> {
   List<Widget> _listPage = [
     HomePage(),
     OnProgress(),
-    LoginPage(),
+    UnggahMakananPage(),
     Profil(),
   ];
 

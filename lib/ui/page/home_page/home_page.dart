@@ -1,62 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:gimeal/config/routers.dart';
+import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/core/store/upload_food_store.dart';
-import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/widgets/FoodTileBig.dart';
 import 'package:mobx/mobx.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  UploadFoodStore uploadFoodStore = UploadFoodStore();
+  ObservableFuture<List<ListFoodModel>> listFood;
+
+  _getListFood() {
+    uploadFoodStore.listFood();
+    listFood = uploadFoodStore.listFoodFuture;
+  }
+
+  @override
+  void initState() {
+    this._getListFood();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Aplikasi Gimeal',
-        ),
-      ),
-      floatingActionButton: Column(
-        children: [
-          FloatingActionButton(
-            onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
-            // onPressed: () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (_) => TestListPage()),
-            //   );
-            // },
-            child: Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            // onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => TestListPage()),
-              );
-            },
-            child: Icon(Icons.add),
-          ),
-        ],
-      ),
+      appBar: _appBar(),
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
+//        // onPressed: () {
+//        //   Navigator.push(
+//        //     context,
+//        //     MaterialPageRoute(builder: (_) => TestListPage()),
+//        //   );
+//        // },
+//        child: Icon(Icons.add),
+//      ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         padding: EdgeInsets.all(8),
         children: [
-          ListView.separated(
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                height: 10,
-              );
-            },
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return FoodTileBig();
+          Observer(
+            builder: (context) {
+              switch (listFood.status) {
+                case FutureStatus.pending:
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                  break;
+                case FutureStatus.rejected:
+                  return Center(child: Text('gagal'));
+                  break;
+                case FutureStatus.fulfilled:
+                  return ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 10,
+                      );
+                    },
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listFood.value.length,
+                    itemBuilder: (context, index) {
+                      return FoodTileBig(
+                        foodData: listFood.value[index],
+                      );
+                    },
+                  );
+                  break;
+                default:
+                  return Center(child: Text('gagal'));
+                  break;
+              }
             },
           ),
+//          ListView.separated(
+//            separatorBuilder: (context, index) {
+//              return SizedBox(
+//                height: 10,
+//              );
+//            },
+//            physics: NeverScrollableScrollPhysics(),
+//            shrinkWrap: true,
+//            itemCount: 10,
+//            itemBuilder: (context, index) {
+//              return FoodTileBig();
+//            },
+//          ),
         ],
+      ),
+    );
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      title: Text(
+        'Aplikasi Gimeal',
       ),
     );
   }

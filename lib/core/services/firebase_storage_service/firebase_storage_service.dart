@@ -6,10 +6,8 @@ class FirebaseStorageService {
 
   static Future<UploadTask> uploadImageFood(File image, String path) async {
     UploadTask uploadTask;
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child('foods')
-        .child('/$path.png');
+    Reference ref =
+        FirebaseStorage.instance.ref().child('foods').child('/$path.png');
 
     final metadata = SettableMetadata(
         contentType: 'image/png',
