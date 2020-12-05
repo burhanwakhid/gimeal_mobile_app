@@ -65,7 +65,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
 
   Future<void> _getPosition() async {
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.best);
 
     mapController.move(LatLng(position.latitude, position.longitude), 17);
     currentLocation = LatLng(position.latitude, position.longitude);

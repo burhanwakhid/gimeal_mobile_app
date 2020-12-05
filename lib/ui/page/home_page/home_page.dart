@@ -77,7 +77,16 @@ class _TestListPageState extends State<TestListPage> {
               child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, i) {
-                  return Text(items[i].foodName);
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(items[i].foodName),
+                        Text(items[i].jarak.toString()),
+                        Image.network('https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${items[i].pathFoodPhoto}.png?alt=media&token=8361f53e-acca-4cef-b5fc-024a9c228043'),
+                      ],
+                    ),
+                  );
                 },
               ),
             );

@@ -11,6 +11,7 @@ class ListFoodModel {
   final String alamatLengkap;
   final double latitude;
   final double longitude;
+  final String jarak;
   final DateTime createdAt;
 
   ListFoodModel(
@@ -26,5 +27,6 @@ class ListFoodModel {
       this.alamatLengkap,
       this.latitude,
       this.longitude,
+      this.jarak,
       this.createdAt});
 }
