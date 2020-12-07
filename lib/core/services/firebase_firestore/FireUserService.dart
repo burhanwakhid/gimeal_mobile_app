@@ -10,6 +10,7 @@ class UserServices {
       'email': userModel.email,
       'hp': userModel.noHp,
       'nama': userModel.nama,
+      'foto_user': userModel.fotoUser,
       'createdAt': Timestamp.now()
     });
   }
@@ -22,6 +23,7 @@ class UserServices {
       snapshot.data()['email'],
       nama: snapshot.data()['nama'],
       noHp: snapshot.data()['hp'],
+      fotoUser: snapshot.data()['foto_user'],
       createdAt: snapshot.data()['createdAt'].toString(),
     );
   }

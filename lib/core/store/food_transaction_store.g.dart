@@ -13,9 +13,9 @@ mixin _$FoodTransactionStore on _FoodTransactionStore, Store {
       AsyncAction('_FoodTransactionStore.saveTransaction');
 
   @override
-  Future<void> saveTransaction(String idFood) {
+  Future<void> saveTransaction(ListFoodModel listFoodModel) {
     return _$saveTransactionAsyncAction
-        .run(() => super.saveTransaction(idFood));
+        .run(() => super.saveTransaction(listFoodModel));
   }
 
   @override

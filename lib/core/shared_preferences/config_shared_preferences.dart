@@ -4,6 +4,9 @@ class MainSharedPreferences {
   final String onboardPrefKey = 'firstOpen';
   final String _idUser = 'idUser'; 
   final String _namaUser = 'namaUser'; 
+  final String _fotoUser = 'fotoUser';
+  final String _hpUser = 'hpUser';
+  final String _email = 'email';
 
   //todo untuk control onboarding
 
@@ -47,5 +50,54 @@ class MainSharedPreferences {
   }
   /// =======================
   /// END SET USER NAME
+  /// =======================
+  
+
+  /// =======================
+  /// BEGIN SET USER FOTO
+  /// =======================
+  Future<void> setUserFoto(String userName) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await  _prefs.setString(_fotoUser, userName);
+  }
+
+  Future<String> getUserFoto() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString(_fotoUser) ?? '';
+  }
+  /// =======================
+  /// END SET USER FOTO
+  /// =======================
+  
+   /// =======================
+  /// BEGIN SET USER FOTO
+  /// =======================
+  Future<void> setHpUser(String userName) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await  _prefs.setString(_hpUser, userName);
+  }
+
+  Future<String> getHpUser() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString(_hpUser) ?? '';
+  }
+  /// =======================
+  /// END SET USER FOTO
+  /// =======================
+  
+    /// =======================
+  /// BEGIN SET USER EMAIL
+  /// =======================
+  Future<void> setEmailUser(String userName) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await  _prefs.setString(_email, userName);
+  }
+
+  Future<String> getEmailUser() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString(_email) ?? '';
+  }
+  /// =======================
+  /// END SET USER EMAIL
   /// =======================
 }

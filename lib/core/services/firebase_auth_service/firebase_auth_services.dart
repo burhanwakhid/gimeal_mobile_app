@@ -14,9 +14,13 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       UserModel userModel = result.user.convertToUser(
-          nama: nama, hp: noHp, createdAt: DateTime.now().toIso8601String());
+          nama: nama, hp: noHp,fotoUser: 'F51f6fb256629fc755b8870c801092942' , createdAt: DateTime.now().toIso8601String());
 
       await MainSharedPreferences().setIdUser(userModel.id);
+      await MainSharedPreferences().setHpUser(userModel.noHp);
+      await MainSharedPreferences().setUserName(userModel.nama);
+      await MainSharedPreferences().setUserFoto(userModel.fotoUser);
+      await MainSharedPreferences().setEmailUser(userModel.email);
 
       await UserServices.updateUser(userModel);
 
