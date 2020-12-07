@@ -12,21 +12,28 @@ class ListFoodModel {
   final double latitude;
   final double longitude;
   final String jarak;
+  final String namaUser;
+  final String hpUser;
+  final String fotoUser;
   final DateTime createdAt;
 
-  ListFoodModel(
-      {this.idFood,
-      this.idUser,
-      this.pathFoodPhoto,
-      this.foodName,
-      this.jumlahFood,
-      this.note,
-      this.desc,
-      this.waktuPengambilan,
-      this.waktuPenayangan,
-      this.alamatLengkap,
-      this.latitude,
-      this.longitude,
-      this.jarak,
-      this.createdAt});
+  ListFoodModel({
+    this.idFood,
+    this.idUser,
+    this.pathFoodPhoto,
+    this.foodName,
+    this.jumlahFood,
+    this.note,
+    this.desc,
+    this.waktuPengambilan,
+    this.waktuPenayangan,
+    this.alamatLengkap,
+    this.latitude,
+    this.longitude,
+    this.namaUser,
+    this.fotoUser,
+    this.hpUser,
+    this.jarak,
+    this.createdAt,
+  });
 }
