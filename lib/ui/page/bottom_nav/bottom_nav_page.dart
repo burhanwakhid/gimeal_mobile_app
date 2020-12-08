@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
-import 'package:gimeal/config/routers.dart';
+import 'package:gimeal/ui/page/home_page/home_page.dart';
+import 'package:gimeal/ui/page/login/login_page.dart';
+import 'package:gimeal/ui/page/on_progress/on_progress_page.dart';
+import 'package:gimeal/ui/page/profil/profil.dart';
+import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
 
 class BottomNav extends StatefulWidget {
+  int index;
+  BottomNav({@required this.index});
+
   @override
   _BottomNavState createState() => _BottomNavState();
 }
@@ -28,52 +35,53 @@ class _BottomNavState extends State<BottomNav> {
   }
 
   void action({@required int index}) {
-    switch (index) {
-      case 0:
-        this.navigate(navigateTo: Routers.homePage);
-        break;
-      case 1:
-        this.navigate(navigateTo: Routers.welcomePage);
-        break;
-      case 2:
-        this.navigate(navigateTo: Routers.loginPage);
-        break;
-      case 3:
-        this.navigate(navigateTo: Routers.welcomePage);
-        break;
-    }
+    setState(() {
+      this.widget.index = index;
+    });
   }
+
+  List<Widget> _listPage = [
+    HomePage(),
+    OnProgress(),
+    UnggahMakananPage(),
+    Profil(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 4,
-      shadowColor: Colors.blueGrey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),
+    return Scaffold(
+      extendBody: true,
+      body: _listPage[this.widget.index],
+      bottomNavigationBar: Material(
+        elevation: 4,
+        shadowColor: Colors.blueGrey,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
+          ),
         ),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: BottomNavigationBar(
-        elevation: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        iconSize: 25,
-        items: bottomNavList.map<BottomNavigationBarItem>((item) {
-          return BottomNavigationBarItem(
-            label: '',
-            icon: Icon(
-              item['icon'],
-            ),
-          );
-        }).toList(),
-        selectedItemColor: kMainColor,
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          this.action(index: index);
-        },
+        clipBehavior: Clip.antiAlias,
+        child: BottomNavigationBar(
+          currentIndex: this.widget.index,
+          elevation: 0,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          iconSize: 25,
+          items: bottomNavList.map<BottomNavigationBarItem>((item) {
+            return BottomNavigationBarItem(
+              label: '',
+              icon: Icon(
+                item['icon'],
+              ),
+            );
+          }).toList(),
+          selectedItemColor: kMainColor,
+          unselectedItemColor: Colors.grey,
+          onTap: (index) {
+            this.action(index: index);
+          },
+        ),
       ),
     );
   }

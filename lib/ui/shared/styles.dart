@@ -48,6 +48,10 @@ class TextStyling extends TextStyle {
   FontWeight fontWeight;
   double fontSize;
 
+  huge() {
+    this.fontSize = 20;
+  }
+
   big() {
     this.fontSize = 18;
   }
