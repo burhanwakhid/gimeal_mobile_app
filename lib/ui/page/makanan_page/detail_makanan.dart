@@ -44,7 +44,7 @@ class _DetailMakananState extends State<DetailMakanan> {
                   ..bold(),
               ),
               Text(
-                '500 m',
+                this.widget.listFoodModel.jarak,
                 style: TextStyling(color: Colors.white)
                   ..huge()
                   ..bold(),
@@ -64,6 +64,7 @@ class _DetailMakananState extends State<DetailMakanan> {
         ),
       ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         children: [
           Material(
@@ -87,22 +88,22 @@ class _DetailMakananState extends State<DetailMakanan> {
               leading: CircleAvatar(
                 backgroundColor: Colors.white,
                 backgroundImage: NetworkImage(
-                  'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
+                  'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2${this.widget.listFoodModel.fotoUser}.png?alt=media',
                 ),
               ),
               title: Text(
-                'Salsabila Deanya R',
+                this.widget.listFoodModel.namaUser,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
-                '16.00 - 18.00 pm',
+                this.widget.listFoodModel.waktuPengambilan.toString(),
                 style: kCardSubtitleTextStyle,
               ),
               trailing: Text(
-                '800 m',
+                this.widget.listFoodModel.jarak,
                 style: kCardSubtitleTextStyle,
               ),
             ),
@@ -121,39 +122,39 @@ class _DetailMakananState extends State<DetailMakanan> {
                     name: 'Alamat lengkap',
                     value: this.widget.listFoodModel.alamatLengkap),
                 _foodInfoTile(name: 'Lokasi Penjemputan', value: ''),
-                Container(
-                  height: 300,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: FlutterMap(
-                    options: MapOptions(
-                      center: LatLng(
-                        this.widget.listFoodModel.latitude,
-                        this.widget.listFoodModel.longitude,
-                      ),
-                      zoom: 15,
-                    ),
-                    layers: [
-                      TileLayerOptions(
-                          urlTemplate:
-                              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          subdomains: ['a', 'b', 'c']),
-                      MarkerLayerOptions(markers: [
-                        Marker(
-                          width: 30.0,
-                          height: 30.0,
-                          point: LatLng(
-                            this.widget.listFoodModel.latitude,
-                            this.widget.listFoodModel.longitude,
-                          ),
-                          builder: (ctx) => Container(
-                              child: Icon(Icons.location_pin,
-                                  size: 50, color: Colors.red)),
-                        )
-                      ])
-                    ],
-                  ),
+              ],
+            ),
+          ),
+          Container(
+            height: 500,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            child: FlutterMap(
+              options: MapOptions(
+                center: LatLng(
+                  this.widget.listFoodModel.latitude,
+                  this.widget.listFoodModel.longitude,
                 ),
+                zoom: 15,
+              ),
+              layers: [
+                TileLayerOptions(
+                    urlTemplate:
+                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    subdomains: ['a', 'b', 'c']),
+                MarkerLayerOptions(markers: [
+                  Marker(
+                    width: 30.0,
+                    height: 30.0,
+                    point: LatLng(
+                      this.widget.listFoodModel.latitude,
+                      this.widget.listFoodModel.longitude,
+                    ),
+                    builder: (ctx) => Container(
+                        child: Icon(Icons.location_pin,
+                            size: 50, color: Colors.red)),
+                  )
+                ])
               ],
             ),
           ),

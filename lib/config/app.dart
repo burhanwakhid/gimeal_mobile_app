@@ -26,11 +26,11 @@ class _AppState extends State<App> {
       theme: ThemeData(
         primarySwatch: kMainColor,
         accentColor: kAccentColor,
-        canvasColor: Colors.transparent,
+//        canvasColor: Colors.transparent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: Routers.generateRoute,
-      home: this.widget.firstOpen ? Onboarding() : PesananMakanan(),
+      home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
 //      BottomNav(index: 0),
     );
   }

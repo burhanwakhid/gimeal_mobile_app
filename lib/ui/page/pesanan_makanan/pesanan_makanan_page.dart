@@ -86,6 +86,7 @@ class _PesananMakananState extends State<PesananMakanan> {
         return Padding(
           padding: EdgeInsets.all(10.0),
           child: ListView(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
               CenterBoldDivider(),

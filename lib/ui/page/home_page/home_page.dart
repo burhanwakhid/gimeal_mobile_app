@@ -31,17 +31,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-      floatingActionButton: FloatingActionButton(
+//      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+//      floatingActionButton: FloatingActionButton(
 //        onPressed: () => Navigator.pushNamed(context, Routers.unggahMakanan),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => TestListPage()),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
+//        onPressed: () {
+//          Navigator.push(
+//            context,
+//            MaterialPageRoute(builder: (_) => TestListPage()),
+//          );
+//        },
+//        child: Icon(Icons.add),
+//      ),
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
@@ -69,10 +69,9 @@ class _HomePageState extends State<HomePage> {
                     shrinkWrap: true,
                     itemCount: listFood.value.length,
                     itemBuilder: (context, index) {
-                      return Text('ya');
-//                        FoodTileBig(
-//                        foodData: listFood.value[index],
-//                      );
+                      return FoodTileBig(
+                        foodData: listFood.value[index],
+                      );
                     },
                   );
                   break;
@@ -82,19 +81,6 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
-//          ListView.separated(
-//            separatorBuilder: (context, index) {
-//              return SizedBox(
-//                height: 10,
-//              );
-//            },
-//            physics: NeverScrollableScrollPhysics(),
-//            shrinkWrap: true,
-//            itemCount: 10,
-//            itemBuilder: (context, index) {
-//              return FoodTileBig();
-//            },
-//          ),
         ],
       ),
     );

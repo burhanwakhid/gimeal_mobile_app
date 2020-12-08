@@ -16,8 +16,7 @@ class FoodTileBig extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-//        Navigator.pushNamed(context, '/detailMakanan',
-//            arguments: DetailMakananArgs(listFoodModel: foodData));
+        print(foodData.fotoUser);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -38,7 +37,7 @@ class FoodTileBig extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(
-              'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${foodData.pathFoodPhoto}.png?alt=media&token=8361f53e-acca-4cef-b5fc-024a9c228043',
+              'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${foodData.pathFoodPhoto}.png?alt=media',
               fit: BoxFit.cover,
               height: 150,
               width: MediaQuery.of(context).size.width - 20,
@@ -47,7 +46,7 @@ class FoodTileBig extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundColor: Colors.white,
                 backgroundImage: NetworkImage(
-                  'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
+                  'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2${foodData.fotoUser}.png?alt=media',
                 ),
               ),
               title: Text(
@@ -58,11 +57,11 @@ class FoodTileBig extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                foodData.pathFoodPhoto,
+                foodData.namaUser,
                 style: kCardSubtitleTextStyle,
               ),
               trailing: Text(
-                '800 m',
+                foodData.jarak,
                 style: kCardSubtitleTextStyle,
               ),
             ),
