@@ -124,4 +124,10 @@ class FoodServices {
       throw Exception(e);
     }
   }
+
+  static Future<void> changeStatusFood(String idFood) async {
+    _collectionReference.doc(idFood).set({
+      'status': 'taken',
+    });
+  }
 }
