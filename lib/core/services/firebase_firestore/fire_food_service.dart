@@ -40,7 +40,8 @@ class FoodServices {
       'alamat_lengkap': alamatlengkap,
       'currentLocation':
           GeoPoint(currentPosition.latitude, currentPosition.longitude),
-      'created_at': Timestamp.now()
+      'created_at': Timestamp.now(),
+      'status': 'available'
     });
   }
 
@@ -56,6 +57,10 @@ class FoodServices {
           //   //   DateTime.now(),
           //   // ),
           // )
+          .where(
+            'status',
+            isEqualTo: 'available',
+          )
           .get();
 
       var documents = snapshot.docs;
