@@ -5,6 +5,10 @@ import 'package:latlong/latlong.dart';
 import 'package:mobx/mobx.dart';
 part 'food_transaction_store.g.dart';
 
+/// HOW TO USE 
+/// FoodTransactionStore foodTransactionStore = FoodTransactionStore();
+/// await foodTransactionStore.saveTransaction(listFoodModel);
+
 class FoodTransactionStore = _FoodTransactionStore with _$FoodTransactionStore;
 
 abstract class _FoodTransactionStore with Store {
