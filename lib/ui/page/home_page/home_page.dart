@@ -118,17 +118,12 @@ class _TestListPageState extends State<TestListPage> {
   List<TestModel> testModel = [];
 
   get() async {
-    await TestingService.getListFood().then((value) {
-      print(value[0].namaMakanan);
-      setState(() {
-        this.testModel = value;
-      });
-    });
+    await TestingService.getListFoodKedua();
   }
 
   @override
   void initState() {
-    this.get();
+//    this.get();
     //    uploadFoodStore.listFood();
     super.initState();
   }
@@ -142,17 +137,17 @@ class _TestListPageState extends State<TestListPage> {
           this.get();
         },
       ),
-      body: ListView.builder(
-        itemCount: this.testModel.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Text(this.testModel[index].namaUser),
-              Text(this.testModel[index].namaMakanan),
-            ],
-          );
-        },
-      ),
+//      body: ListView.builder(
+//        itemCount: this.testModel.length,
+//        itemBuilder: (context, index) {
+//          return Column(
+//            children: [
+//              Text(this.testModel[index].namaUser),
+//              Text(this.testModel[index].namaMakanan),
+//            ],
+//          );
+//        },
+//      ),
 //      body: Observer(builder: (_) {
 //        final future = uploadFoodStore.listFoodFuture;
 //        switch (future.status) {
