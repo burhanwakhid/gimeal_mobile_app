@@ -40,7 +40,8 @@ class FoodServices {
       'alamat_lengkap': alamatlengkap,
       'currentLocation':
           GeoPoint(currentPosition.latitude, currentPosition.longitude),
-      'created_at': Timestamp.now()
+      'created_at': Timestamp.now(),
+      'status': 'available'
     });
   }
 
@@ -56,6 +57,10 @@ class FoodServices {
           //   //   DateTime.now(),
           //   // ),
           // )
+          .where(
+            'status',
+            isEqualTo: 'available',
+          )
           .get();
 
       var documents = snapshot.docs;
@@ -80,11 +85,11 @@ class FoodServices {
         double jrk = distance(new LatLng(position.latitude, position.longitude),
             new LatLng(latitude, longitude));
 
-            String jarakFormatted = '';
+        String jarakFormatted = '';
 
         if (jrk < 1000) {
           jarakFormatted = '${jrk.toString()} m';
-        }else {
+        } else {
           jarakFormatted = '${jrk.toString().substring(0, 3)} km';
         }
         listFoodModel.add(
