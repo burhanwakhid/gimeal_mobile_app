@@ -61,6 +61,7 @@ class FoodServices {
             'status',
             isEqualTo: 'available',
           )
+          // .where('currentLocation',)
           .get();
 
       var documents = snapshot.docs;
@@ -114,6 +115,9 @@ class FoodServices {
           ),
         );
       });
+      // listFoodModel.sort((a, b) {
+      //   a.jarak 
+      // })
       return listFoodModel;
     } catch (e) {
       print(e);
