@@ -37,7 +37,7 @@ class FoodTileBig extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(
-              'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${foodData.pathFoodPhoto}.png?alt=media',
+              '${foodData.pathFoodPhoto}',
               fit: BoxFit.cover,
               height: 150,
               width: MediaQuery.of(context).size.width - 20,

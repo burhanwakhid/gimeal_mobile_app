@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
+import 'package:gimeal/core/store/food_transaction_store.dart';
+import 'package:gimeal/ui/page/pesanan_makanan/pesanan_makanan_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:latlong/latlong.dart';
 
@@ -17,6 +20,38 @@ class DetailMakanan extends StatefulWidget {
 }
 
 class _DetailMakananState extends State<DetailMakanan> {
+  final FoodTransactionStore _foodTransactionStore = FoodTransactionStore();
+  bool _inLoading = false;
+  _doLoading() {
+    setState(() {
+      _inLoading = true;
+    });
+  }
+
+  _endLoading() {
+    setState(() {
+      _inLoading = false;
+    });
+  }
+
+  Future _orderFood() async {
+    _doLoading();
+    await _foodTransactionStore
+        .saveTransaction(this.widget.listFoodModel)
+        .then((value) {
+      _endLoading();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PesananMakanan(),
+        ),
+      );
+    }).catchError(() {
+      _endLoading();
+      Fluttertoast.showToast(msg: 'Error saat membuat pesanan');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +60,10 @@ class _DetailMakananState extends State<DetailMakanan> {
         height: 70,
         width: MediaQuery.of(context).size.width - 100,
         child: RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            //Todo action pesan makanan
+            _orderFood();
+          },
           color: kMainColor,
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           shape: RoundedRectangleBorder(
@@ -70,7 +108,7 @@ class _DetailMakananState extends State<DetailMakanan> {
           Material(
             elevation: 2,
             child: Image.network(
-              'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${this.widget.listFoodModel.pathFoodPhoto}.png?alt=media&token=8361f53e-acca-4cef-b5fc-024a9c228043',
+              '${this.widget.listFoodModel.pathFoodPhoto} ',
               height: 250,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
