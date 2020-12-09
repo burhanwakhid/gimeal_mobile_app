@@ -570,7 +570,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 60),
                 ],
               ),
             ),

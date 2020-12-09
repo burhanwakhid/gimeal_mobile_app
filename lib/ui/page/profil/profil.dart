@@ -194,8 +194,8 @@ class _ProfilState extends State<Profil> {
         borderRadius: BorderRadius.all(Radius.circular(25)),
         border: Border.all(color: Colors.black45, width: 0.8),
       ),
-      width: MediaQuery.of(context).size.width / 3,
-      height: MediaQuery.of(context).size.width / 3,
+      width: MediaQuery.of(context).size.width / 2.5,
+      height: MediaQuery.of(context).size.width / 2.5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,

@@ -25,7 +25,7 @@ class FoodServices {
 
     Timestamp waktuPenayanganFormatted = Timestamp.fromDate(waktuPenayangan);
 
-    _collectionReference.doc(await MainSharedPreferences().getIdUser()).set({
+    _collectionReference.doc().set({
       'idUser': await MainSharedPreferences().getIdUser(),
       'path_food_photo': pathFoodPhoto,
       'food_name': foodName,
@@ -116,7 +116,7 @@ class FoodServices {
         );
       });
       // listFoodModel.sort((a, b) {
-      //   a.jarak 
+      //   a.jarak
       // })
       return listFoodModel;
     } catch (e) {
@@ -126,7 +126,7 @@ class FoodServices {
   }
 
   static Future<void> changeStatusFood(String idFood) async {
-    _collectionReference.doc(idFood).set({
+    _collectionReference.doc(idFood).update({
       'status': 'taken',
     });
   }
