@@ -25,7 +25,7 @@ class FoodServices {
 
     Timestamp waktuPenayanganFormatted = Timestamp.fromDate(waktuPenayangan);
 
-    _collectionReference.doc().set({
+    _collectionReference.doc(await MainSharedPreferences().getIdUser()).set({
       'idUser': await MainSharedPreferences().getIdUser(),
       'path_food_photo': pathFoodPhoto,
       'food_name': foodName,

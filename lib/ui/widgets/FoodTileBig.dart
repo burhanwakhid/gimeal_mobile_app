@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
+import 'package:gimeal/config/routers.dart';
+import 'package:gimeal/core/models/list_food_model.dart';
+import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
 class FoodTileBig extends StatelessWidget {
   const FoodTileBig({
-    Key key,
-  }) : super(key: key);
+    @required this.foodData,
+  });
+
+  final ListFoodModel foodData;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/detailMakanan');
+        print(foodData.fotoUser);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailMakanan(
+                      listFoodModel: foodData,
+                    )));
       },
       splashColor: kMainColor.withOpacity(0.1),
       child: Card(
@@ -26,7 +37,7 @@ class FoodTileBig extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/1200px-RedDot_Burger.jpg',
+              '${foodData.pathFoodPhoto}',
               fit: BoxFit.cover,
               height: 150,
               width: MediaQuery.of(context).size.width - 20,
@@ -35,22 +46,22 @@ class FoodTileBig extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundColor: Colors.white,
                 backgroundImage: NetworkImage(
-                  'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
+                  'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2${foodData.fotoUser}.png?alt=media',
                 ),
               ),
               title: Text(
-                'Burger Kadal Gurun',
+                foodData.foodName,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
-                'Bambang Ultraviolet, S.Pok',
+                foodData.namaUser,
                 style: kCardSubtitleTextStyle,
               ),
               trailing: Text(
-                '800 m',
+                foodData.jarak,
                 style: kCardSubtitleTextStyle,
               ),
             ),
