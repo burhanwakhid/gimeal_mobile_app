@@ -74,7 +74,7 @@ abstract class _UploadFoodStore with Store {
     var uploadtask =
         await FirebaseStorageService.uploadImageFood(image, pathFoodPhoto);
     // print(uploadtask.snapshot.ref);
-    uploadtask.asStream().listen((event) async {
+    await uploadtask.asStream().listen((event) async {
       var state = event.state;
       if (state == TaskState.success) {
         String uri =
@@ -85,7 +85,7 @@ abstract class _UploadFoodStore with Store {
         print('gagal: ${state.toString()}');
         throw 'gagal upload makanan';
       }
-    });
+    }).asFuture();
 
   }
 }

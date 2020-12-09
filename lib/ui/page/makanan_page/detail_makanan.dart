@@ -11,10 +11,12 @@ import 'package:gimeal/ui/shared/styles.dart';
 import 'package:latlong/latlong.dart';
 
 class DetailMakanan extends StatefulWidget {
-  ListFoodModel listFoodModel;
-  DetailMakanan({
-    this.listFoodModel,
-  });
+  final ListFoodModel listFoodModel;
+
+  const DetailMakanan({Key key, this.listFoodModel}) : super(key: key);
+  // DetailMakanan({
+  //   this.listFoodModel,
+  // });
   @override
   _DetailMakananState createState() => _DetailMakananState();
 }
