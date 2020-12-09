@@ -1,4 +1,8 @@
 import 'dart:io';
+
+
+import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:gimeal/core/services/firebase_firestore/fire_food_service.dart';
 import 'package:gimeal/core/services/firebase_storage_service/firebase_storage_service.dart';
 import 'package:latlong/latlong.dart';
@@ -67,9 +71,21 @@ abstract class _UploadFoodStore with Store {
     LatLng currentPosition,
     File image,
   ) async {
-    await FoodServices.addFood(pathFoodPhoto, foodName, jmlFood, note, desc,
-        waktuPengambilan, waktuPenayangan, alamatlengkap, currentPosition);
+    var uploadtask =
+        await FirebaseStorageService.uploadImageFood(image, pathFoodPhoto);
+    // print(uploadtask.snapshot.ref);
+    uploadtask.asStream().listen((event) async {
+      var state = event.state;
+      if (state == TaskState.success) {
+        String uri =
+            await FirebaseStorageService.getUrlImage(uploadtask.snapshot.ref);
+        await FoodServices.addFood(uri, foodName, jmlFood, note, desc,
+            waktuPengambilan, waktuPenayangan, alamatlengkap, currentPosition);
+      } else {
+        print('gagal: ${state.toString()}');
+        throw 'gagal upload makanan';
+      }
+    });
 
-    await FirebaseStorageService.uploadImageFood(image, pathFoodPhoto);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_service.dart';
 import 'package:latlong/latlong.dart';
 
 class FireFoodTransactionService {
@@ -25,7 +26,7 @@ class FireFoodTransactionService {
     // int jumlahMakananDiPesan,
   ) async {
     try {
-       Position position = await Geolocator.getCurrentPosition(
+      Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
       _collectionReference.doc().set({
         // MAIN ID
@@ -44,7 +45,8 @@ class FireFoodTransactionService {
         'waktu_penayangan': Timestamp.fromDate(waktuPenayanganFormatted),
         'alamat_lengkap': alamatlengkap,
         'lokasi_pengambil': GeoPoint(position.latitude, position.longitude),
-        'lokasi_makanan': GeoPoint(lokasiMakanan.latitude, lokasiMakanan.longitude),
+        'lokasi_makanan':
+            GeoPoint(lokasiMakanan.latitude, lokasiMakanan.longitude),
         // DATA YANG MESAN MAKANAN
         'nama_pemesan': await MainSharedPreferences().getUserFoto(),
         'foto_pemesan': await MainSharedPreferences().getUserFoto(),
@@ -54,9 +56,11 @@ class FireFoodTransactionService {
         'nama_pembuat': namaPembuat,
         'foto_pembuat': fotoPembuat,
         'hp_pembuat': hpPembuat,
-        
+
         'created_at': Timestamp.now()
       });
+
+      await FoodServices.changeStatusFood(idFood);
     } catch (e) {
       throw Exception(e);
     }

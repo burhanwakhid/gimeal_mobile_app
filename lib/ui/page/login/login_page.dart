@@ -113,11 +113,13 @@ class _LoginPageState extends State<LoginPage> {
                                         emailCont.text, passCont.text);
                                 if (result.user != null) {
                                   Fluttertoast.showToast(msg: 'Login Success');
+
                                   Navigator.pushNamedAndRemoveUntil(context,
                                       Routers.homePage, (route) => false);
                                 } else {
                                   Fluttertoast.showToast(
                                       msg: 'Login gagal, ${result.message}');
+
                                 }
                               }
                             },
