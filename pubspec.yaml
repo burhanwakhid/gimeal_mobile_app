@@ -48,6 +48,7 @@ dependencies:
   introduction_screen: ^1.0.9
   shared_preferences: ^0.5.12+4
   firebase_storage: ^5.1.0
+  flutter_progress_hud: ^1.0.2
 
 
 dev_dependencies:
@@ -67,6 +68,8 @@ flutter:
   assets:
      - assets/Illustrasi/
      - assets/Icon/
+     - assets/Logo/
+     - assets/gif/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
@@ -76,17 +79,26 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset : assets/font/Montserrat-Black.ttf
+        - asset : assets/font/Montserrat-BlackItalic.ttf
+        - asset : assets/font/Montserrat-Bold.ttf
+        - asset : assets/font/Montserrat-BoldItalic.ttf
+        - asset : assets/font/Montserrat-ExtraBold.ttf
+        - asset : assets/font/Montserrat-ExtraBoldItalic.ttf
+        - asset : assets/font/Montserrat-ExtraLight.ttf
+        - asset : assets/font/Montserrat-ExtraLightItalic.ttf
+        - asset : assets/font/Montserrat-Italic.ttf
+        - asset : assets/font/Montserrat-Light.ttf
+        - asset : assets/font/Montserrat-LightItalic.ttf
+        - asset : assets/font/Montserrat-Medium.ttf
+        - asset : assets/font/Montserrat-MediumItalic.ttf
+        - asset : assets/font/Montserrat-Regular.ttf
+        - asset : assets/font/Montserrat-SemiBold.ttf
+        - asset : assets/font/Montserrat-SemiBoldItalic.ttf
+        - asset : assets/font/Montserrat-Thin.ttf
+        - asset : assets/font/Montserrat-ThinItalic.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

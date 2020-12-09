@@ -5,6 +5,7 @@ import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:gimeal/ui/page/onboarding/onboarding_screen.dart';
 import 'package:gimeal/ui/page/pesanan_makanan/pesanan_makanan_page.dart';
+import 'package:gimeal/ui/page/splash/splash_screen.dart';
 import 'package:gimeal/ui/page/welcome_page/welcome_page.dart';
 
 class App extends StatefulWidget {
@@ -24,13 +25,18 @@ class _AppState extends State<App> {
     return MaterialApp(
       title: 'Gimeal',
       theme: ThemeData(
+        fontFamily: 'Montserrat',
         primarySwatch: kMainColor,
         accentColor: kAccentColor,
 //        canvasColor: Colors.transparent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: Routers.generateRoute,
-      home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
+//      home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
+      home: SplashScreen(
+        duration: 4,
+        afterSplash: this.widget.firstOpen ? Onboarding() : WelcomePage(),
+      ),
 //      BottomNav(index: 0),
     );
   }
