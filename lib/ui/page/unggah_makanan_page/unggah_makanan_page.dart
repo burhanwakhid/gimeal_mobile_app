@@ -98,6 +98,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
     }).toList();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Unggah Makanan',
           style: TextStyle(color: Colors.grey),
@@ -534,7 +535,10 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                     width: size.width / 2.3,
                     child: RaisedButton(
                       onPressed: () async {
-                        if (_formKey.currentState.validate() && waktuPengambilan != null && pickedLocation != null && _imageFood != null) {
+                        if (_formKey.currentState.validate() &&
+                            waktuPengambilan != null &&
+                            pickedLocation != null &&
+                            _imageFood != null) {
                           var lamatayang =
                               waktuPengambilan.add(Duration(hours: lamaTayang));
                           uploadFoodStore

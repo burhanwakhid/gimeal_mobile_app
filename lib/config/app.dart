@@ -28,14 +28,15 @@ class _AppState extends State<App> {
         fontFamily: 'Montserrat',
         primarySwatch: kMainColor,
         accentColor: kAccentColor,
-//        canvasColor: Colors.transparent,
+        scaffoldBackgroundColor: Colors.white,
+        canvasColor: Colors.transparent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: Routers.generateRoute,
 //      home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
       home: SplashScreen(
         duration: 4,
-        afterSplash: this.widget.firstOpen ? Onboarding() : WelcomePage(),
+        afterSplash: this.widget.firstOpen ? Onboarding() : BottomNav(index: 4),
       ),
 //      BottomNav(index: 0),
     );

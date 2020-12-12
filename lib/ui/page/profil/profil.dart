@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
@@ -113,58 +114,67 @@ class _ProfilState extends State<Profil> {
     );
   }
 
-  ListTile _userProfile() {
-    return ListTile(
-      isThreeLine: true,
-      leading: CircleAvatar(
-        radius: 40,
-        backgroundColor: Colors.white,
-        backgroundImage: NetworkImage(
-          'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
-        ),
-      ),
-      title: Row(
+  Widget _userProfile() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Flexible(
-            child: Text(
-              'Juna Hermawan',
-              style: TextStyling()
-                ..huge()
-                ..bold(),
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.white,
+            backgroundImage: NetworkImage(
+              'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
             ),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.mode_edit,
-              size: 12,
-            ),
-            onPressed: () {},
+          SizedBox(
+            width: 20,
           ),
-        ],
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.verified_rounded,
-                color: Colors.greenAccent,
-                size: 10,
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Juna Hermawan',
+                    style: TextStyling()
+                      ..huge()
+                      ..bold(),
+                    overflow: TextOverflow.fade,
+                  ),
+                  Icon(
+                    Icons.edit,
+                    color: Colors.grey,
+                    size: 14,
+                  ),
+                ],
               ),
-              Flexible(
-                child: Text(
-                  'Bambang Ultraviolet, S.Pok',
-                  style: TextStyling(color: Colors.grey)..small(),
-                  overflow: TextOverflow.ellipsis,
-                ),
+              SizedBox(
+                height: 5,
               ),
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/Icon/checkmark-filled.png',
+                    width: 10,
+                  ),
+                  Text(
+                    'Bergabung 2 minggu yang lalu',
+                    style: TextStyling(color: Colors.grey)..normal(),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              RatingDisplay(value: 4),
             ],
-          ),
-          RatingDisplay(
-            value: 3.0,
-          ),
+          )
         ],
       ),
     );
@@ -172,6 +182,7 @@ class _ProfilState extends State<Profil> {
 
   AppBar _appBar() {
     return AppBar(
+      automaticallyImplyLeading: false,
       elevation: 2,
       title: Text(
         'Profil',
@@ -188,14 +199,14 @@ class _ProfilState extends State<Profil> {
     @required String title,
   }) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(6.0),
       decoration: BoxDecoration(
         color: Colors.blueGrey.shade50,
         borderRadius: BorderRadius.all(Radius.circular(25)),
         border: Border.all(color: Colors.black45, width: 0.8),
       ),
-      width: MediaQuery.of(context).size.width / 2.5,
-      height: MediaQuery.of(context).size.width / 2.5,
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
@@ -214,6 +225,7 @@ class _ProfilState extends State<Profil> {
           Text(
             title,
             textAlign: TextAlign.center,
+            style: TextStyling()..tiny(),
           ),
         ],
       ),
@@ -239,7 +251,7 @@ class RatingDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(
         5,
-        (index) => index <= value
+        (index) => index <= value - 1
             ? Icon(
                 Icons.star,
                 color: starColor ?? Colors.amberAccent,

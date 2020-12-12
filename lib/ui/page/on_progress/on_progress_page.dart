@@ -12,6 +12,7 @@ class _OnProgressState extends State<OnProgress> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Text(
           'Dalam Proses',
@@ -28,14 +29,14 @@ class _OnProgressState extends State<OnProgress> {
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         children: [
-          ListView.separated(
+          ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => SizedBox(
-              height: 10,
-            ),
+//            separatorBuilder: (context, index) => SizedBox(
+//              height: 10,
+//            ),
             itemCount: 6,
             itemBuilder: (context, index) => _orderContainerTile(context),
           ),
@@ -46,6 +47,7 @@ class _OnProgressState extends State<OnProgress> {
 
   Container _orderContainerTile(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 20),
       height: MediaQuery.of(context).size.width / 2.6,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
@@ -71,14 +73,13 @@ class _OnProgressState extends State<OnProgress> {
             ),
           ),
           Column(
-            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Burger Yummy mantoel',
                 style: TextStyling()
-                  ..huge()
+                  ..big()
                   ..bold(),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,

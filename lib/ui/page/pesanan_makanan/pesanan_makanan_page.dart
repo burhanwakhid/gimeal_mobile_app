@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:gimeal/config/config.dart';
+import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
 class PesananMakanan extends StatefulWidget {
@@ -12,6 +13,7 @@ class _PesananMakananState extends State<PesananMakanan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: CircleAvatar(
@@ -91,50 +93,104 @@ class _PesananMakananState extends State<PesananMakanan> {
             children: [
               CenterBoldDivider(),
               CenterBoldDivider(),
-              ListTile(
-                isThreeLine: true,
-                leading: CircleAvatar(
-                  radius: 40,
-                  backgroundColor: Colors.white,
-                  backgroundImage: NetworkImage(
-                    'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
-                  ),
-                ),
-                title: Text(
-                  'Juna Hermawan',
-                  style: TextStyling()
-                    ..huge()
-                    ..bold(),
-                ),
-                subtitle: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Flexible(
-                        child: Text(
-                      'Jl Bhaskara nomor 2 jauh',
-                      style: TextStyling(color: Colors.grey)..big(),
-                    )),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.white,
+                      backgroundImage: NetworkImage(
+                        'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.av_timer,
-                          color: Colors.grey,
-                          size: 18,
+                        Text(
+                          'Juna Hermawan',
+                          style: TextStyling()
+                            ..big()
+                            ..bold(),
                         ),
                         Text(
-                          '16.00 - 18.00 PM',
-                          style: TextStyling(color: Colors.grey)..big(),
+                          'Jl Bhaskara nomor 2 jauh',
+                          style: TextStyling(color: Colors.grey)..normal(),
                           overflow: TextOverflow.ellipsis,
                         ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.av_timer,
+                              color: Colors.grey,
+                              size: 16,
+                            ),
+                            Text(
+                              '16.00 - 18.00 PM',
+                              style: TextStyling(color: Colors.grey)..normal(),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       ],
-                    ),
+                    )
                   ],
                 ),
               ),
+//              ListTile(
+//                isThreeLine: true,
+//                leading: CircleAvatar(
+//                  radius: 40,
+//                  backgroundColor: Colors.white,
+//                  backgroundImage: NetworkImage(
+//                    'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
+//                  ),
+//                ),
+//                title: Text(
+//                  'Juna Hermawan',
+//                  style: TextStyling()
+//                    ..big()
+//                    ..bold(),
+//                ),
+//                subtitle: Column(
+//                  mainAxisSize: MainAxisSize.min,
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  children: [
+//                    Flexible(
+//                        child: Text(
+//                      'Jl Bhaskara nomor 2 jauh',
+//                      style: TextStyling(color: Colors.grey)..normal(),
+//                    ),),
+//                    Row(
+//                      mainAxisSize: MainAxisSize.min,
+//                      children: [
+//                        Icon(
+//                          Icons.av_timer,
+//                          color: Colors.grey,
+//                          size: 16,
+//                        ),
+//                        Text(
+//                          '16.00 - 18.00 PM',
+//                          style: TextStyling(color: Colors.grey)..normal(),
+//                          overflow: TextOverflow.ellipsis,
+//                        ),
+//                      ],
+//                    ),
+//                  ],
+//                ),
+//              ),
               Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -157,6 +213,14 @@ class _PesananMakananState extends State<PesananMakanan> {
                     color: kMainColor,
                     horizontalPadding: 80.0,
                     textColor: Colors.white,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BottomNav(index: 1),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -174,6 +238,9 @@ class _PesananMakananState extends State<PesananMakanan> {
         );
       },
       onClosing: () {},
+      onDragStart: (value) {
+        Navigator.of(context).pop();
+      },
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -192,19 +259,21 @@ class RoundedSideButton extends StatelessWidget {
     this.color,
     this.horizontalPadding,
     this.textColor,
+    this.onTap,
   }) : super(key: key);
 
   final String name;
   final Color color;
   final double horizontalPadding;
   final Color textColor;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       elevation: 5,
       padding: EdgeInsets.symmetric(
-          vertical: 15, horizontal: horizontalPadding ?? 50),
+          vertical: 10, horizontal: horizontalPadding ?? 50),
       onPressed: () {},
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.horizontal(
@@ -216,7 +285,7 @@ class RoundedSideButton extends StatelessWidget {
         name,
         style: TextStyling(color: textColor ?? Colors.black45)
           ..bold()
-          ..big(),
+          ..normal(),
       ),
       color: color ?? Colors.white,
     );

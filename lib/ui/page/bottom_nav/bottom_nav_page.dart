@@ -18,15 +18,28 @@ class _BottomNavState extends State<BottomNav> {
   final List<Map> bottomNavList = [
     {
       'icon': Icons.home,
+      'inactive': 'assets/Icon/icon_home.jpeg',
+      'active': 'assets/Icon/icon_home2.jpeg',
     },
     {
       'icon': Icons.list,
+      'inactive': 'assets/Icon/icon_paper.jpeg',
+      'active': 'assets/Icon/icon_paper2.jpeg',
     },
     {
       'icon': Icons.add_circle,
+      'inactive': 'assets/Icon/icon_add.jpeg',
+      'active': 'assets/Icon/icon_add.jpeg',
+    },
+    {
+      'icon': Icons.notifications,
+      'inactive': 'assets/Icon/icon_notification.jpeg',
+      'active': 'assets/Icon/icon_notification2.jpeg',
     },
     {
       'icon': Icons.person_outline_rounded,
+      'inactive': 'assets/Icon/icon_user.jpeg',
+      'active': 'assets/Icon/icon_user2.jpeg',
     },
   ];
 
@@ -44,6 +57,7 @@ class _BottomNavState extends State<BottomNav> {
     HomePage(),
     OnProgress(),
     UnggahMakananPage(),
+    OnProgress(),
     Profil(),
   ];
 
@@ -54,6 +68,7 @@ class _BottomNavState extends State<BottomNav> {
       body: _listPage[this.widget.index],
       bottomNavigationBar: Material(
         elevation: 4,
+        color: Colors.white,
         shadowColor: Colors.blueGrey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -62,25 +77,25 @@ class _BottomNavState extends State<BottomNav> {
           ),
         ),
         clipBehavior: Clip.antiAlias,
-        child: BottomNavigationBar(
-          currentIndex: this.widget.index,
-          elevation: 0,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          iconSize: 25,
-          items: bottomNavList.map<BottomNavigationBarItem>((item) {
-            return BottomNavigationBarItem(
-              label: '',
-              icon: Icon(
-                item['icon'],
+        child: Padding(
+          padding: EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(
+              bottomNavList.length,
+              (index) => GestureDetector(
+                onTap: () {
+                  this.action(index: index);
+                },
+                child: Image.asset(
+                  index == this.widget.index
+                      ? bottomNavList[index]['active']
+                      : bottomNavList[index]['inactive'],
+                  height: index == 2 ? 50 : 25,
+                ),
               ),
-            );
-          }).toList(),
-          selectedItemColor: kMainColor,
-          unselectedItemColor: Colors.grey,
-          onTap: (index) {
-            this.action(index: index);
-          },
+            ),
+          ),
         ),
       ),
     );
