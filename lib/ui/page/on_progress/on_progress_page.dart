@@ -16,7 +16,7 @@ class _OnProgressState extends State<OnProgress> {
         backgroundColor: Colors.white,
         title: Text(
           'Dalam Proses',
-          style: TextStyling(color: Colors.black)
+          style: TextStyling(color: Colors.grey)
             ..bold()
             ..huge(),
         ),
@@ -51,7 +51,7 @@ class _OnProgressState extends State<OnProgress> {
       height: MediaQuery.of(context).size.width / 2.6,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
-        color: kMainColor.withOpacity(0.4),
+        color: Color(0xffC3DE9B),
         borderRadius: BorderRadius.all(Radius.circular(50)),
       ),
       child: Row(

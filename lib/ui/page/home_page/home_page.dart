@@ -92,9 +92,17 @@ class _HomePageState extends State<HomePage> {
   AppBar _appBar() {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Text(
-        'Aplikasi Gimeal',
+      title: Center(
+        child: Text(
+          'gimeal',
+          style: TextStyle(
+            color: Theme.of(context).accentColor,
+            fontWeight: FontWeight.w700,
+            fontSize: 26,
+          ),
+        ),
       ),
+      backgroundColor: Colors.white,
     );
   }
 }

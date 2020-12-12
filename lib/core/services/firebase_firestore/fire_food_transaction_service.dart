@@ -8,7 +8,7 @@ class FireFoodTransactionService {
   static CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('food_transactions');
 
-  static Future<String> saveTransactions(
+  static Future<void> saveTransactions(
     String idFood,
     String idPembuatMakanan,
     String pathFoodPhoto,
@@ -62,7 +62,7 @@ class FireFoodTransactionService {
 
       await FoodServices.changeStatusFood(idFood);
       print(_collectionReference.doc().id);
-      return _collectionReference.doc().id;
+      // return _collectionReference.doc().id;
     } catch (e) {
       throw Exception(e);
     }
