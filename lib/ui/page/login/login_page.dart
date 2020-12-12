@@ -120,10 +120,9 @@ class _LoginPageState extends State<LoginPage> {
                                     if (_formKey.currentState.validate()) {
                                       print('object');
                                       progress.show();
-                                      SignInSignUpResult result =
-                                          await AuthService.signIn(
-                                              emailCont.text, passCont.text);
-                                      if (result.user != null) {
+                                      AuthService.signIn(
+                                              emailCont.text, passCont.text)
+                                          .then((value) {
                                         Fluttertoast.showToast(
                                             msg: 'Login Success');
                                         progress.dismiss();
@@ -131,12 +130,25 @@ class _LoginPageState extends State<LoginPage> {
                                             context,
                                             Routers.homePage,
                                             (route) => false);
-                                      } else {
+                                      }).catchError((onError) {
                                         progress.dismiss();
                                         Fluttertoast.showToast(
-                                            msg:
-                                                'Login gagal, ${result.message}');
-                                      }
+                                            msg: 'Login gagal, $onError');
+                                      });
+                                      // if (result.user != null) {
+                                      //   Fluttertoast.showToast(
+                                      //       msg: 'Login Success');
+                                      //   progress.dismiss();
+                                      //   Navigator.pushNamedAndRemoveUntil(
+                                      //       context,
+                                      //       Routers.homePage,
+                                      //       (route) => false);
+                                      // } else {
+                                      //   progress.dismiss();
+                                      //   Fluttertoast.showToast(
+                                      //       msg:
+                                      //           'Login gagal, ${result.message}');
+                                      // }
                                     }
                                   },
                                   child: Text(
