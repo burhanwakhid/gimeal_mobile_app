@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
+import '../../../config/routers.dart';
+import '../../../core/shared_preferences/config_shared_preferences.dart';
+
 class Profil extends StatefulWidget {
   @override
   _ProfilState createState() => _ProfilState();
@@ -12,7 +15,7 @@ class _ProfilState extends State<Profil> {
     {
       'title': 'Unggahan',
       'image': 'assets/Icon/icon_upload.png',
-      'route': '',
+      'route': '/unggahan',
     },
     {
       'title': 'Penilaian',
@@ -58,7 +61,11 @@ class _ProfilState extends State<Profil> {
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25))),
-              onPressed: () {},
+              onPressed: () async {
+                await MainSharedPreferences().clearSharedPreference();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Routers.welcomePage, (route) => false);
+              },
               child: Text(
                 'Keluar',
                 style: TextStyling(
@@ -80,6 +87,9 @@ class _ProfilState extends State<Profil> {
       child: Column(
         children: List.generate(menu.length, (index) {
           return ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, menu[index]['route']);
+            },
             dense: true,
             leading: Image.asset(
               menu[index]['image'],

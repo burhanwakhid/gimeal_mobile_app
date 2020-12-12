@@ -14,22 +14,18 @@ final kSubtitleStyle = TextStyle(
 
 final kHintTextStyle = TextStyle(
   color: Colors.white,
-  fontFamily: 'OpenSans',
 );
 
 final kCardTextStyle = TextStyle(
   color: Colors.grey,
-  fontFamily: 'OpenSans',
 );
 
 final kCardSubtitleTextStyle = TextStyle(
   color: Colors.grey,
-  fontFamily: 'OpenSans',
 );
 
 final kNormalTextStyle = TextStyle(
   color: Colors.black,
-  fontFamily: 'OpenSans',
 );
 
 final kStatusPaymentStyle = TextStyle(

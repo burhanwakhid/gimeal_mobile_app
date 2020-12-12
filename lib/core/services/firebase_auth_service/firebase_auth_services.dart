@@ -14,7 +14,10 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       UserModel userModel = result.user.convertToUser(
-          nama: nama, hp: noHp,fotoUser: 'F51f6fb256629fc755b8870c801092942' , createdAt: DateTime.now().toIso8601String());
+          nama: nama,
+          hp: noHp,
+          fotoUser: 'F51f6fb256629fc755b8870c801092942',
+          createdAt: DateTime.now().toIso8601String());
 
       await MainSharedPreferences().setIdUser(userModel.id);
       await MainSharedPreferences().setHpUser(userModel.noHp);
@@ -26,7 +29,7 @@ class AuthService {
 
       return SignInSignUpResult(user: userModel);
     } catch (e) {
-      return SignInSignUpResult(message: e.toString().split(',')[1].trim());
+      return SignInSignUpResult(message: e.toString());
     }
   }
 
@@ -40,7 +43,8 @@ class AuthService {
 
       return SignInSignUpResult(user: userModel);
     } catch (e) {
-      return SignInSignUpResult(message: e.toString().split(',')[1].trim());
+      // return SignInSignUpResult(message: e);
+      throw e.toString();
     }
   }
 }
