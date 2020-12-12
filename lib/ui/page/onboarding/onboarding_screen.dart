@@ -14,7 +14,7 @@ class _OnboardingState extends State<Onboarding> {
   //todo fungsi ketika selesai dari onboard screen
   void _onDone() {
     MainSharedPreferences().openAppFirstTime();
-    Navigator.popAndPushNamed(context, Routers.homePage);
+    Navigator.popAndPushNamed(context, Routers.loginPage);
   }
 
   List<Map<String, dynamic>> _onBoardData = [
