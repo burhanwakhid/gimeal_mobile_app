@@ -84,6 +84,7 @@ class _FoodTileBigState extends State<FoodTileBig> {
                         (BuildContext context) {
                           return Material(
                             elevation: 20,
+                            color: Colors.white,
                             borderRadius: BorderRadius.all(
                               Radius.circular(35),
                             ),
