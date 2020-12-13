@@ -31,7 +31,7 @@ class _ProfilState extends State<Profil> {
     {
       'title': 'Bantuan',
       'image': 'assets/Icon/icon_help.png',
-      'route': '',
+      'route': '/bantuan',
     },
   ];
 
@@ -140,50 +140,58 @@ class _ProfilState extends State<Profil> {
           SizedBox(
             width: 20,
           ),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Juna Hermawan',
-                    style: TextStyling()
-                      ..huge()
-                      ..bold(),
-                    overflow: TextOverflow.fade,
-                  ),
-                  Icon(
-                    Icons.edit,
-                    color: Colors.grey,
-                    size: 14,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Image.asset(
-                    'assets/Icon/checkmark-filled.png',
-                    width: 10,
-                  ),
-                  Text(
-                    'Bergabung 2 minggu yang lalu',
-                    style: TextStyling(color: Colors.grey)..normal(),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              RatingDisplay(value: 4),
-            ],
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Juna Hermawan',
+                      style: TextStyling()
+                        ..huge()
+                        ..bold(),
+                      overflow: TextOverflow.fade,
+                    ),
+                    Icon(
+                      Icons.edit,
+                      color: Colors.grey,
+                      size: 14,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/Icon/checkmark-filled.png',
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Bergabung 2 minggu yang lalu',
+                            style: TextStyling(color: Colors.grey)..normal(),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                RatingDisplay(value: 4),
+              ],
+            ),
           )
         ],
       ),

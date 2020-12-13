@@ -72,37 +72,43 @@ class _OnProgressState extends State<OnProgress> {
               fit: BoxFit.cover,
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Burger Yummy mantoel',
-                style: TextStyling()
-                  ..big()
-                  ..bold(),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              Text(
-                'Jl. Bhaskara Blok A no 6',
-                style: TextStyling(color: Colors.grey)..normal(),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              Text(
-                '16.00 - 18.00 pm',
-                style: TextStyling(color: Colors.grey)..normal(),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              Text(
-                '5 menit dari lokasi anda',
-                style: TextStyling()..normal(),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ],
+          SizedBox(
+            width: 8,
+          ),
+          Flexible(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Burger Yummy mantoel',
+                  style: TextStyling()
+                    ..big()
+                    ..bold()
+                    ..copyWith(fontSize: 13),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+                Text(
+                  'Jl. Bhaskara Blok A no 6',
+                  style: TextStyling(color: Colors.grey)..normal(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                Text(
+                  '16.00 - 18.00 pm',
+                  style: TextStyling(color: Colors.grey)..normal(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                Text(
+                  '5 menit dari lokasi anda',
+                  style: TextStyling()..normal(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
+            ),
           ),
         ],
       ),

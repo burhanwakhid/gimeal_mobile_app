@@ -356,6 +356,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                         ),
                         elevation: 4,
                         isDense: true,
+                        dropdownColor: Colors.white,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(
                               top: 8, bottom: 8, left: 8, right: 0),

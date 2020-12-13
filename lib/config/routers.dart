@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
+import 'package:gimeal/ui/page/bantuan/bantuan_page.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:gimeal/ui/page/laporkan/laporkan_page.dart';
@@ -22,6 +23,7 @@ class Routers {
   static const String profil = '/profil';
   static const String laporkan = '/laporkan';
   static const String unggahan = '/unggahan';
+  static const String bantuan = '/bantuan';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
@@ -50,6 +52,9 @@ class Routers {
         break;
       case unggahan:
         return MaterialPageRoute(builder: (_) => ListUnggahanPage());
+        break;
+      case bantuan:
+        return MaterialPageRoute(builder: (_) => BantuanPage());
         break;
       case detailMakanan:
         if (args is DetailMakananArgs)
