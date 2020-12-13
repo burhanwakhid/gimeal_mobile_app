@@ -153,7 +153,7 @@ class _ProfilState extends State<Profil> {
                     Text(
                       'Juna Hermawan',
                       style: TextStyling()
-                        ..huge()
+                        ..big()
                         ..bold(),
                       overflow: TextOverflow.fade,
                     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:gimeal/ui/page/login/login_page.dart';
+import 'package:gimeal/ui/page/notifikasi/notification_page.dart';
 import 'package:gimeal/ui/page/on_progress/on_progress_page.dart';
 import 'package:gimeal/ui/page/profil/profil.dart';
 import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
@@ -18,28 +19,28 @@ class _BottomNavState extends State<BottomNav> {
   final List<Map> bottomNavList = [
     {
       'icon': Icons.home,
-      'inactive': 'assets/Icon/icon_home.jpeg',
-      'active': 'assets/Icon/icon_home2.jpeg',
+      'inactive': 'assets/Icon/icon_home.png',
+      'active': 'assets/Icon/icon_home2.png',
     },
     {
       'icon': Icons.list,
-      'inactive': 'assets/Icon/icon_paper.jpeg',
-      'active': 'assets/Icon/icon_paper2.jpeg',
+      'inactive': 'assets/Icon/icon_paper.png',
+      'active': 'assets/Icon/icon_paper2.png',
     },
     {
       'icon': Icons.add_circle,
-      'inactive': 'assets/Icon/icon_add.jpeg',
-      'active': 'assets/Icon/icon_add.jpeg',
+      'inactive': 'assets/Icon/icon_add.png',
+      'active': 'assets/Icon/icon_add.png',
     },
     {
       'icon': Icons.notifications,
-      'inactive': 'assets/Icon/icon_notification.jpeg',
-      'active': 'assets/Icon/icon_notification2.jpeg',
+      'inactive': 'assets/Icon/icon_notifcation.png',
+      'active': 'assets/Icon/icon_notification2.png',
     },
     {
       'icon': Icons.person_outline_rounded,
-      'inactive': 'assets/Icon/icon_user.jpeg',
-      'active': 'assets/Icon/icon_user2.jpeg',
+      'inactive': 'assets/Icon/icon_user.png',
+      'active': 'assets/Icon/icon_user2.png',
     },
   ];
 
@@ -57,7 +58,7 @@ class _BottomNavState extends State<BottomNav> {
     HomePage(),
     OnProgress(),
     UnggahMakananPage(),
-    OnProgress(),
+    NotificationPage(),
     Profil(),
   ];
 
@@ -78,7 +79,7 @@ class _BottomNavState extends State<BottomNav> {
         ),
         clipBehavior: Clip.antiAlias,
         child: Padding(
-          padding: EdgeInsets.all(5.0),
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(

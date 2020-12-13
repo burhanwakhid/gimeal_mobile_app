@@ -24,6 +24,7 @@ class Routers {
   static const String laporkan = '/laporkan';
   static const String unggahan = '/unggahan';
   static const String bantuan = '/bantuan';
+  static const String notification = '/notification';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
@@ -63,6 +64,9 @@ class Routers {
           );
         break;
       case profil:
+        return MaterialPageRoute(builder: (_) => BottomNav(index: 4));
+        break;
+      case notification:
         return MaterialPageRoute(builder: (_) => BottomNav(index: 3));
         break;
       default:

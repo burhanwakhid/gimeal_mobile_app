@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:gimeal/config/config.dart';
+import 'package:gimeal/core/helper/date_formatter.dart';
+import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
+import 'package:gimeal/ui/page/pesanan_makanan/cancel_pesanan_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
+import 'package:latlong/latlong.dart';
 
 class PesananMakanan extends StatefulWidget {
+  final ListFoodModel data;
+
+  PesananMakanan({
+    @required this.data,
+  });
   @override
   _PesananMakananState createState() => _PesananMakananState();
 }
@@ -30,7 +39,13 @@ class _PesananMakananState extends State<PesananMakanan> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: FlutterMap(
-          options: MapOptions(),
+          options: MapOptions(
+            center: LatLng(
+              this.widget.data.latitude,
+              this.widget.data.longitude,
+            ),
+            zoom: 15,
+          ),
           layers: [
             TileLayerOptions(
                 urlTemplate:
@@ -91,8 +106,19 @@ class _PesananMakananState extends State<PesananMakanan> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
-              CenterBoldDivider(),
-              CenterBoldDivider(),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CenterBoldDivider(),
+                    CenterBoldDivider(),
+                  ],
+                ),
+              ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -102,7 +128,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                       radius: 40,
                       backgroundColor: Colors.white,
                       backgroundImage: NetworkImage(
-                        'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
+                        'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2${this.widget.data.fotoUser}.png?alt=media',
                       ),
                     ),
                     SizedBox(
@@ -114,13 +140,13 @@ class _PesananMakananState extends State<PesananMakanan> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Juna Hermawan',
+                          this.widget.data.namaUser,
                           style: TextStyling()
                             ..big()
                             ..bold(),
                         ),
                         Text(
-                          'Jl Bhaskara nomor 2 jauh',
+                          this.widget.data.namaUser,
                           style: TextStyling(color: Colors.grey)..normal(),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -133,7 +159,8 @@ class _PesananMakananState extends State<PesananMakanan> {
                               size: 16,
                             ),
                             Text(
-                              '16.00 - 18.00 PM',
+                              DateFormatter().formatDate(
+                                  date: this.widget.data.waktuPenayangan),
                               style: TextStyling(color: Colors.grey)..normal(),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -144,48 +171,6 @@ class _PesananMakananState extends State<PesananMakanan> {
                   ],
                 ),
               ),
-//              ListTile(
-//                isThreeLine: true,
-//                leading: CircleAvatar(
-//                  radius: 40,
-//                  backgroundColor: Colors.white,
-//                  backgroundImage: NetworkImage(
-//                    'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
-//                  ),
-//                ),
-//                title: Text(
-//                  'Juna Hermawan',
-//                  style: TextStyling()
-//                    ..big()
-//                    ..bold(),
-//                ),
-//                subtitle: Column(
-//                  mainAxisSize: MainAxisSize.min,
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: [
-//                    Flexible(
-//                        child: Text(
-//                      'Jl Bhaskara nomor 2 jauh',
-//                      style: TextStyling(color: Colors.grey)..normal(),
-//                    ),),
-//                    Row(
-//                      mainAxisSize: MainAxisSize.min,
-//                      children: [
-//                        Icon(
-//                          Icons.av_timer,
-//                          color: Colors.grey,
-//                          size: 16,
-//                        ),
-//                        Text(
-//                          '16.00 - 18.00 PM',
-//                          style: TextStyling(color: Colors.grey)..normal(),
-//                          overflow: TextOverflow.ellipsis,
-//                        ),
-//                      ],
-//                    ),
-//                  ],
-//                ),
-//              ),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 20,
@@ -195,10 +180,12 @@ class _PesananMakananState extends State<PesananMakanan> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RoundedSideButton(
+                      onTap: () {},
                       name: 'Panggil',
                       color: Colors.white,
                     ),
                     RoundedSideButton(
+                      onTap: () {},
                       name: 'Pesan',
                       color: Colors.white,
                     ),
@@ -217,7 +204,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => BottomNav(index: 1),
+                          builder: (context) => BottomNav(index: 1),
                         ),
                       );
                     },
@@ -225,7 +212,14 @@ class _PesananMakananState extends State<PesananMakanan> {
                 ],
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CancelPesanan(),
+                    ),
+                  );
+                },
                 child: Text(
                   'Batalkan Pesanan',
                   style: TextStyling(
@@ -274,7 +268,7 @@ class RoundedSideButton extends StatelessWidget {
       elevation: 5,
       padding: EdgeInsets.symmetric(
           vertical: 10, horizontal: horizontalPadding ?? 50),
-      onPressed: () {},
+      onPressed: onTap,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.horizontal(
           left: Radius.circular(50),

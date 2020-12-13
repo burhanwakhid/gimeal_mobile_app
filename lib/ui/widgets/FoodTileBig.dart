@@ -59,10 +59,9 @@ class _FoodTileBigState extends State<FoodTileBig> {
                   ),
                   title: Text(
                     widget.foodData.foodName,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyling()
+                      ..big()
+                      ..bold(),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

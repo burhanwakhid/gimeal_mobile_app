@@ -45,7 +45,9 @@ class _DetailMakananState extends State<DetailMakanan> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => PesananMakanan(),
+          builder: (context) => PesananMakanan(
+            data: this.widget.listFoodModel,
+          ),
         ),
       );
     }).catchError(() {

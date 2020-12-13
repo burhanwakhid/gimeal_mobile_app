@@ -36,7 +36,7 @@ class _AppState extends State<App> {
 //      home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
       home: SplashScreen(
         duration: 4,
-        afterSplash: this.widget.firstOpen ? Onboarding() : BottomNav(index: 4),
+        afterSplash: this.widget.firstOpen ? Onboarding() : BottomNav(index: 0),
       ),
 //      BottomNav(index: 0),
     );

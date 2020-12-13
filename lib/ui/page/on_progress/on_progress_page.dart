@@ -51,7 +51,7 @@ class _OnProgressState extends State<OnProgress> {
       height: MediaQuery.of(context).size.width / 2.6,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
-        color: Color(0xffC3DE9B),
+        color: Color(0xffC3DE9B).withOpacity(0.5),
         borderRadius: BorderRadius.all(Radius.circular(50)),
       ),
       child: Row(

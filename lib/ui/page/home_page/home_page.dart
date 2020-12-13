@@ -165,8 +165,6 @@ class _TestListPageState extends State<TestListPage> {
                       children: [
                         Text(items[i].foodName),
                         Text(items[i].jarak.toString()),
-//                        Image.network(
-//                            'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/foods%2F${items[i].pathFoodPhoto}.png?alt=media&token=8361f53e-acca-4cef-b5fc-024a9c228043'),
                       ],
                     ),
                   );

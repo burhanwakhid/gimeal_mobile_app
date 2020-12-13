@@ -45,11 +45,11 @@ class TextStyling extends TextStyle {
   double fontSize;
 
   huge() {
-    this.fontSize = 20;
+    this.fontSize = 18;
   }
 
   big() {
-    this.fontSize = 18;
+    this.fontSize = 16;
   }
 
   normal() {
