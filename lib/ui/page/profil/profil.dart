@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
+import 'package:gimeal/ui/widgets/custom_dialog_widget.dart';
 
 import '../../../config/routers.dart';
 import '../../../core/shared_preferences/config_shared_preferences.dart';
@@ -63,9 +64,7 @@ class _ProfilState extends State<Profil> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25))),
               onPressed: () async {
-                await MainSharedPreferences().clearSharedPreference();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Routers.welcomePage, (route) => false);
+                _showMyDialog();
               },
               child: Text(
                 'Keluar',
@@ -79,6 +78,27 @@ class _ProfilState extends State<Profil> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CustomDialogWidget(
+          title: 'Keluar',
+          desc: 'Apakah anda yakin?',
+          textBtn1: 'Batal',
+          textBtn2: 'Oke',
+          onTapBtn1: () => Navigator.pop(context),
+          onTapBtn2: () async {
+            await MainSharedPreferences().clearSharedPreference();
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routers.welcomePage, (route) => false);
+          },
+        );
+      },
     );
   }
 

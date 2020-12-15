@@ -19,12 +19,6 @@ class AuthService {
           fotoUser: 'F51f6fb256629fc755b8870c801092942',
           createdAt: DateTime.now().toIso8601String());
 
-      await MainSharedPreferences().setIdUser(userModel.id);
-      await MainSharedPreferences().setHpUser(userModel.noHp);
-      await MainSharedPreferences().setUserName(userModel.nama);
-      await MainSharedPreferences().setUserFoto(userModel.fotoUser);
-      await MainSharedPreferences().setEmailUser(userModel.email);
-
       await UserServices.updateUser(userModel);
 
       return SignInSignUpResult(user: userModel);
@@ -40,6 +34,11 @@ class AuthService {
           email: email, password: password);
 
       UserModel userModel = await result.user.fromFireStore();
+      await MainSharedPreferences().setIdUser(userModel.id);
+      await MainSharedPreferences().setHpUser(userModel.noHp);
+      await MainSharedPreferences().setUserName(userModel.nama);
+      await MainSharedPreferences().setUserFoto(userModel.fotoUser);
+      await MainSharedPreferences().setEmailUser(userModel.email);
 
       return SignInSignUpResult(user: userModel);
     } catch (e) {
