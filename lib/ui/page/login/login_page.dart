@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              Text('Hello!', style: kTitleStyle),
+                              // Text('Hello!', style: kTitleStyle),
                               SizedBox(
                                 height: 10,
                               ),
@@ -97,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                               TextFormField(
                                 focusNode: _passwordFN,
                                 controller: passCont,
+                                obscureText: true,
                                 validator: (val) {
                                   if (val.isEmpty) {
                                     return 'Tidak boleh kosong';

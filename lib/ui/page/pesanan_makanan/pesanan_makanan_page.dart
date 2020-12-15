@@ -134,46 +134,56 @@ class _PesananMakananState extends State<PesananMakanan> {
                     SizedBox(
                       width: 20,
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          this.widget.data.namaUser,
-                          style: TextStyling()
-                            ..big()
-                            ..bold(),
-                        ),
-                        Text(
-                          this.widget.data.namaUser,
-                          style: TextStyling(color: Colors.grey)..normal(),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.av_timer,
-                              color: Colors.grey,
-                              size: 16,
-                            ),
-                            Text(
-                              DateFormatter().formatDate(
-                                  date: this.widget.data.waktuPenayangan),
-                              style: TextStyling(color: Colors.grey)..normal(),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ],
+                    Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            this.widget.data.namaUser,
+                            style: TextStyling()
+                              ..big()
+                              ..bold(),
+                          ),
+                          Text(
+                            this.widget.data.namaUser,
+                            style: TextStyling(color: Colors.grey)..normal(),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.av_timer,
+                                color: Colors.grey,
+                                size: 16,
+                              ),
+                              Flexible(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      DateFormatter().formatDate(
+                                          date:
+                                              this.widget.data.waktuPenayangan),
+                                      style: TextStyling(color: Colors.grey)
+                                        ..normal(),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 20,
+                  horizontal: 10,
                   vertical: 20,
                 ),
                 child: Row(

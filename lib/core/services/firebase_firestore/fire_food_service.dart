@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
-import 'package:gimeal/core/services/firebase_storage_service/firebase_storage_service.dart';
 import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 import 'package:latlong/latlong.dart';
 
@@ -125,9 +124,9 @@ class FoodServices {
     }
   }
 
-  static Future<void> changeStatusFood(String idFood) async {
+  static Future<void> changeStatusFood(String idFood, String status) async {
     _collectionReference.doc(idFood).update({
-      'status': 'taken',
+      'status': '$status',
     });
   }
 }

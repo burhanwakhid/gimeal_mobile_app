@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gimeal/config/config.dart';
 import 'package:gimeal/ui/page/home_page/home_page.dart';
-import 'package:gimeal/ui/page/login/login_page.dart';
 import 'package:gimeal/ui/page/notifikasi/notification_page.dart';
 import 'package:gimeal/ui/page/on_progress/on_progress_page.dart';
 import 'package:gimeal/ui/page/profil/profil.dart';

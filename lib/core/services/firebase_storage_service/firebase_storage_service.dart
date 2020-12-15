@@ -1,8 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-
 class FirebaseStorageService {
   // final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
@@ -17,7 +15,6 @@ class FirebaseStorageService {
 
     uploadTask = ref.putFile(image, metadata);
 
-    
     return Future.value(uploadTask);
   }
 
@@ -25,7 +22,7 @@ class FirebaseStorageService {
     // print(path);
     // Reference ref =
     //     FirebaseStorage.instance.ref().child('foods').child('food-shshhsjsjs-2020-12-08T21:48:56.841174.png');
-      String uri = (await refs.getDownloadURL()).toString();
+    String uri = (await refs.getDownloadURL()).toString();
     return uri;
   }
 }

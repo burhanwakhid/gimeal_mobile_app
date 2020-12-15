@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/ui/page/bantuan/bantuan_page.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
-import 'package:gimeal/ui/page/home_page/home_page.dart';
 import 'package:gimeal/ui/page/laporkan/laporkan_page.dart';
 import 'package:gimeal/ui/page/login/login_page.dart';
 import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
-import 'package:gimeal/ui/page/profil/profil.dart';
 import 'package:gimeal/ui/page/register_page/register_page.dart';
 import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
 import 'package:gimeal/ui/page/unggahan/list_unggahan_page.dart';
@@ -59,9 +57,11 @@ class Routers {
         break;
       case detailMakanan:
         if (args is DetailMakananArgs)
-          MaterialPageRoute(
+          return MaterialPageRoute(
             builder: (_) => DetailMakanan(),
           );
+        else
+          return null;
         break;
       case profil:
         return MaterialPageRoute(builder: (_) => BottomNav(index: 4));
@@ -75,6 +75,7 @@ class Routers {
             body: Center(child: Text('No route defined for ${settings.name}')),
           ),
         );
+        break;
     }
   }
 }
