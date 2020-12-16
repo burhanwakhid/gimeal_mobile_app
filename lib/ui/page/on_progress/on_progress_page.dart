@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:gimeal/config/config.dart';
+import 'package:gimeal/core/helper/date_formatter.dart';
+import 'package:gimeal/core/models/list_food_transaction_model.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
+import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 import 'package:gimeal/ui/shared/styles.dart';
+import 'package:gimeal/ui/widgets/no_result_widget.dart';
 
 class OnProgress extends StatefulWidget {
   @override
@@ -8,6 +14,22 @@ class OnProgress extends StatefulWidget {
 }
 
 class _OnProgressState extends State<OnProgress> {
+  Future<List<ListFoodTransactionModel>> _list;
+
+  Future getListOrder() async {
+    String idUser = await MainSharedPreferences().getIdUser();
+    setState(() {
+      _list =
+          FireFoodTransactionService.getListFoodTransactionByPemesan(idUser);
+    });
+  }
+
+  @override
+  void initState() {
+    this.getListOrder();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,31 +49,47 @@ class _OnProgressState extends State<OnProgress> {
           ),
         ],
       ),
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-//            separatorBuilder: (context, index) => SizedBox(
-//              height: 10,
-//            ),
-            itemCount: 6,
-            itemBuilder: (context, index) => _orderContainerTile(context),
+      body: RefreshIndicator(
+        onRefresh: getListOrder,
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: FutureBuilder<List<ListFoodTransactionModel>>(
+            future: _list,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return LinearProgressIndicator();
+              } else if (snapshot.hasData) {
+                return snapshot.data.length < 1
+                    ? NoResult(context, message: 'Anda belum memesan makanan')
+                    : ListView.builder(
+                        itemCount: snapshot.data.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: _orderContainerTile(
+                                context, snapshot.data[index]),
+                          );
+                        },
+                      );
+              } else {
+                return NoResult(context, message: 'Anda belum memesan makanan');
+              }
+            },
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Container _orderContainerTile(BuildContext context) {
+  Container _orderContainerTile(
+      BuildContext context, ListFoodTransactionModel data) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: 15),
       height: MediaQuery.of(context).size.width / 2.6,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(
-        color: Color(0xffC3DE9B).withOpacity(0.5),
+        color: Color(0xffC3DE9B).withOpacity(0.7),
         borderRadius: BorderRadius.all(Radius.circular(50)),
       ),
       child: Row(
@@ -66,7 +104,7 @@ class _OnProgressState extends State<OnProgress> {
             ),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/1200px-RedDot_Burger.jpg',
+              data.pathfoodphoto,
               width: MediaQuery.of(context).size.width / 4,
               height: MediaQuery.of(context).size.width / 4,
               fit: BoxFit.cover,
@@ -81,7 +119,7 @@ class _OnProgressState extends State<OnProgress> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Burger Yummy mantoel',
+                  data.foodName,
                   style: TextStyling()
                     ..big()
                     ..bold()
@@ -90,13 +128,13 @@ class _OnProgressState extends State<OnProgress> {
                   maxLines: 2,
                 ),
                 Text(
-                  'Jl. Bhaskara Blok A no 6',
+                  data.alamatLengkap,
                   style: TextStyling(color: Colors.grey)..normal(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 Text(
-                  '16.00 - 18.00 pm',
+                  DateFormatter().formatDate(date: data.waktuPengambilan),
                   style: TextStyling(color: Colors.grey)..normal(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

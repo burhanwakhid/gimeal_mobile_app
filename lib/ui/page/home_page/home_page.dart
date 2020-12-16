@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-<<<<<<< HEAD
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/core/services/firebase_firestore/testing_service.dart';
-=======
->>>>>>> 5aa2d0df6b97ac9db0514db20fd0e2210c7c9e43
 import 'package:gimeal/core/store/upload_food_store.dart';
 import 'package:gimeal/ui/widgets/FoodTileBig.dart';
 import 'package:mobx/mobx.dart';
