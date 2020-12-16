@@ -10,10 +10,26 @@ import 'package:gimeal/ui/shared/styles.dart';
 import 'package:latlong/latlong.dart';
 
 class PesananMakanan extends StatefulWidget {
-  final ListFoodModel data;
+//  final ListFoodModel data;
+  final double lat;
+  final double long;
+  final String fotoUser;
+  final String namaUser;
+  final String hpUser;
+  final String foodName;
+  final DateTime waktuPenayangan;
+  final String idPesanan;
 
   PesananMakanan({
-    @required this.data,
+//    @required this.data,
+    this.lat,
+    this.long,
+    this.foodName,
+    this.namaUser,
+    this.hpUser,
+    this.waktuPenayangan,
+    this.fotoUser,
+    this.idPesanan,
   });
   @override
   _PesananMakananState createState() => _PesananMakananState();
@@ -32,7 +48,7 @@ class _PesananMakananState extends State<PesananMakanan> {
         child: BackButton(
           color: Colors.white,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/onProgress');
           },
         ),
       ),
@@ -42,8 +58,8 @@ class _PesananMakananState extends State<PesananMakanan> {
         child: FlutterMap(
           options: MapOptions(
             center: LatLng(
-              this.widget.data.latitude,
-              this.widget.data.longitude,
+              this.widget.lat,
+              this.widget.long,
             ),
             zoom: 15,
           ),
@@ -54,9 +70,13 @@ class _PesananMakananState extends State<PesananMakanan> {
                 subdomains: ['a', 'b', 'c']),
             MarkerLayerOptions(markers: [
               Marker(
+                point: LatLng(
+                  this.widget.lat,
+                  this.widget.long,
+                ),
                 width: 30.0,
                 height: 30.0,
-                builder: (ctx) => Container(
+                builder: (context) => Container(
                     child:
                         Icon(Icons.location_pin, size: 50, color: Colors.red)),
               )
@@ -77,6 +97,7 @@ class _PesananMakananState extends State<PesananMakanan> {
         child: InkWell(
           onTap: () {
             showModalBottomSheet(
+                backgroundColor: Colors.transparent,
                 context: context,
                 builder: (context) {
                   return _bottomSheet();
@@ -129,7 +150,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                       radius: 40,
                       backgroundColor: Colors.white,
                       backgroundImage: NetworkImage(
-                        'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2${this.widget.data.fotoUser}.png?alt=media',
+                        'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2${this.widget.fotoUser}.png?alt=media',
                       ),
                     ),
                     SizedBox(
@@ -142,13 +163,13 @@ class _PesananMakananState extends State<PesananMakanan> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            this.widget.data.namaUser,
+                            this.widget.namaUser,
                             style: TextStyling()
                               ..big()
                               ..bold(),
                           ),
                           Text(
-                            this.widget.data.namaUser,
+                            this.widget.namaUser,
                             style: TextStyling(color: Colors.grey)..normal(),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -165,8 +186,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                                   children: [
                                     Text(
                                       DateFormatter().formatDate(
-                                          date:
-                                              this.widget.data.waktuPenayangan),
+                                          date: this.widget.waktuPenayangan),
                                       style: TextStyling(color: Colors.grey)
                                         ..normal(),
                                       overflow: TextOverflow.ellipsis,
@@ -198,9 +218,9 @@ class _PesananMakananState extends State<PesananMakanan> {
                     RoundedSideButton(
                       onTap: () {
                         FlutterOpenWhatsapp.sendSingleMessage(
-                            this.widget.data.hpUser,
+                            this.widget.hpUser,
 //                            '+6285740226188',
-                            'Hai ${this.widget.data.namaUser}, \n Saya ingin mengambil makanan *${this.widget.data.foodName}* yang ingin kamu bagikan di aplikasi *Gimeal*');
+                            'Hai ${this.widget.namaUser}, \n Saya ingin mengambil makanan *${this.widget.foodName}* yang ingin kamu bagikan di aplikasi *Gimeal*');
                       },
                       name: 'Pesan',
                       color: Colors.white,

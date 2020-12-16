@@ -23,6 +23,7 @@ class Routers {
   static const String unggahan = '/unggahan';
   static const String bantuan = '/bantuan';
   static const String notification = '/notification';
+  static const String onProgress = '/onProgress';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
@@ -33,6 +34,15 @@ class Routers {
         break;
       case homePage:
         return MaterialPageRoute(builder: (_) => BottomNav(index: 0));
+        break;
+      case profil:
+        return MaterialPageRoute(builder: (_) => BottomNav(index: 4));
+        break;
+      case notification:
+        return MaterialPageRoute(builder: (_) => BottomNav(index: 3));
+        break;
+      case onProgress:
+        return MaterialPageRoute(builder: (_) => BottomNav(index: 1));
         break;
       case loginPage:
         return MaterialPageRoute(builder: (_) => LoginPage());
@@ -63,12 +73,7 @@ class Routers {
         else
           return null;
         break;
-      case profil:
-        return MaterialPageRoute(builder: (_) => BottomNav(index: 4));
-        break;
-      case notification:
-        return MaterialPageRoute(builder: (_) => BottomNav(index: 3));
-        break;
+
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

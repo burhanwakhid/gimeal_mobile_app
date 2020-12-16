@@ -63,7 +63,7 @@ class FireFoodTransactionService {
       });
 
       await FoodServices.changeStatusFood(idFood, 'taken');
-      print('test lur');
+      print('test lur : bikin simpen transaksi');
       print(docReference.id);
       return docReference.id;
     } catch (e) {
