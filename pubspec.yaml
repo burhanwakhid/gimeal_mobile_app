@@ -49,6 +49,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   firebase_storage: ^5.1.0
   flutter_progress_hud: ^1.0.2
+  flutter_open_whatsapp: ^0.1.2
 
 
 dev_dependencies:

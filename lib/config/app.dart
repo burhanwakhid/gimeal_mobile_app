@@ -29,14 +29,14 @@ class _AppState extends State<App> {
         primarySwatch: kMainColor,
         accentColor: kAccentColor,
         scaffoldBackgroundColor: Colors.white,
-        canvasColor: Colors.transparent,
+//        canvasColor: Colors.transparent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: Routers.generateRoute,
 //      home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
       home: SplashScreen(
         duration: 4,
-        afterSplash: this.widget.firstOpen ? Onboarding() : BottomNav(index: 0),
+        afterSplash: this.widget.firstOpen ? Onboarding() : WelcomePage(),
       ),
 //      BottomNav(index: 0),
     );

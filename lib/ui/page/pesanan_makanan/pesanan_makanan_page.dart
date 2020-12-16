@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/core/helper/date_formatter.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
@@ -185,7 +186,12 @@ class _PesananMakananState extends State<PesananMakanan> {
                       color: Colors.white,
                     ),
                     RoundedSideButton(
-                      onTap: () {},
+                      onTap: () {
+                        FlutterOpenWhatsapp.sendSingleMessage(
+                            this.widget.data.hpUser,
+//                            '+6285740226188',
+                            'Hai ${this.widget.data.namaUser}, \n Saya ingin mengambil makanan *${this.widget.data.foodName}* yang ingin kamu bagikan di aplikasi *Gimeal*');
+                      },
                       name: 'Pesan',
                       color: Colors.white,
                     ),

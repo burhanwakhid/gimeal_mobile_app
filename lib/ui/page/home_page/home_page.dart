@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:gimeal/config/config.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/core/services/firebase_firestore/testing_service.dart';
 import 'package:gimeal/core/store/upload_food_store.dart';
 import 'package:gimeal/ui/widgets/FoodTileBig.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,8 +17,8 @@ class _HomePageState extends State<HomePage> {
   UploadFoodStore uploadFoodStore = UploadFoodStore();
   // ObservableFuture<List<ListFoodModel>> listFood;
 
-  _getListFood() {
-    uploadFoodStore.listFood();
+  Future<void> _getListFood() async {
+    await uploadFoodStore.listFood();
     // listFood = uploadFoodStore.listFoodFuture;
   }
 
@@ -43,48 +45,49 @@ class _HomePageState extends State<HomePage> {
       //    child: Icon(Icons.add),
       //  ),
 
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        padding: EdgeInsets.all(8),
-        children: [
-          Observer(
-            builder: (context) {
-              final future = uploadFoodStore.listFoodFuture;
-              final item = uploadFoodStore.listFoodFuture.value;
-              switch (future.status) {
-                case FutureStatus.pending:
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                  break;
-                case FutureStatus.rejected:
-                  return Center(child: Text('gagal'));
-                  break;
-                case FutureStatus.fulfilled:
-                  return ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 10,
-                      );
-                    },
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: item.length,
-                    itemBuilder: (context, index) {
-                      return FoodTileBig(
-                        foodData: item[index],
-                      );
-                    },
-                  );
-                  break;
-                default:
-                  return Center(child: Text('gagal'));
-                  break;
-              }
-            },
-          ),
-        ],
+      body: RefreshIndicator(
+        onRefresh: this._getListFood,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          padding: EdgeInsets.all(8),
+          children: [
+            Observer(
+              builder: (context) {
+                final future = uploadFoodStore.listFoodFuture;
+                final item = uploadFoodStore.listFoodFuture.value;
+                switch (future.status) {
+                  case FutureStatus.pending:
+                    return LinearProgressIndicator();
+                    break;
+                  case FutureStatus.rejected:
+                    return Center(child: Text('gagal'));
+                    break;
+                  case FutureStatus.fulfilled:
+                    return ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 10,
+                        );
+                      },
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: item.length,
+                      itemBuilder: (context, index) {
+                        return FoodTileBig(
+                          foodData: item[index],
+                        );
+                      },
+                    );
+                    break;
+                  default:
+                    return Center(child: Text('gagal'));
+                    break;
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
