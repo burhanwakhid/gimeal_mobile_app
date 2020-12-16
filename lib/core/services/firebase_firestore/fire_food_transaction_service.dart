@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gimeal/core/models/list_food_transaction_model.dart';
 import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 import 'package:gimeal/core/services/firebase_firestore/fire_food_service.dart';
 import 'package:latlong/latlong.dart';
@@ -8,7 +9,7 @@ class FireFoodTransactionService {
   static CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('food_transactions');
 
-  static Future<void> saveTransactions(
+  static Future<String> saveTransactions(
     String idFood,
     String idPembuatMakanan,
     String pathFoodPhoto,
@@ -28,7 +29,8 @@ class FireFoodTransactionService {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best);
-      _collectionReference.doc().set({
+      DocumentReference docReference = _collectionReference.doc();
+      docReference.set({
         // MAIN ID
         'idFood': idFood,
         'idUserPemesan': await MainSharedPreferences().getIdUser(),
@@ -48,7 +50,7 @@ class FireFoodTransactionService {
         'lokasi_makanan':
             GeoPoint(lokasiMakanan.latitude, lokasiMakanan.longitude),
         // DATA YANG MESAN MAKANAN
-        'nama_pemesan': await MainSharedPreferences().getUserFoto(),
+        'nama_pemesan': await MainSharedPreferences().getUserName(),
         'foto_pemesan': await MainSharedPreferences().getUserFoto(),
         'hp_pemesan': await MainSharedPreferences().getHpUser(),
 
@@ -60,33 +62,120 @@ class FireFoodTransactionService {
         'created_at': Timestamp.now()
       });
 
-      await FoodServices.changeStatusFood(idFood);
-      print(_collectionReference.doc().id);
-      // return _collectionReference.doc().id;
+      await FoodServices.changeStatusFood(idFood, 'taken');
+      print('test lur');
+      print(docReference.id);
+      return docReference.id;
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  static Future getListFoodTransactionByPemesan(String idUser) async {
+  static Future changeStatusFoodTransaction(
+      String idFoodTransaction, String status) async {
     try {
-      _collectionReference
-          .doc()
-          .collection('users')
-          .where('idUserPemesan', isEqualTo: '$idUser')
-          .get();
+      _collectionReference.doc(idFoodTransaction).update({
+        'status': status,
+      });
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  static Future batalkanPesanan(String idFoodTransaction, String idFood) async {
+    try {
+      await changeStatusFoodTransaction(idFoodTransaction, 'rejected');
+      await FoodServices.changeStatusFood(idFood, 'available');
     } catch (e) {}
   }
 
-  static Future getListFoodTransactionByPembuatMakanan(
-      String idFood, String idPembuatMakanan) async {
+  static Future<List<ListFoodTransactionModel>> getListFoodTransactionByPemesan(
+      String idUser) async {
     try {
-      _collectionReference
-          .doc()
-          .collection('users')
-          .where('idFood', isEqualTo: '$idFood')
-          .where('idUser', isEqualTo: '$idPembuatMakanan')
+      QuerySnapshot snapshot = await _collectionReference
+          .where('idUserPemesan', isEqualTo: idUser)
           .get();
-    } catch (e) {}
+      var documents = snapshot.docs;
+      List<ListFoodTransactionModel> list = [];
+      documents.forEach((doc) {
+        Map<String, dynamic> d = doc.data();
+        list.add(
+          ListFoodTransactionModel(
+            idFood: d['idFood'],
+            idUserPemesan: d['idUserPemesan'],
+            idPembuatMakanan: d['idPembuatMakanan'],
+            statusPemesanan: d['statusPemesanan'],
+            pathfoodphoto: d['path_food_photo'],
+            foodName: d['food_name'],
+            jumlahFood: d['jumlah_food'],
+            note: d['note'],
+            desc: d['desc'],
+            waktuPengambilan: (d['waktu_pengambilan'] as Timestamp).toDate(),
+            waktuPenayangan: (d['waktu_penayangan'] as Timestamp).toDate(),
+            alamatLengkap: d['alamat_lengkap'],
+            lokasiPengambil: LatLng(
+                (d['lokasi_pengambil'] as GeoPoint).latitude,
+                (d['lokasi_pengambil'] as GeoPoint).longitude),
+            lokasiMakanan: LatLng((d['lokasi_makanan'] as GeoPoint).latitude,
+                (d['lokasi_makanan'] as GeoPoint).longitude),
+            namaPemesan: d['nama_pemesan'],
+            fotoPemesan: d['foto_pemesan'],
+            hpPemesan: d['hp_pemesan'],
+            namaPembuat: d['nama_pembuat'],
+            fotoPembuat: d['foto_pembuat'],
+            hpPembuat: d['hp_pembuat'],
+            createdAt: (d['created_at'] as Timestamp).toDate(),
+          ),
+        );
+      });
+      return list;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<List<ListFoodTransactionModel>>
+      getListFoodTransactionByPembuatMakanan(String idPembuatMakanan) async {
+    try {
+      QuerySnapshot snapshot = await _collectionReference
+          .where('idPembuatMakanan', isEqualTo: idPembuatMakanan)
+          .get();
+      var documents = snapshot.docs;
+      List<ListFoodTransactionModel> list = [];
+      documents.forEach((doc) {
+        Map<String, dynamic> d = doc.data();
+        list.add(
+          ListFoodTransactionModel(
+            idFood: d['idFood'],
+            idUserPemesan: d['idUserPemesan'],
+            idPembuatMakanan: d['idPembuatMakanan'],
+            statusPemesanan: d['statusPemesanan'],
+            pathfoodphoto: d['path_food_photo'],
+            foodName: d['food_name'],
+            jumlahFood: d['jumlah_food'],
+            note: d['note'],
+            desc: d['desc'],
+            waktuPengambilan: (d['waktu_pengambilan'] as Timestamp).toDate(),
+            waktuPenayangan: (d['waktu_penayangan'] as Timestamp).toDate(),
+            alamatLengkap: d['alamat_lengkap'],
+            lokasiPengambil: LatLng(
+                (d['lokasi_pengambil'] as GeoPoint).latitude,
+                (d['lokasi_pengambil'] as GeoPoint).longitude),
+            lokasiMakanan: LatLng((d['lokasi_makanan'] as GeoPoint).latitude,
+                (d['lokasi_makanan'] as GeoPoint).longitude),
+            namaPemesan: d['nama_pemesan'],
+            fotoPemesan: d['foto_pemesan'],
+            hpPemesan: d['hp_pemesan'],
+            namaPembuat: d['nama_pembuat'],
+            fotoPembuat: d['foto_pembuat'],
+            hpPembuat: d['hp_pembuat'],
+            createdAt: (d['created_at'] as Timestamp).toDate(),
+          ),
+        );
+      });
+      return list;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }

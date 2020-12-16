@@ -10,7 +10,10 @@ class WelcomePage extends StatelessWidget {
       backgroundColor: Theme.of(context).accentColor,
       body: Stack(
         children: [
-          Positioned(top: 90, left: 38, child: Image.asset('assets/Illustrasi/ilustrasi_4.png')),
+          Positioned(
+              top: 90,
+              left: 38,
+              child: Image.asset('assets/Illustrasi/ilustrasi_4.png')),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -18,19 +21,24 @@ class WelcomePage extends StatelessWidget {
               height: size.height / 1.7,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(35), topRight: Radius.circular(35)),
+                      topLeft: Radius.circular(35),
+                      topRight: Radius.circular(35)),
                   color: Colors.white),
               child: Padding(
                 padding: const EdgeInsets.only(top: 40, left: 30, right: 30),
                 child: Column(
                   children: [
                     Text('Hello!', style: kTitleStyle),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Text(
                       'Tempat terbaik untuk mendapatkan makanan dan berbagi makanan dengan orang lain.',
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 25,),
+                    SizedBox(
+                      height: 25,
+                    ),
                     Container(
                       width: size.width / 2.3,
                       child: RaisedButton(
@@ -49,7 +57,9 @@ class WelcomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       width: size.width / 2.3,
                       child: RaisedButton(
@@ -67,29 +77,10 @@ class WelcomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      
                     ),
-                    SizedBox(height: 10,),
-                    Container(
-                      width: size.width / 2.3,
-                      child: RaisedButton(
-                        onPressed: () async {
-                          Navigator.pushNamed(context, Routers.unggahMakanan);
-                        },
-                        child: Text(
-                          'Test',
-                          style: kSubtitleStyle.copyWith(color: Colors.white),
-                        ),
-                        color: Theme.of(context).accentColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                        ),
-                      ),
-                      
-                    )
-
+                    SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               ),

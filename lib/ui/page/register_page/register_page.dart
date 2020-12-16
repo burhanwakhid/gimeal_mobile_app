@@ -73,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            Text('Hello!', style: kTitleStyle),
+                            // Text('Hello!', style: kTitleStyle),
                             SizedBox(
                               height: 10,
                             ),

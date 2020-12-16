@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gimeal/config/config.dart';
-import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/core/store/food_transaction_store.dart';
 import 'package:gimeal/ui/page/pesanan_makanan/pesanan_makanan_page.dart';
