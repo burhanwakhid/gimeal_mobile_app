@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:gimeal/ui/widgets/custom_dialog_widget.dart';
+import 'package:gimeal/ui/widgets/rating_display.dart';
 
 import '../../../config/routers.dart';
 import '../../../core/shared_preferences/config_shared_preferences.dart';
@@ -22,7 +23,7 @@ class _ProfilState extends State<Profil> {
     {
       'title': 'Penilaian',
       'image': 'assets/Icon/icon_star.png',
-      'route': '',
+      'route': '/penilaian',
     },
     {
       'title': 'Riwayat',
@@ -224,7 +225,7 @@ class _ProfilState extends State<Profil> {
       elevation: 2,
       title: Text(
         'Profil',
-        style: TextStyling(color: Colors.black)..bold,
+        style: TextStyling(color: Colors.black)..bold(),
       ),
       backgroundColor: Colors.white,
     );
@@ -266,40 +267,6 @@ class _ProfilState extends State<Profil> {
             style: TextStyling()..tiny(),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class RatingDisplay extends StatelessWidget {
-  RatingDisplay({
-    @required this.value,
-    this.size,
-    this.starColor,
-    Key key,
-  });
-
-  final double value;
-  final Color starColor;
-  final double size;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(
-        5,
-        (index) => index <= value - 1
-            ? Icon(
-                Icons.star,
-                color: starColor ?? Colors.amberAccent,
-                size: size ?? 16,
-              )
-            : Icon(
-                Icons.star_border,
-                color: starColor ?? Colors.amberAccent,
-                size: size ?? 16,
-              ),
       ),
     );
   }

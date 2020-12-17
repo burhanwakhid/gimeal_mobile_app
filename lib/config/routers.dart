@@ -5,6 +5,7 @@ import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/page/laporkan/laporkan_page.dart';
 import 'package:gimeal/ui/page/login/login_page.dart';
 import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
+import 'package:gimeal/ui/page/rating/rating_page.dart';
 import 'package:gimeal/ui/page/register_page/register_page.dart';
 import 'package:gimeal/ui/page/unggah_makanan_page/unggah_makanan_page.dart';
 import 'package:gimeal/ui/page/unggahan/list_unggahan_page.dart';
@@ -24,6 +25,7 @@ class Routers {
   static const String bantuan = '/bantuan';
   static const String notification = '/notification';
   static const String onProgress = '/onProgress';
+  static const String penilaian = '/penilaian';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
@@ -64,6 +66,9 @@ class Routers {
         break;
       case bantuan:
         return MaterialPageRoute(builder: (_) => BantuanPage());
+        break;
+      case penilaian:
+        return MaterialPageRoute(builder: (_) => RatingPage());
         break;
       case detailMakanan:
         if (args is DetailMakananArgs)
