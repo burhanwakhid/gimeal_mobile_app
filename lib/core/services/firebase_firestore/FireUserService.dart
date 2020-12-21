@@ -15,6 +15,20 @@ class UserServices {
     });
   }
 
+  static Future<bool> editUser(
+      String idUser, String email, String hp, String nama) async {
+    try {
+      _collectionReference.doc(idUser).update({
+        'email': email,
+        'hp': hp,
+        'nama': nama,
+      });
+      return true;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   static Future<UserModel> getUser(String id) async {
     DocumentSnapshot snapshot = await _collectionReference.doc(id).get();
 
