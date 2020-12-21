@@ -19,9 +19,11 @@ class PesananMakanan extends StatefulWidget {
   final String foodName;
   final DateTime waktuPenayangan;
   final String idPesanan;
+  final String idMakanan;
 
   PesananMakanan({
 //    @required this.data,
+    this.idMakanan,
     this.lat,
     this.long,
     this.foodName,
@@ -163,7 +165,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            this.widget.namaUser,
+                            this.widget.idPesanan,
                             style: TextStyling()
                               ..big()
                               ..bold(),
@@ -252,7 +254,10 @@ class _PesananMakananState extends State<PesananMakanan> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CancelPesanan(),
+                      builder: (context) => CancelPesanan(
+                        idTransaction: this.widget.idPesanan,
+                        idFood: this.widget.idMakanan,
+                      ),
                     ),
                   );
                 },

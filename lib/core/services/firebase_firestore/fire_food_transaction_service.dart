@@ -75,7 +75,7 @@ class FireFoodTransactionService {
       String idFoodTransaction, String status) async {
     try {
       _collectionReference.doc(idFoodTransaction).update({
-        'status': status,
+        'statusPemesanan': status,
       });
     } catch (e) {
       throw Exception(e);
@@ -94,6 +94,7 @@ class FireFoodTransactionService {
     try {
       QuerySnapshot snapshot = await _collectionReference
           .where('idUserPemesan', isEqualTo: idUser)
+//          .where('statusPemesanan', isNotEqualTo: 'rejected')
           .get();
       var documents = snapshot.docs;
       List<ListFoodTransactionModel> list = [];
@@ -101,6 +102,7 @@ class FireFoodTransactionService {
         Map<String, dynamic> d = doc.data();
         list.add(
           ListFoodTransactionModel(
+            idTransaction: doc.id,
             idFood: d['idFood'],
             idUserPemesan: d['idUserPemesan'],
             idPembuatMakanan: d['idPembuatMakanan'],

@@ -61,6 +61,7 @@ class _OnProgressState extends State<OnProgress> {
                 return snapshot.data.length < 1
                     ? NoResult(context, message: 'Anda belum memesan makanan')
                     : ListView.builder(
+                        physics: BouncingScrollPhysics(),
                         itemCount: snapshot.data.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
@@ -90,6 +91,8 @@ class _OnProgressState extends State<OnProgress> {
           MaterialPageRoute(
             builder: (context) => PesananMakanan(
 //            data: this.widget.listFoodModel,
+              idMakanan: data.idFood,
+              idPesanan: data.idTransaction,
               foodName: data.foodName,
               fotoUser: data.fotoPembuat,
               lat: data.lokasiMakanan.latitude,
@@ -157,7 +160,7 @@ class _OnProgressState extends State<OnProgress> {
                     maxLines: 1,
                   ),
                   Text(
-                    '5 menit dari lokasi anda',
+                    data.statusPemesanan,
                     style: TextStyling()..normal(),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

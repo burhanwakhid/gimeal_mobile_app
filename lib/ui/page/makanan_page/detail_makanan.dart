@@ -47,6 +47,8 @@ class _DetailMakananState extends State<DetailMakanan> {
         MaterialPageRoute(
           builder: (context) => PesananMakanan(
 //            data: this.widget.listFoodModel,
+            idPesanan: idTransaction,
+            idMakanan: widget.listFoodModel.idFood,
             foodName: widget.listFoodModel.foodName,
             fotoUser: widget.listFoodModel.fotoUser,
             lat: widget.listFoodModel.latitude,

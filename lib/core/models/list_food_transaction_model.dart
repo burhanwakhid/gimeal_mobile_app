@@ -1,6 +1,7 @@
 import 'package:latlong/latlong.dart';
 
 class ListFoodTransactionModel {
+  final String idTransaction;
   final String idFood;
   final String idUserPemesan;
   final String idPembuatMakanan;
@@ -24,6 +25,7 @@ class ListFoodTransactionModel {
   final DateTime createdAt;
 
   ListFoodTransactionModel({
+    this.idTransaction,
     this.idFood,
     this.idUserPemesan,
     this.idPembuatMakanan,
