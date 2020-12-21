@@ -28,7 +28,7 @@ class _ProfilState extends State<Profil> {
     {
       'title': 'Riwayat',
       'image': 'assets/Icon/icon_list.png',
-      'route': '',
+      'route': '/riwayat',
     },
     {
       'title': 'Bantuan',
