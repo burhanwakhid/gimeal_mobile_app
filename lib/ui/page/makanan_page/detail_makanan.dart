@@ -40,6 +40,7 @@ class _DetailMakananState extends State<DetailMakanan> {
     await _foodTransactionStore
         .saveTransaction(this.widget.listFoodModel)
         .then((value) {
+      String idTransaction = _foodTransactionStore.idTransaction;
       _endLoading();
       Navigator.push(
         context,

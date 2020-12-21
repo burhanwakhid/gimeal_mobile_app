@@ -5,34 +5,34 @@ import 'package:latlong/latlong.dart';
 import 'package:mobx/mobx.dart';
 part 'food_transaction_store.g.dart';
 
-/// HOW TO USE 
+/// HOW TO USE
 /// FoodTransactionStore foodTransactionStore = FoodTransactionStore();
 /// await foodTransactionStore.saveTransaction(listFoodModel);
 
 class FoodTransactionStore = _FoodTransactionStore with _$FoodTransactionStore;
 
 abstract class _FoodTransactionStore with Store {
-
+  @observable
+  String idTransaction = '';
   // SAVE FOOD TRANSACTION
   @action
   Future<void> saveTransaction(ListFoodModel listFoodModel) async {
     try {
-      await FireFoodTransactionService.saveTransactions(
-        listFoodModel.idFood,
-        listFoodModel.idUser,
-        listFoodModel.pathFoodPhoto,
-        listFoodModel.foodName,
-        listFoodModel.jumlahFood.toString(),
-        listFoodModel.note,
-        listFoodModel.desc,
-        listFoodModel.waktuPengambilan,
-        listFoodModel.waktuPenayangan,
-        listFoodModel.alamatLengkap,
-        LatLng(listFoodModel.latitude, listFoodModel.longitude),
-        listFoodModel.namaUser,
-        listFoodModel.fotoUser,
-        listFoodModel.hpUser
-      );
+      idTransaction = await FireFoodTransactionService.saveTransactions(
+          listFoodModel.idFood,
+          listFoodModel.idUser,
+          listFoodModel.pathFoodPhoto,
+          listFoodModel.foodName,
+          listFoodModel.jumlahFood.toString(),
+          listFoodModel.note,
+          listFoodModel.desc,
+          listFoodModel.waktuPengambilan,
+          listFoodModel.waktuPenayangan,
+          listFoodModel.alamatLengkap,
+          LatLng(listFoodModel.latitude, listFoodModel.longitude),
+          listFoodModel.namaUser,
+          listFoodModel.fotoUser,
+          listFoodModel.hpUser);
     } catch (e) {
       throw Exception(e);
     }

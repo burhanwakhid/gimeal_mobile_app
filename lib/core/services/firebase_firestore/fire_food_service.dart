@@ -44,6 +44,15 @@ class FoodServices {
     });
   }
 
+  static Future<bool> deleteUnggahan(String idFood) async {
+    try {
+      await _collectionReference.doc(idFood).delete();
+      return true;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   static Future<List<ListFoodModel>> getListFood() async {
     try {
       Position position = await Geolocator.getCurrentPosition(
