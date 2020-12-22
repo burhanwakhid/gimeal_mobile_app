@@ -23,6 +23,7 @@ class ListFoodTransactionModel {
   final String fotoPembuat;
   final String hpPembuat;
   final DateTime createdAt;
+  final String jarak;
 
   ListFoodTransactionModel({
     this.idTransaction,
@@ -47,5 +48,6 @@ class ListFoodTransactionModel {
     this.fotoPembuat,
     this.hpPembuat,
     this.createdAt,
+    this.jarak,
   });
 }
