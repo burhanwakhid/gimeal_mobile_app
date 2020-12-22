@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gimeal/core/models/list_food_transaction_model.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
+import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 import 'package:gimeal/ui/widgets/custom_dialog_widget.dart';
+import 'package:gimeal/ui/widgets/no_result_widget.dart';
 
 import '../../shared/styles.dart';
 
@@ -9,6 +14,22 @@ class ListUnggahanPage extends StatefulWidget {
 }
 
 class _ListUnggahanPageState extends State<ListUnggahanPage> {
+  Future<List<ListFoodTransactionModel>> _list;
+
+  Future getListOrder() async {
+    String idUser = await MainSharedPreferences().getIdUser();
+    setState(() {
+      _list = FireFoodTransactionService.getListFoodTransactionByPembuatMakanan(
+          idUser);
+    });
+  }
+
+  @override
+  void initState() {
+    this.getListOrder();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,21 +45,37 @@ class _ListUnggahanPageState extends State<ListUnggahanPage> {
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.all(10),
         children: [
-          ListView.separated(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => SizedBox(
-              height: 10,
-            ),
-            itemCount: 6,
-            itemBuilder: (context, index) => _orderContainerTile(context),
-          ),
+          FutureBuilder<List<ListFoodTransactionModel>>(
+            future: _list,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return LinearProgressIndicator();
+              } else if (snapshot.hasData) {
+                return snapshot.data.length < 1
+                    ? NoResult(context, message: 'Anda belum memesan makanan')
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 10,
+                            ),
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return _orderContainerTile(
+                              context, snapshot.data[index]);
+                        });
+              } else {
+                return NoResult(context, message: 'Anda belum memesan makanan');
+              }
+            },
+          )
         ],
       ),
     );
   }
 
-  Container _orderContainerTile(BuildContext context) {
+  Container _orderContainerTile(
+      BuildContext context, ListFoodTransactionModel item) {
     return Container(
       height: MediaQuery.of(context).size.width / 4,
       padding: EdgeInsets.only(left: 0, top: 0, bottom: 0, right: 9),
@@ -61,7 +98,7 @@ class _ListUnggahanPageState extends State<ListUnggahanPage> {
               ),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               child: Image.network(
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/1200px-RedDot_Burger.jpg',
+                item.pathfoodphoto,
                 width: MediaQuery.of(context).size.width / 4,
                 height: MediaQuery.of(context).size.width / 4,
                 fit: BoxFit.cover,
@@ -76,7 +113,7 @@ class _ListUnggahanPageState extends State<ListUnggahanPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Burger ',
+                  '${item.foodName} ',
                   style: TextStyling()
                     ..normal()
                     ..copyWith(fontSize: 15)
@@ -88,7 +125,7 @@ class _ListUnggahanPageState extends State<ListUnggahanPage> {
                   children: [
                     Icon(Icons.timer),
                     Text(
-                      'On Proccess ',
+                      '${item.statusPemesanan} ',
                       style: TextStyling()..normal(),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -100,7 +137,7 @@ class _ListUnggahanPageState extends State<ListUnggahanPage> {
             IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () {
-                  _showMyDialog();
+                  _showMyDialog(item.idTransaction);
                 })
           ],
         ),
@@ -108,7 +145,7 @@ class _ListUnggahanPageState extends State<ListUnggahanPage> {
     );
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(String idTrans) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -119,7 +156,19 @@ class _ListUnggahanPageState extends State<ListUnggahanPage> {
           textBtn1: 'Tidak',
           textBtn2: 'Hapus',
           onTapBtn1: () => Navigator.pop(context),
-          onTapBtn2: () => Navigator.pop(context),
+          onTapBtn2: () {
+            FireFoodTransactionService.changeStatusFoodTransaction(
+              idTrans,
+              'deleted',
+            ).then((value) {
+              Navigator.pop(context);
+              Fluttertoast.showToast(msg: 'Berhasil');
+              getListOrder();
+              print('sukses');
+            }).catchError((onError) {
+              Fluttertoast.showToast(msg: onError.toString());
+            });
+          },
         );
       },
     );

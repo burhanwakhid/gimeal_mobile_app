@@ -96,7 +96,8 @@ class FireFoodTransactionService {
     try {
       QuerySnapshot snapshot = await _collectionReference
           .where('idUserPemesan', isEqualTo: idUser)
-          .where('statusPemesanan', whereIn: ['waiting', 'available']).get();
+          .where('statusPemesanan',
+              whereIn: ['waiting', 'available', 'accepted', 'done']).get();
       var documents = snapshot.docs;
       List<ListFoodTransactionModel> list = [];
       documents.forEach((doc) {
@@ -149,6 +150,7 @@ class FireFoodTransactionService {
         Map<String, dynamic> d = doc.data();
         list.add(
           ListFoodTransactionModel(
+            idTransaction: doc.id,
             idFood: d['idFood'],
             idUserPemesan: d['idUserPemesan'],
             idPembuatMakanan: d['idPembuatMakanan'],
@@ -173,6 +175,69 @@ class FireFoodTransactionService {
             fotoPembuat: d['foto_pembuat'],
             hpPembuat: d['hp_pembuat'],
             createdAt: (d['created_at'] as Timestamp).toDate(),
+          ),
+        );
+      });
+      return list;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<List<ListFoodTransactionModel>> getListNotification(
+      String idPembuatMakanan) async {
+    try {
+      QuerySnapshot snapshot = await _collectionReference
+          .where('idPembuatMakanan', isEqualTo: idPembuatMakanan)
+          .where('statusPemesanan', isEqualTo: 'done')
+          .get();
+      var documents = snapshot.docs;
+      final Distance distance = new Distance();
+      List<ListFoodTransactionModel> list = [];
+
+      documents.forEach((doc) {
+        Map<String, dynamic> d = doc.data();
+        double jrk = distance(
+            new LatLng((d['lokasi_pengambil'] as GeoPoint).latitude,
+                (d['lokasi_pengambil'] as GeoPoint).longitude),
+            new LatLng((d['lokasi_makanan'] as GeoPoint).latitude,
+                (d['lokasi_makanan'] as GeoPoint).longitude));
+
+        String jarakFormatted = '';
+
+        if (jrk < 1000) {
+          jarakFormatted = '${jrk.toString()} m';
+        } else {
+          jarakFormatted = '${jrk.toString().substring(0, 3)} km';
+        }
+        list.add(
+          ListFoodTransactionModel(
+            idTransaction: doc.id,
+            idFood: d['idFood'],
+            idUserPemesan: d['idUserPemesan'],
+            idPembuatMakanan: d['idPembuatMakanan'],
+            statusPemesanan: d['statusPemesanan'],
+            pathfoodphoto: d['path_food_photo'],
+            foodName: d['food_name'],
+            jumlahFood: d['jumlah_food'],
+            note: d['note'],
+            desc: d['desc'],
+            waktuPengambilan: (d['waktu_pengambilan'] as Timestamp).toDate(),
+            waktuPenayangan: (d['waktu_penayangan'] as Timestamp).toDate(),
+            alamatLengkap: d['alamat_lengkap'],
+            lokasiPengambil: LatLng(
+                (d['lokasi_pengambil'] as GeoPoint).latitude,
+                (d['lokasi_pengambil'] as GeoPoint).longitude),
+            lokasiMakanan: LatLng((d['lokasi_makanan'] as GeoPoint).latitude,
+                (d['lokasi_makanan'] as GeoPoint).longitude),
+            namaPemesan: d['nama_pemesan'],
+            fotoPemesan: d['foto_pemesan'],
+            hpPemesan: d['hp_pemesan'],
+            namaPembuat: d['nama_pembuat'],
+            fotoPembuat: d['foto_pembuat'],
+            hpPembuat: d['hp_pembuat'],
+            createdAt: (d['created_at'] as Timestamp).toDate(),
+            jarak: jarakFormatted,
           ),
         );
       });
