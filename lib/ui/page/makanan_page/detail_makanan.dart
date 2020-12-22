@@ -59,7 +59,7 @@ class _DetailMakananState extends State<DetailMakanan> {
           ),
         ),
       );
-    }).catchError(() {
+    }).catchError((_) {
       _endLoading();
       Fluttertoast.showToast(msg: 'Error saat membuat pesanan');
     });

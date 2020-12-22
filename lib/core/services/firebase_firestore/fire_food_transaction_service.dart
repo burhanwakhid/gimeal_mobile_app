@@ -86,7 +86,9 @@ class FireFoodTransactionService {
     try {
       await changeStatusFoodTransaction(idFoodTransaction, 'rejected');
       await FoodServices.changeStatusFood(idFood, 'available');
-    } catch (e) {}
+    } catch (e) {
+      throw e.toString();
+    }
   }
 
   static Future<List<ListFoodTransactionModel>> getListFoodTransactionByPemesan(
@@ -94,8 +96,7 @@ class FireFoodTransactionService {
     try {
       QuerySnapshot snapshot = await _collectionReference
           .where('idUserPemesan', isEqualTo: idUser)
-//          .where('statusPemesanan', isNotEqualTo: 'rejected')
-          .get();
+          .where('statusPemesanan', whereIn: ['waiting', 'available']).get();
       var documents = snapshot.docs;
       List<ListFoodTransactionModel> list = [];
       documents.forEach((doc) {
@@ -179,5 +180,38 @@ class FireFoodTransactionService {
     } catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  static Future<ListFoodTransactionModel> getDetailTransaction(
+      String idTransaction) async {
+    DocumentSnapshot snapshot =
+        await _collectionReference.doc(idTransaction).get();
+    var d = snapshot.data();
+    var data = ListFoodTransactionModel(
+      idFood: d['idFood'],
+      idUserPemesan: d['idUserPemesan'],
+      idPembuatMakanan: d['idPembuatMakanan'],
+      statusPemesanan: d['statusPemesanan'],
+      pathfoodphoto: d['path_food_photo'],
+      foodName: d['food_name'],
+      jumlahFood: d['jumlah_food'],
+      note: d['note'],
+      desc: d['desc'],
+      waktuPengambilan: (d['waktu_pengambilan'] as Timestamp).toDate(),
+      waktuPenayangan: (d['waktu_penayangan'] as Timestamp).toDate(),
+      alamatLengkap: d['alamat_lengkap'],
+      lokasiPengambil: LatLng((d['lokasi_pengambil'] as GeoPoint).latitude,
+          (d['lokasi_pengambil'] as GeoPoint).longitude),
+      lokasiMakanan: LatLng((d['lokasi_makanan'] as GeoPoint).latitude,
+          (d['lokasi_makanan'] as GeoPoint).longitude),
+      namaPemesan: d['nama_pemesan'],
+      fotoPemesan: d['foto_pemesan'],
+      hpPemesan: d['hp_pemesan'],
+      namaPembuat: d['nama_pembuat'],
+      fotoPembuat: d['foto_pembuat'],
+      hpPembuat: d['hp_pembuat'],
+      createdAt: (d['created_at'] as Timestamp).toDate(),
+    );
+    return data;
   }
 }
