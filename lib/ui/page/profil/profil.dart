@@ -178,11 +178,16 @@ class _ProfilState extends State<Profil> {
                         ..bold(),
                       overflow: TextOverflow.fade,
                     ),
-                    Icon(
-                      Icons.edit,
-                      color: Colors.grey,
-                      size: 14,
-                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/editProfile');
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.grey,
+                        size: 14,
+                      ),
+                    )
                   ],
                 ),
                 SizedBox(

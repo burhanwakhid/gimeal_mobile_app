@@ -15,11 +15,10 @@ class UserServices {
     });
   }
 
-  static Future<bool> editUser(
-      String idUser, String email, String hp, String nama) async {
+  static Future<bool> editUser(String idUser, String hp, String nama) async {
     try {
       _collectionReference.doc(idUser).update({
-        'email': email,
+//        'email': email,
         'hp': hp,
         'nama': nama,
       });

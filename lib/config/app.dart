@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/ui/page/onboarding/onboarding_screen.dart';
+import 'package:gimeal/ui/page/profil/edit_profil.dart';
 import 'package:gimeal/ui/page/splash/splash_screen.dart';
 import 'package:gimeal/ui/page/welcome_page/welcome_page.dart';
 
@@ -23,10 +24,9 @@ class _AppState extends State<App> {
       title: 'Gimeal',
       theme: ThemeData(
         fontFamily: 'Montserrat',
-        primarySwatch: kMainColor,
+        primaryColor: kMainColor,
         accentColor: kAccentColor,
         scaffoldBackgroundColor: Colors.white,
-//        canvasColor: Colors.transparent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: Routers.generateRoute,
