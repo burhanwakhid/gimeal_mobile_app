@@ -4,6 +4,7 @@ import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/core/helper/date_formatter.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/page/pesanan_makanan/cancel_pesanan_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
@@ -239,12 +240,19 @@ class _PesananMakananState extends State<PesananMakanan> {
                     horizontalPadding: 80.0,
                     textColor: Colors.white,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BottomNav(index: 1),
-                        ),
-                      );
+                      FireFoodTransactionService.changeStatusFoodTransaction(
+                        widget.idPesanan,
+                        'done',
+                      ).then((_) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BottomNav(index: 1),
+                          ),
+                        ).catchError((onError) {
+                          print(onError);
+                        });
+                      });
                     },
                   ),
                 ],
