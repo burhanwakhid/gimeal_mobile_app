@@ -90,16 +90,7 @@ class _OnProgressState extends State<OnProgress> {
           context,
           MaterialPageRoute(
             builder: (context) => PesananMakanan(
-//            data: this.widget.listFoodModel,
-              idMakanan: data.idFood,
               idPesanan: data.idTransaction,
-              foodName: data.foodName,
-              fotoUser: data.fotoPembuat,
-              lat: data.lokasiMakanan.latitude,
-              long: data.lokasiMakanan.longitude,
-              namaUser: data.namaPembuat,
-              hpUser: data.hpPembuat,
-              waktuPenayangan: data.waktuPenayangan,
             ),
           ),
         );
@@ -113,7 +104,7 @@ class _OnProgressState extends State<OnProgress> {
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Material(
               elevation: 1,
