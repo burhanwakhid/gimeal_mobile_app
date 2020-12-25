@@ -3,6 +3,7 @@ import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
+import 'package:gimeal/ui/page/people/people_profile_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 
 class FoodTileBig extends StatefulWidget {
@@ -116,7 +117,16 @@ class _FoodTileBigState extends State<FoodTileBig> {
                                       title: Text('Laporkan'),
                                     ),
                                     ListTile(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PeopleProfile(
+                                                      id: widget
+                                                          .foodData.idUser,
+                                                    )));
+                                      },
                                       title: Text('Lihat Profile'),
                                     )
                                   ],

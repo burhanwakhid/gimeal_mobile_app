@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/ui/page/onboarding/onboarding_screen.dart';
+import 'package:gimeal/ui/page/people/people_profile_page.dart';
 import 'package:gimeal/ui/page/profil/edit_profil.dart';
 import 'package:gimeal/ui/page/splash/splash_screen.dart';
 import 'package:gimeal/ui/page/welcome_page/welcome_page.dart';

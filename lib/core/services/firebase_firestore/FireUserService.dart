@@ -30,7 +30,7 @@ class UserServices {
 
   static Future<UserModel> getUser(String id) async {
     DocumentSnapshot snapshot = await _collectionReference.doc(id).get();
-
+    print(snapshot.data().toString());
     return UserModel(
       id,
       snapshot.data()['email'],
