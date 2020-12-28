@@ -20,19 +20,21 @@ class _OnboardingState extends State<Onboarding> {
   List<Map<String, dynamic>> _onBoardData = [
     {
       'title': 'Donasi Makanan Online',
-      'body': 'Membagikan makanan kepada orang lain tanpa keluar rumah',
-      'image': 'assets/Illustrasi/ilustrasi_1.png',
-    },
-    {
-      'title': 'Mendapatkan Makanan Gratis',
-      'body': 'Memilih makanan yang berada di sekitar tempat tinggal anda',
-      'image': 'assets/Illustrasi/ilustrasi_2.png',
-    },
-    {
-      'title': 'Mengambil makanan secara langsung',
       'body':
-          'Anda dapat mengambil makanan secara langsung untuk memeriksa kondisi makanan tersebut',
-      'image': 'assets/Illustrasi/ilustrasi_3.png',
+          'Begitu mudah kita dapat berbagi makanan kepada siapapun itu. Anda bisa berbagi kepada orang  yang membutuhkan melalui teman yang lain untuk menyalurkannya. Kita Semua Terhubung untuk dapat saling membagikan kepada orang-orang disekitar Kita.',
+      'image': 'assets/onboard1.png',
+    },
+    {
+      'title': 'Sebagai Penyalur Kepada Orang Lain',
+      'body':
+          'Saat anda melihat orang yang membutuhkan, anda dapat mencarikan donasi makanan disekitar anda untuk diberikan kepada orang yang membutuhkan tersebut. Begitu juga sebaliknya jika ada teman yang membutuhkan bantuan  untuk orang disekelilingnya, anda juga dapat membagikan makanan anda  diwaktu yang sama. Maka semakin luas area Donasi kita Bersama, dan semoga dapat memberi manfaat bagi semua.',
+      'image': 'assets/onboard2.png',
+    },
+    {
+      'title': ' ',
+      'body':
+          'Donasi Makanan akan menyertakan informasi Kondisi makanan yang akan didonasikan sehingga, para Penyalur dan Donatur dapat memperkirakan Waktu Penyaluran yang Update, dan Layak.',
+      'image': 'assets/onboard3.png',
     },
   ];
 

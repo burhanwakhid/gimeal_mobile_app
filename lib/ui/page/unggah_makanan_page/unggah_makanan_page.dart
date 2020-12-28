@@ -485,28 +485,28 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                             MarkerLayerOptions(markers: markers)
                           ],
                         ),
-                        (markers.isNotEmpty)
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      pickedLocation = currentLocation;
-                                    });
-                                  },
-                                  child: Chip(
-                                    avatar: Icon(Icons.location_pin,
-                                        color: Colors.white),
-                                    label: Text(
-                                      'Setel sebagai lokasi',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    backgroundColor:
-                                        Theme.of(context).accentColor,
-                                  ),
-                                ),
-                              )
-                            : Container(),
+                        // (markers.isNotEmpty)
+                        //     ? Padding(
+                        //         padding: const EdgeInsets.all(8.0),
+                        //         child: InkWell(
+                        //           onTap: () {
+                        //             setState(() {
+                        //               pickedLocation = currentLocation;
+                        //             });
+                        //           },
+                        //           child: Chip(
+                        //             avatar: Icon(Icons.location_pin,
+                        //                 color: Colors.white),
+                        //             label: Text(
+                        //               'Setel sebagai lokasi',
+                        //               style: TextStyle(color: Colors.white),
+                        //             ),
+                        //             backgroundColor:
+                        //                 Theme.of(context).accentColor,
+                        //           ),
+                        //         ),
+                        //       )
+                        //     : Container(),
                         Align(
                             alignment: Alignment.bottomRight,
                             child: Padding(
@@ -516,7 +516,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                                 onPressed: () {
                                   _getPosition();
                                 },
-                                icon: Icon(Icons.location_city),
+                                icon: Icon(Icons.gps_fixed),
                               )),
                             ))
                       ],
@@ -590,6 +590,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
       tappedPoints.clear();
       tappedPoints.add(latlng);
       currentLocation = latlng;
+      pickedLocation = latlng;
     });
   }
 }

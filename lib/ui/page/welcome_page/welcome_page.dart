@@ -11,9 +11,7 @@ class WelcomePage extends StatelessWidget {
       body: Stack(
         children: [
           Positioned(
-              top: 90,
-              left: 38,
-              child: Image.asset('assets/Illustrasi/ilustrasi_4.png')),
+              top: 90, left: 38, child: Image.asset('assets/loginicon.png')),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(

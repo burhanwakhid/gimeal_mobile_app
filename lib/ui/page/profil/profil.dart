@@ -37,6 +37,24 @@ class _ProfilState extends State<Profil> {
     },
   ];
 
+  String nama = '';
+  String imagePhoto = '';
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    var name = await MainSharedPreferences().getUserName();
+    var photo = await MainSharedPreferences().getUserFoto();
+    setState(() {
+      nama = name;
+      imagePhoto = photo;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,7 +173,7 @@ class _ProfilState extends State<Profil> {
             radius: 50,
             backgroundColor: Colors.white,
             backgroundImage: NetworkImage(
-              'https://i.pinimg.com/474x/9c/e5/7f/9ce57f4e94275efb3a4a39c69297a9e4.jpg',
+              'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2$imagePhoto.png?alt=media',
             ),
           ),
           SizedBox(
@@ -172,7 +190,7 @@ class _ProfilState extends State<Profil> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Juna Hermawan',
+                      '$nama',
                       style: TextStyling()
                         ..big()
                         ..bold(),

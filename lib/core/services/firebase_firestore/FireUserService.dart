@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gimeal/core/models/user_model.dart';
+import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 
 class UserServices {
   static CollectionReference _collectionReference =
@@ -22,6 +23,8 @@ class UserServices {
         'hp': hp,
         'nama': nama,
       });
+      await MainSharedPreferences().setHpUser(hp);
+      await MainSharedPreferences().setUserName(nama);
       return true;
     } catch (e) {
       throw e.toString();
