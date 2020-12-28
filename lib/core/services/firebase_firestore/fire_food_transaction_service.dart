@@ -49,6 +49,7 @@ class FireFoodTransactionService {
         'lokasi_pengambil': GeoPoint(position.latitude, position.longitude),
         'lokasi_makanan':
             GeoPoint(lokasiMakanan.latitude, lokasiMakanan.longitude),
+        'rating': 0,
         // DATA YANG MESAN MAKANAN
         'nama_pemesan': await MainSharedPreferences().getUserName(),
         'foto_pemesan': await MainSharedPreferences().getUserFoto(),
@@ -88,6 +89,25 @@ class FireFoodTransactionService {
       await FoodServices.changeStatusFood(idFood, 'available');
     } catch (e) {
       throw e.toString();
+    }
+  }
+
+  static Future<List<ListFoodTransactionModel>> getRiwayatTransaction(
+      String idUser) async {
+    try {
+      var a = await getListFoodTransactionByPembuatMakanan(idUser);
+      var b = await getListFoodTransactionByPemesan(idUser);
+
+      List<ListFoodTransactionModel> allData = [];
+      allData.addAll(a);
+      allData.addAll(b);
+
+      allData.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+      allData.removeWhere((element) => element.statusPemesanan != 'done');
+      print(allData);
+      return allData;
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 

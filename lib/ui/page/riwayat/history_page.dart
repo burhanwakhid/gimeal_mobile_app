@@ -2,8 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:gimeal/core/helper/date_formatter.dart';
+import 'package:gimeal/core/models/list_food_transaction_model.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
+import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:gimeal/ui/widgets/TransparentDivider.dart';
+import 'package:gimeal/ui/widgets/no_result_widget.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -12,6 +16,24 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   int total = 3;
+
+  Future<List<ListFoodTransactionModel>> _list;
+  var iduser = '';
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    var id = await MainSharedPreferences().getIdUser();
+    setState(() {
+      iduser = id;
+      _list = FireFoodTransactionService.getRiwayatTransaction(id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,36 +47,53 @@ class _HistoryPageState extends State<HistoryPage> {
           style: TextStyling(color: Colors.grey),
         ),
       ),
-      body: total < 1
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/Illustrasi/ilustrasi_6.png',
-                    height: MediaQuery.of(context).size.width - 100,
-                  ),
-                  Text(
-                    'Anda belum melakukan donasi makanan dan mengambil makanan',
-                    style: TextStyling(color: Colors.grey)
-                      ..big()
-                      ..bold(),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            )
-          : _buildListHistory(),
+      // body: total < 1 ? buildError(context) : _buildListHistory(),
+      body: FutureBuilder<List<ListFoodTransactionModel>>(
+        future: _list,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LinearProgressIndicator();
+          } else if (snapshot.hasData) {
+            return snapshot.data.length < 1
+                ? NoResult(context, message: 'Anda belum memesan makanan')
+                : _buildListHistory(snapshot.data);
+          } else {
+            return NoResult(context, message: 'Anda belum memesan makanan');
+          }
+        },
+      ),
     );
   }
 
-  ListView _buildListHistory() {
+  Center buildError(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Illustrasi/ilustrasi_6.png',
+            height: MediaQuery.of(context).size.width - 100,
+          ),
+          Text(
+            'Anda belum melakukan donasi makanan dan mengambil makanan',
+            style: TextStyling(color: Colors.grey)
+              ..big()
+              ..bold(),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  ListView _buildListHistory(List<ListFoodTransactionModel> items) {
     return ListView.builder(
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       itemCount: this.total,
       itemBuilder: (context, index) {
+        final item = items[index];
         return Card(
           elevation: 4,
           child: Container(
@@ -72,7 +111,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   ),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: Image.network(
-                    'https://cdn.idntimes.com/content-images/post/20170919/yam10-dcc58c472dc768b1696903c52d104d20_600x400.jpg',
+                    item.pathfoodphoto,
                     width: MediaQuery.of(context).size.width / 4,
                     height: MediaQuery.of(context).size.width / 4,
                     fit: BoxFit.cover,
@@ -86,7 +125,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Ayam Bakar',
+                        item.foodName,
                         style: TextStyling()
                           ..big()
                           ..bold(),
@@ -95,14 +134,16 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                       TransparentDivider(),
                       Text(
-                        'Telah disumbangkan kepada Budi Miredo',
+                        (item.idPembuatMakanan == iduser)
+                            ? 'telah disumbangkan kepada ${item.namaPemesan}'
+                            : 'Anda telah mengambil makaanan dari ${item.namaPembuat}',
                         style: TextStyling(color: Colors.grey)..normal(),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),
                       TransparentDivider(),
                       Text(
-                        DateFormatter().formatDate(date: DateTime.now()),
+                        DateFormatter().formatDate(date: item.createdAt),
                         style: TextStyling(color: Colors.grey)..normal(),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
