@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/helper/date_formatter.dart';
 import 'package:gimeal/core/models/list_food_transaction_model.dart';
 import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
@@ -42,9 +43,12 @@ class _OnProgressState extends State<OnProgress> {
             ..huge(),
         ),
         actions: [
-          Image.asset(
-            'assets/Icon/icon_order.png',
-            width: 40,
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, Routers.riwayat),
+            child: Image.asset(
+              'assets/Icon/icon_order.png',
+              width: 40,
+            ),
           ),
         ],
       ),
