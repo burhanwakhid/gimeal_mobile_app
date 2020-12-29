@@ -138,4 +138,93 @@ class FoodServices {
       'status': '$status',
     });
   }
+
+  static Future<List<ListFoodModel>> getProfileUserFood(String idUser) async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
+      final Distance distance = new Distance();
+      QuerySnapshot snapshot = await _collectionReference
+          .where('idUser', isEqualTo: idUser)
+//          .where('waktu_penayangan',
+//              isLessThan: Timestamp.fromDate(DateTime.now()))
+          .get();
+
+      var documents = snapshot.docs;
+
+      List<ListFoodModel> listFoodModel = [];
+      documents.forEach((doc) async {
+        Map<String, dynamic> d = doc.data();
+
+        var idUser = d['idUser'];
+        var pathFoodPhoto = d['path_food_photo'];
+        var foodName = d['food_name'];
+        var jumlahFood = d['jumlah_food'];
+        var note = d['note'];
+        var desc = d['desc'];
+        Timestamp waktuPengambilan = d['waktu_pengambilan'];
+        Timestamp waktuPenayangan = d['waktu_penayangan'];
+        var alamatLengkap = d['alamat_lengkap'];
+        GeoPoint latlong = d['currentLocation'];
+        double latitude = latlong.latitude;
+        double longitude = latlong.longitude;
+        Timestamp createdAt = d['created_at'];
+        double jrk = distance(new LatLng(position.latitude, position.longitude),
+            new LatLng(latitude, longitude));
+        String status = d['status'];
+
+        ///hitung jarak makanan
+        String jarakFormatted = '';
+
+        if (jrk < 1000) {
+          jarakFormatted = '${jrk.toString()} m';
+        } else {
+          jarakFormatted = '${jrk.toString().substring(0, 3)} km';
+        }
+
+        ///modify status
+        switch (status) {
+          case 'taken':
+            status = 'Terdonasikan';
+            break;
+          case 'available':
+            status = 'Tidak terdonasikan';
+            break;
+          default:
+            status = 'Unknown';
+            break;
+        }
+
+        listFoodModel.add(
+          ListFoodModel(
+            idFood: doc.id,
+            idUser: idUser,
+            pathFoodPhoto: pathFoodPhoto,
+            foodName: foodName,
+            jumlahFood: jumlahFood,
+            note: note,
+            desc: desc,
+            waktuPenayangan: waktuPenayangan.toDate(),
+            waktuPengambilan: waktuPengambilan.toDate(),
+            alamatLengkap: alamatLengkap,
+            latitude: latitude,
+            longitude: longitude,
+            jarak: jarakFormatted,
+            namaUser: d['namaUserPembuat'],
+            fotoUser: d['fotoUserPembuat'],
+            hpUser: d['noHpUserPembuat'],
+            createdAt: createdAt.toDate(),
+            status: status,
+          ),
+        );
+      });
+      // listFoodModel.sort((a, b) {
+      //   a.jarak
+      // })
+      return listFoodModel;
+    } catch (e) {
+      print(e);
+      throw Exception(e);
+    }
+  }
 }

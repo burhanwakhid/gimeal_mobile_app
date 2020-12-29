@@ -111,6 +111,23 @@ class FireFoodTransactionService {
     }
   }
 
+  static Future<List<ListFoodTransactionModel>> getUserOrderOnProgress(
+      String idUser) async {
+    try {
+      var a = await getListFoodTransactionByPembuatMakanan(idUser);
+
+      List<ListFoodTransactionModel> allData = [];
+      allData.addAll(a);
+      print(allData.first.toString());
+      allData.removeWhere((element) =>
+          ['rejected', 'done', 'deleted'].contains(element.statusPemesanan));
+
+      return allData;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   static Future<List<ListFoodTransactionModel>> getListFoodTransactionByPemesan(
       String idUser) async {
     try {
@@ -166,8 +183,22 @@ class FireFoodTransactionService {
           .get();
       var documents = snapshot.docs;
       List<ListFoodTransactionModel> list = [];
+      final Distance distance = new Distance();
       documents.forEach((doc) {
         Map<String, dynamic> d = doc.data();
+        double jrk = distance(
+            new LatLng((d['lokasi_pengambil'] as GeoPoint).latitude,
+                (d['lokasi_pengambil'] as GeoPoint).longitude),
+            new LatLng((d['lokasi_makanan'] as GeoPoint).latitude,
+                (d['lokasi_makanan'] as GeoPoint).longitude));
+
+        String jarakFormatted = '';
+
+        if (jrk < 1000) {
+          jarakFormatted = '${jrk.toString()} m';
+        } else {
+          jarakFormatted = '${jrk.toString().substring(0, 3)} km';
+        }
         list.add(
           ListFoodTransactionModel(
             idTransaction: doc.id,
@@ -195,6 +226,7 @@ class FireFoodTransactionService {
             fotoPembuat: d['foto_pembuat'],
             hpPembuat: d['hp_pembuat'],
             createdAt: (d['created_at'] as Timestamp).toDate(),
+            jarak: jarakFormatted,
           ),
         );
       });
@@ -209,7 +241,7 @@ class FireFoodTransactionService {
     try {
       QuerySnapshot snapshot = await _collectionReference
           .where('idPembuatMakanan', isEqualTo: idPembuatMakanan)
-          .where('statusPemesanan', isEqualTo: 'done')
+          .where('statusPemesanan', isEqualTo: 'waiting')
           .get();
       var documents = snapshot.docs;
       final Distance distance = new Distance();
