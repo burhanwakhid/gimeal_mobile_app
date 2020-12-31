@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gimeal/core/helper/date_formatter.dart';
+import 'package:gimeal/core/models/list_food_model.dart';
+import 'package:gimeal/core/models/list_food_transaction_model.dart';
 import 'package:gimeal/core/models/user_model.dart';
 import 'package:gimeal/core/services/firebase_firestore/FireUserService.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_service.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:gimeal/ui/widgets/TransparentDivider.dart';
@@ -22,9 +27,13 @@ class PeopleProfile extends StatefulWidget {
 
 class _PeopleProfileState extends State<PeopleProfile> {
   Future<UserModel> _user;
+  Future<List<ListFoodTransactionModel>> _onProgress;
+  Future<List<ListFoodModel>> _foods;
 
   Future getData() async {
     _user = UserServices.getUser(widget.id);
+    _onProgress = FireFoodTransactionService.getUserOrderOnProgress(widget.id);
+    _foods = FoodServices.getProfileUserFood(widget.id);
   }
 
   @override
@@ -38,9 +47,9 @@ class _PeopleProfileState extends State<PeopleProfile> {
     return Scaffold(
       appBar: _appBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 30),
-        child: FutureBuilder<UserModel>(
-          future: _user,
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 2),
+        child: FutureBuilder(
+          future: Future.wait([_user, _onProgress, _foods]),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -53,7 +62,11 @@ class _PeopleProfileState extends State<PeopleProfile> {
                 return LinearProgressIndicator();
                 break;
               case ConnectionState.done:
-                return buildResult(context, data: snapshot.data);
+                return buildResult(context,
+                    data: snapshot.data[0],
+                    listTransaction: snapshot.data[1],
+                    foods: snapshot.data[2],
+                    counter: snapshot.data[1].length);
                 break;
               default:
                 return LinearProgressIndicator();
@@ -65,15 +78,22 @@ class _PeopleProfileState extends State<PeopleProfile> {
     );
   }
 
-  ListView buildResult(BuildContext context, {UserModel data}) {
+  ListView buildResult(BuildContext context,
+      {UserModel data,
+      int counter,
+      List<ListFoodTransactionModel> listTransaction,
+      List<ListFoodModel> foods}) {
     return ListView(
       physics: BouncingScrollPhysics(),
       children: [
+        SizedBox(
+          height: 30,
+        ),
         _userProfile(data: data),
         SizedBox(
           height: 30,
         ),
-        _statisticRow(context),
+        _statisticRow(context, people: counter, foods: counter),
         SizedBox(
           height: 40,
         ),
@@ -87,7 +107,7 @@ class _PeopleProfileState extends State<PeopleProfile> {
           ),
         ),
         TransparentDivider(),
-        buildListOnProgress(context),
+        buildListOnProgress(context, list: listTransaction),
         TransparentDivider(),
         Padding(
           padding: EdgeInsets.all(8.0),
@@ -99,181 +119,199 @@ class _PeopleProfileState extends State<PeopleProfile> {
           ),
         ),
         TransparentDivider(),
-        buildFinishedOrder(),
+        buildFinishedOrder(foods: foods),
       ],
     );
   }
 
-  Container buildFinishedOrder() {
+  Container buildFinishedOrder({List<ListFoodModel> foods}) {
     return Container(
       padding: EdgeInsets.only(left: 10, right: 100),
-      child: ListView.separated(
-        separatorBuilder: (context, index) {
-          return TransparentDivider();
-        },
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Material(
+      child: foods.length < 1
+          ? Center(
+              child: Text('Belum ada makanan terselesaikan'),
+            )
+          : ListView.separated(
+              separatorBuilder: (context, index) {
+                return TransparentDivider();
+              },
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: foods.length,
+              itemBuilder: (context, index) {
+                return Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(25),
                     ),
                   ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Image.network(
-                    'https://www.inibaru.id/nuploads/1/umum/grontol%202.jpg',
-                    width: MediaQuery.of(context).size.width / 5,
-                    height: MediaQuery.of(context).size.width / 5,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Jagung Rebus',
-                          style: TextStyling()..bold(),
-                          overflow: TextOverflow.ellipsis,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Material(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
                         ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                              size: 10,
-                            ),
-                            Text(
-                              ' Terdonasikan',
-                              style: TextStyling(color: Colors.grey)..small(),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Image.network(
+                          'https://www.inibaru.id/nuploads/1/umum/grontol%202.jpg',
+                          width: MediaQuery.of(context).size.width / 5,
+                          height: MediaQuery.of(context).size.width / 5,
+                          fit: BoxFit.cover,
                         ),
-                        RatingDisplay(value: 4),
-                      ],
-                    ),
+                      ),
+                      Flexible(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                foods[index].foodName,
+                                style: TextStyling()..bold(),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Row(
+                                children: [
+                                  foods[index].status == 'Terdonasikan'
+                                      ? Icon(
+                                          Icons.check_circle,
+                                          color: Colors.green,
+                                          size: 10,
+                                        )
+                                      : Icon(
+                                          Icons.close_rounded,
+                                          color: Colors.redAccent,
+                                          size: 10,
+                                        ),
+                                  Text(
+                                    ' ${foods[index].status}',
+                                    style: TextStyling(color: Colors.grey)
+                                      ..small(),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              RatingDisplay(value: 4),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 
-  Container buildListOnProgress(BuildContext context) {
+  Container buildListOnProgress(BuildContext context,
+      {List<ListFoodTransactionModel> list}) {
     return Container(
       height: MediaQuery.of(context).size.width / 4,
       width: MediaQuery.of(context).size.width,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Material(
+      child: list.length < 1
+          ? Center(child: Text('Belum ada makanan dalam proses'))
+          : ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(25),
                     ),
                   ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Image.network(
-                    'https://www.inibaru.id/nuploads/1/umum/grontol%202.jpg',
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.width / 4,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'Jagung Rebus',
-                        style: TextStyling()..bold(),
-                        overflow: TextOverflow.ellipsis,
+                      Material(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Image.network(
+                          list[index].pathfoodphoto,
+                          width: MediaQuery.of(context).size.width / 4,
+                          height: MediaQuery.of(context).size.width / 4,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.grey,
-                            size: 10,
-                          ),
-                          Text(
-                            '500 m',
-                            style: TextStyling(color: Colors.grey)..small(),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              list[index].foodName,
+                              style: TextStyling()..bold(),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: Colors.grey,
+                                  size: 10,
+                                ),
+                                Text(
+                                  " ${list[index].jarak}" ?? ' -',
+                                  style: TextStyling(color: Colors.grey)
+                                    ..small(),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.access_time,
+                                  color: Colors.grey,
+                                  size: 10,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    ' ${DateFormatter().hhmm(date: list[index].waktuPengambilan)}',
+                                    style: TextStyling(color: Colors.grey)
+                                      ..small(),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            color: Colors.grey,
-                            size: 10,
-                          ),
-                          Text(
-                            ' 16.00 - 20.00 pm',
-                            style: TextStyling(color: Colors.grey)..small(),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      )
                     ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 
-  Row _statisticRow(BuildContext context) {
+  Row _statisticRow(BuildContext context, {int people, int foods}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _buildStatisticContainer(context,
             imagePath: 'assets/Icon/icon_food.png',
-            quantity: 8,
+            quantity: foods,
             title: 'Makanan yang telah dibagikan'),
         _buildStatisticContainer(context,
             imagePath: 'assets/Icon/icon_people.png',
-            quantity: 5,
+            quantity: people,
             title: 'Orang yang telah menerima makanan'),
       ],
     );
@@ -319,7 +357,7 @@ class _PeopleProfileState extends State<PeopleProfile> {
                           children: [
                             Text(
                               ' ${data.email}',
-                              style: TextStyling(color: Colors.grey)..big(),
+                              style: TextStyling(color: Colors.grey)..normal(),
                               overflow: TextOverflow.fade,
                             ),
                           ],

@@ -17,8 +17,10 @@ class ListFoodModel {
   final String fotoUser;
   final DateTime createdAt;
   final int rating;
+  final String status;
 
   ListFoodModel({
+    this.status,
     this.idFood,
     this.idUser,
     this.pathFoodPhoto,
