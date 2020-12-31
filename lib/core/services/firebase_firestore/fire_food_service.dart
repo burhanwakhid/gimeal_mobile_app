@@ -141,9 +141,17 @@ class FoodServices {
     });
   }
 
-  static Future<void> addRating(String idFood, int rating) async {
+  static Future<void> addRating(
+      String idFood, String idFoodTransaction, int rating) async {
     _collectionReference.doc(idFood).update({
       'rating': '$rating',
+    });
+
+    CollectionReference _collectionReference2 =
+        FirebaseFirestore.instance.collection('food_transactions');
+
+    _collectionReference2.doc(idFoodTransaction).update({
+      'rating': rating,
     });
   }
 
