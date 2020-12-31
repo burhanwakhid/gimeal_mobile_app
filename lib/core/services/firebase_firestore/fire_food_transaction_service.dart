@@ -24,6 +24,7 @@ class FireFoodTransactionService {
     String namaPembuat,
     String fotoPembuat,
     String hpPembuat,
+    int rating,
     // int jumlahMakananDiPesan,
   ) async {
     try {
@@ -49,7 +50,7 @@ class FireFoodTransactionService {
         'lokasi_pengambil': GeoPoint(position.latitude, position.longitude),
         'lokasi_makanan':
             GeoPoint(lokasiMakanan.latitude, lokasiMakanan.longitude),
-        'rating': 0,
+        'rating': rating,
         // DATA YANG MESAN MAKANAN
         'nama_pemesan': await MainSharedPreferences().getUserName(),
         'foto_pemesan': await MainSharedPreferences().getUserFoto(),
@@ -149,6 +150,7 @@ class FireFoodTransactionService {
             fotoPembuat: d['foto_pembuat'],
             hpPembuat: d['hp_pembuat'],
             createdAt: (d['created_at'] as Timestamp).toDate(),
+            rating: d['rating'],
           ),
         );
       });
@@ -195,6 +197,7 @@ class FireFoodTransactionService {
             fotoPembuat: d['foto_pembuat'],
             hpPembuat: d['hp_pembuat'],
             createdAt: (d['created_at'] as Timestamp).toDate(),
+            rating: d['rating'],
           ),
         );
       });
@@ -258,6 +261,7 @@ class FireFoodTransactionService {
             hpPembuat: d['hp_pembuat'],
             createdAt: (d['created_at'] as Timestamp).toDate(),
             jarak: jarakFormatted,
+            rating: d['rating'],
           ),
         );
       });
@@ -296,6 +300,7 @@ class FireFoodTransactionService {
       fotoPembuat: d['foto_pembuat'],
       hpPembuat: d['hp_pembuat'],
       createdAt: (d['created_at'] as Timestamp).toDate(),
+      rating: d['rating'],
     );
     return data;
   }

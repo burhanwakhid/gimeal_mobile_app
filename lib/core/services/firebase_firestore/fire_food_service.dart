@@ -34,6 +34,7 @@ class FoodServices {
       'jumlah_food': jmlFood,
       'note': note,
       'desc': desc,
+      'rating': 0,
       'waktu_pengambilan': waktuPengambilanFormatted,
       'waktu_penayangan': waktuPenayanganFormatted,
       'alamat_lengkap': alamatlengkap,
@@ -120,6 +121,7 @@ class FoodServices {
             fotoUser: d['fotoUserPembuat'],
             hpUser: d['noHpUserPembuat'],
             createdAt: createdAt.toDate(),
+            rating: d['rating'],
           ),
         );
       });
@@ -137,5 +139,80 @@ class FoodServices {
     _collectionReference.doc(idFood).update({
       'status': '$status',
     });
+  }
+
+  static Future<void> addRating(String idFood, int rating) async {
+    _collectionReference.doc(idFood).update({
+      'rating': '$rating',
+    });
+  }
+
+  static Future<double> countRatingUser(String idUser, int rating) async {
+    try {
+      QuerySnapshot snapshot = await _collectionReference.where('idUser').get();
+      Distance distance = Distance();
+      var documents = snapshot.docs;
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
+
+      List<ListFoodModel> listFoodModel = [];
+      documents.forEach((doc) async {
+        Map<String, dynamic> d = doc.data();
+
+        var idUser = d['idUser'];
+        var pathFoodPhoto = d['path_food_photo'];
+        var foodName = d['food_name'];
+        var jumlahFood = d['jumlah_food'];
+        var note = d['note'];
+        var desc = d['desc'];
+        Timestamp waktuPengambilan = d['waktu_pengambilan'];
+        Timestamp waktuPenayangan = d['waktu_penayangan'];
+        var alamatLengkap = d['alamat_lengkap'];
+        GeoPoint latlong = d['currentLocation'];
+        double latitude = latlong.latitude;
+        double longitude = latlong.longitude;
+        Timestamp createdAt = d['created_at'];
+        double jrk = distance(new LatLng(position.latitude, position.longitude),
+            new LatLng(latitude, longitude));
+
+        String jarakFormatted = '';
+
+        if (jrk < 1000) {
+          jarakFormatted = '${jrk.toString()} m';
+        } else {
+          jarakFormatted = '${jrk.toString().substring(0, 3)} km';
+        }
+        listFoodModel.add(
+          ListFoodModel(
+            idFood: doc.id,
+            idUser: idUser,
+            pathFoodPhoto: pathFoodPhoto,
+            foodName: foodName,
+            jumlahFood: jumlahFood,
+            note: note,
+            desc: desc,
+            waktuPenayangan: waktuPenayangan.toDate(),
+            waktuPengambilan: waktuPengambilan.toDate(),
+            alamatLengkap: alamatLengkap,
+            latitude: latitude,
+            longitude: longitude,
+            jarak: jarakFormatted,
+            namaUser: d['namaUserPembuat'],
+            fotoUser: d['fotoUserPembuat'],
+            hpUser: d['noHpUserPembuat'],
+            createdAt: createdAt.toDate(),
+            rating: d['rating'],
+          ),
+        );
+      });
+      int rating = 0;
+      listFoodModel.forEach((element) {
+        rating = rating + element.rating;
+      });
+
+      return rating / listFoodModel.length;
+    } catch (e) {
+      throw e.toString();
+    }
   }
 }
