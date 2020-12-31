@@ -50,6 +50,7 @@ dependencies:
   firebase_storage: ^5.1.0
   flutter_progress_hud: ^1.0.2
   flutter_open_whatsapp: ^0.1.2
+  flutter_rating_bar: ^3.2.0+1
 
 
 dev_dependencies:

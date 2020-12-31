@@ -97,7 +97,8 @@ class FireFoodTransactionService {
       String idUser) async {
     try {
       var a = await getListFoodTransactionByPembuatMakanan(idUser);
-      var b = await getListFoodTransactionByPemesan(idUser);
+      var b = await getListFoodTransactionByPemesan(
+          idUser, ['waiting', 'available', 'accepted', 'done']);
 
       List<ListFoodTransactionModel> allData = [];
       allData.addAll(a);
@@ -130,12 +131,12 @@ class FireFoodTransactionService {
   }
 
   static Future<List<ListFoodTransactionModel>> getListFoodTransactionByPemesan(
-      String idUser) async {
+      String idUser, List<String> filter) async {
     try {
       QuerySnapshot snapshot = await _collectionReference
           .where('idUserPemesan', isEqualTo: idUser)
-          .where('statusPemesanan',
-              whereIn: ['waiting', 'available', 'accepted', 'done']).get();
+          .where('statusPemesanan', whereIn: filter)
+          .get();
       var documents = snapshot.docs;
       List<ListFoodTransactionModel> list = [];
       documents.forEach((doc) {
@@ -309,6 +310,7 @@ class FireFoodTransactionService {
         await _collectionReference.doc(idTransaction).get();
     var d = snapshot.data();
     var data = ListFoodTransactionModel(
+      idTransaction: idTransaction,
       idFood: d['idFood'],
       idUserPemesan: d['idUserPemesan'],
       idPembuatMakanan: d['idPembuatMakanan'],

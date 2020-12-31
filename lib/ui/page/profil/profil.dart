@@ -196,20 +196,17 @@ class _ProfilState extends State<Profil> {
                         ..bold(),
                       overflow: TextOverflow.fade,
                     ),
-                    IconButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         Navigator.pushNamed(context, '/editProfile');
                       },
-                      icon: Icon(
+                      child: Icon(
                         Icons.edit,
                         color: Colors.grey,
                         size: 14,
                       ),
-                    )
+                    ),
                   ],
-                ),
-                SizedBox(
-                  height: 5,
                 ),
                 Row(
                   children: [

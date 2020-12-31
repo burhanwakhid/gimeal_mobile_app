@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gimeal/config/config.dart';
+import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/helper/date_formatter.dart';
+import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/core/models/list_food_transaction_model.dart';
+import 'package:gimeal/core/services/firebase_firestore/fire_food_service.dart';
 import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/page/pesanan_makanan/cancel_pesanan_page.dart';
@@ -15,8 +20,7 @@ class PesananMakanan extends StatefulWidget {
   final String idPesanan;
 
   PesananMakanan({
-//    @required this.data,
-    this.idPesanan,
+    @required this.idPesanan,
   });
   @override
   _PesananMakananState createState() => _PesananMakananState();
@@ -281,22 +285,40 @@ class _PesananMakananState extends State<PesananMakanan> {
                             color: kMainColor,
                             horizontalPadding: 80.0,
                             textColor: Colors.white,
-                            onTap: () {
-                              FireFoodTransactionService
-                                  .changeStatusFoodTransaction(
-                                widget.idPesanan,
-                                'done',
-                              ).then((_) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BottomNav(index: 1),
-                                  ),
-                                ).catchError((onError) {
-                                  print(onError);
-                                });
-                              });
-                            },
+                            onTap: snapshot.data.statusPemesanan == 'accepted'
+                                ? () {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            'Pesanan menunggu konfirmasi pemilik makanan :)',
+                                        gravity: ToastGravity.CENTER);
+                                  }
+                                : () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return RatingDialog(
+                                            data: snapshot.data,
+                                          );
+                                        });
+
+                                    ///--
+//                                    FireFoodTransactionService
+//                                        .changeStatusFoodTransaction(
+//                                      widget.idPesanan,
+//                                      'done',
+//                                    ).then((_) {
+//                                      Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                          builder: (context) =>
+//                                              BottomNav(index: 1),
+//                                        ),
+//                                      ).catchError((onError) {
+//                                        print(onError);
+//                                      });
+//                                    });
+                                    ///--
+                                  },
                           ),
                         ],
                       ),
@@ -342,6 +364,186 @@ class _PesananMakananState extends State<PesananMakanan> {
             break;
         }
       },
+    );
+  }
+}
+
+class RatingDialog extends StatefulWidget {
+  final ListFoodTransactionModel data;
+
+  RatingDialog({
+    this.data,
+  });
+
+  @override
+  _RatingDialogState createState() => _RatingDialogState();
+}
+
+class _RatingDialogState extends State<RatingDialog> {
+  double rates = 3;
+
+  _funcNilai() {
+    FoodServices.addRating(
+        widget.data.idFood, widget.data.idTransaction, rates.toInt());
+    FireFoodTransactionService.changeStatusFoodTransaction(
+      widget.data.idTransaction,
+      'done',
+    ).then((_) {
+      Navigator.pushNamed(
+        context,
+        Routers.homePage,
+      ).catchError((onError) {
+        print(onError);
+      });
+    });
+  }
+
+  _funcNantiSaja() {
+    FireFoodTransactionService.changeStatusFoodTransaction(
+      widget.data.idTransaction,
+      'done',
+    ).then((_) {
+      Navigator.pushNamed(
+        context,
+        Routers.homePage,
+      ).catchError((onError) {
+        print(onError);
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25))),
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Material(
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: Image.network(
+                    widget.data.pathfoodphoto,
+                    width: MediaQuery.of(context).size.width / 4.5,
+                    height: MediaQuery.of(context).size.width / 4.5,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Flexible(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.data.foodName,
+                        style: TextStyling()
+                          ..huge()
+                          ..bold()
+                          ..copyWith(fontSize: 13),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                      Text(
+                        widget.data.namaPembuat,
+                        style: TextStyling()..normal(),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/Icon/checkmark-filled.png',
+                            height: 20,
+                            width: 20,
+                          ),
+                          Text(
+                            '  Terdonasikan',
+                            style: TextStyling()..normal(),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ],
+                      ),
+                      RatingBar.builder(
+                        itemSize: 25,
+                        itemCount: 5,
+                        allowHalfRating: false,
+                        tapOnlyMode: true,
+                        direction: Axis.horizontal,
+                        initialRating: rates,
+                        minRating: 1.0,
+                        unratedColor: Colors.amber.shade100,
+                        itemBuilder: (context, _) =>
+                            Icon(Icons.star, color: Colors.amber),
+                        onRatingUpdate: (value) {
+                          setState(() {
+                            rates = value;
+                          });
+                        },
+                      ),
+                      TransparentDivider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RaisedButton(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(50),
+                                right: Radius.circular(50),
+                              ),
+                            ),
+                            onPressed: () {
+                              print('nanti saja');
+                              _funcNantiSaja();
+                            },
+                            child: Text(
+                              'Nanti saja',
+                              style: TextStyling(color: Colors.grey)..bold(),
+                            ),
+                          ),
+                          RaisedButton(
+                            color: kMainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(50),
+                                right: Radius.circular(50),
+                              ),
+                            ),
+                            onPressed: () {
+                              print(widget.data.idTransaction);
+                              _funcNilai();
+                            },
+                            child: Text(
+                              'Nilai',
+                              style: TextStyling(color: Colors.white)..bold(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

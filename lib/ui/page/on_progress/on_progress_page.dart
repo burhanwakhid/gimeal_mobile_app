@@ -19,8 +19,8 @@ class _OnProgressState extends State<OnProgress> {
   Future getListOrder() async {
     String idUser = await MainSharedPreferences().getIdUser();
     setState(() {
-      _list =
-          FireFoodTransactionService.getListFoodTransactionByPemesan(idUser);
+      _list = FireFoodTransactionService.getListFoodTransactionByPemesan(
+          idUser, ['waiting', 'accepted']);
     });
   }
 
@@ -155,7 +155,7 @@ class _OnProgressState extends State<OnProgress> {
                     maxLines: 1,
                   ),
                   Text(
-                    data.statusPemesanan,
+                    '${data.jarak} dari lokasi anda',
                     style: TextStyling()..normal(),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

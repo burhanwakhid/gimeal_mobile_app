@@ -7,14 +7,9 @@ import 'package:gimeal/core/models/user_model.dart';
 import 'package:gimeal/core/services/firebase_firestore/FireUserService.dart';
 import 'package:gimeal/core/services/firebase_firestore/fire_food_service.dart';
 import 'package:gimeal/core/services/firebase_firestore/fire_food_transaction_service.dart';
-import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:gimeal/ui/widgets/TransparentDivider.dart';
-import 'package:gimeal/ui/widgets/custom_dialog_widget.dart';
 import 'package:gimeal/ui/widgets/rating_display.dart';
-
-import '../../../config/routers.dart';
-import '../../../core/shared_preferences/config_shared_preferences.dart';
 
 class PeopleProfile extends StatefulWidget {
   final String id;
