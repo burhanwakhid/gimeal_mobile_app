@@ -16,6 +16,7 @@ class ListFoodModel {
   final String hpUser;
   final String fotoUser;
   final DateTime createdAt;
+  final int rating;
   final String status;
 
   ListFoodModel({
@@ -37,5 +38,6 @@ class ListFoodModel {
     this.hpUser,
     this.jarak,
     this.createdAt,
+    this.rating,
   });
 }

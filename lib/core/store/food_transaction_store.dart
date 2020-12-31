@@ -19,20 +19,22 @@ abstract class _FoodTransactionStore with Store {
   Future<void> saveTransaction(ListFoodModel listFoodModel) async {
     try {
       idTransaction = await FireFoodTransactionService.saveTransactions(
-          listFoodModel.idFood,
-          listFoodModel.idUser,
-          listFoodModel.pathFoodPhoto,
-          listFoodModel.foodName,
-          listFoodModel.jumlahFood.toString(),
-          listFoodModel.note,
-          listFoodModel.desc,
-          listFoodModel.waktuPengambilan,
-          listFoodModel.waktuPenayangan,
-          listFoodModel.alamatLengkap,
-          LatLng(listFoodModel.latitude, listFoodModel.longitude),
-          listFoodModel.namaUser,
-          listFoodModel.fotoUser,
-          listFoodModel.hpUser);
+        listFoodModel.idFood,
+        listFoodModel.idUser,
+        listFoodModel.pathFoodPhoto,
+        listFoodModel.foodName,
+        listFoodModel.jumlahFood.toString(),
+        listFoodModel.note,
+        listFoodModel.desc,
+        listFoodModel.waktuPengambilan,
+        listFoodModel.waktuPenayangan,
+        listFoodModel.alamatLengkap,
+        LatLng(listFoodModel.latitude, listFoodModel.longitude),
+        listFoodModel.namaUser,
+        listFoodModel.fotoUser,
+        listFoodModel.hpUser,
+        listFoodModel.rating,
+      );
     } catch (e) {
       throw Exception(e);
     }
