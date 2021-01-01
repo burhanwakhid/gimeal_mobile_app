@@ -285,7 +285,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                             color: kMainColor,
                             horizontalPadding: 80.0,
                             textColor: Colors.white,
-                            onTap: snapshot.data.statusPemesanan == 'accepted'
+                            onTap: snapshot.data.statusPemesanan != 'accepted'
                                 ? () {
                                     Fluttertoast.showToast(
                                         msg:
@@ -300,24 +300,6 @@ class _PesananMakananState extends State<PesananMakanan> {
                                             data: snapshot.data,
                                           );
                                         });
-
-                                    ///--
-//                                    FireFoodTransactionService
-//                                        .changeStatusFoodTransaction(
-//                                      widget.idPesanan,
-//                                      'done',
-//                                    ).then((_) {
-//                                      Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                          builder: (context) =>
-//                                              BottomNav(index: 1),
-//                                        ),
-//                                      ).catchError((onError) {
-//                                        print(onError);
-//                                      });
-//                                    });
-                                    ///--
                                   },
                           ),
                         ],

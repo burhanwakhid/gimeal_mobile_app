@@ -50,7 +50,7 @@ class FireFoodTransactionService {
         'lokasi_pengambil': GeoPoint(position.latitude, position.longitude),
         'lokasi_makanan':
             GeoPoint(lokasiMakanan.latitude, lokasiMakanan.longitude),
-        'rating': rating,
+        'rating': 0,
         // DATA YANG MESAN MAKANAN
         'nama_pemesan': await MainSharedPreferences().getUserName(),
         'foto_pemesan': await MainSharedPreferences().getUserFoto(),
@@ -169,6 +169,55 @@ class FireFoodTransactionService {
             hpPembuat: d['hp_pembuat'],
             createdAt: (d['created_at'] as Timestamp).toDate(),
             rating: d['rating'],
+          ),
+        );
+      });
+      return list;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<List<ListFoodTransactionModel>> getUnratedOrder(
+      String idPemesan) async {
+    try {
+      QuerySnapshot snapshot = await _collectionReference
+          .where('idUserPemesan', isEqualTo: idPemesan)
+          .where('statusPemesanan', isEqualTo: 'done')
+          .where('rating', isEqualTo: 0)
+          .get();
+      var documents = snapshot.docs;
+      List<ListFoodTransactionModel> list = [];
+      final Distance distance = new Distance();
+      documents.forEach((doc) {
+        Map<String, dynamic> d = doc.data();
+        list.add(
+          ListFoodTransactionModel(
+            idTransaction: doc.id,
+            idFood: d['idFood'],
+            idUserPemesan: d['idUserPemesan'],
+            idPembuatMakanan: d['idPembuatMakanan'],
+            statusPemesanan: d['statusPemesanan'],
+            pathfoodphoto: d['path_food_photo'],
+            foodName: d['food_name'],
+            jumlahFood: d['jumlah_food'],
+            note: d['note'],
+            desc: d['desc'],
+            waktuPengambilan: (d['waktu_pengambilan'] as Timestamp).toDate(),
+            waktuPenayangan: (d['waktu_penayangan'] as Timestamp).toDate(),
+            alamatLengkap: d['alamat_lengkap'],
+            lokasiPengambil: LatLng(
+                (d['lokasi_pengambil'] as GeoPoint).latitude,
+                (d['lokasi_pengambil'] as GeoPoint).longitude),
+            lokasiMakanan: LatLng((d['lokasi_makanan'] as GeoPoint).latitude,
+                (d['lokasi_makanan'] as GeoPoint).longitude),
+            namaPemesan: d['nama_pemesan'],
+            fotoPemesan: d['foto_pemesan'],
+            hpPemesan: d['hp_pemesan'],
+            namaPembuat: d['nama_pembuat'],
+            fotoPembuat: d['foto_pembuat'],
+            hpPembuat: d['hp_pembuat'],
+            createdAt: (d['created_at'] as Timestamp).toDate(),
           ),
         );
       });
