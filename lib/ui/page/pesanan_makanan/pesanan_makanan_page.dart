@@ -15,6 +15,7 @@ import 'package:gimeal/ui/page/pesanan_makanan/cancel_pesanan_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:gimeal/ui/widgets/TransparentDivider.dart';
 import 'package:latlong/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PesananMakanan extends StatefulWidget {
   final String idPesanan;
@@ -256,7 +257,13 @@ class _PesananMakananState extends State<PesananMakanan> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             RoundedSideButton(
-                              onTap: () {},
+                              onTap: () {
+                                String _phone = snapshot.data.hpPembuat;
+                                if (_phone[0] == '0') {
+                                  _phone = _phone.replaceRange(0, 1, '+62');
+                                }
+                                launch("tel://$_phone");
+                              },
                               name: 'Panggil',
                               color: Colors.white,
                             ),
@@ -266,9 +273,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                                 if (_phone[0] == '0') {
                                   _phone = _phone.replaceRange(0, 1, '+62');
                                 }
-                                FlutterOpenWhatsapp.sendSingleMessage(
-                                    _phone,
-//                            '+6285740226188',
+                                FlutterOpenWhatsapp.sendSingleMessage(_phone,
                                     'Hai ${snapshot.data.namaPembuat}, \n Saya ingin mengambil makanan *${snapshot.data.foodName}* yang ingin kamu bagikan di aplikasi *Gimeal*');
                               },
                               name: 'Pesan',
