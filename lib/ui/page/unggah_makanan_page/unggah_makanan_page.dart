@@ -22,7 +22,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
   TextEditingController waktuPengambilanCont = TextEditingController();
   TextEditingController namaMakananCont = TextEditingController();
   TextEditingController deskripsiCont = TextEditingController();
-  TextEditingController noteCont = TextEditingController();
+  // TextEditingController noteCont = TextEditingController();
   TextEditingController alamatCont = TextEditingController();
 
   UploadFoodStore uploadFoodStore = UploadFoodStore();
@@ -226,30 +226,30 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                     'Jumlah makanan: ${jmlMakanan.round().toString()}',
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  SizedBox(height: 8),
-                  Container(
-                    width: size.width / 1.2,
-                    height: size.height / 18,
-                    decoration: BoxDecoration(color: Colors.grey[100]),
-                    child: TextFormField(
-                      controller: noteCont,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        isCollapsed: true,
-                        suffixIcon: Icon(Icons.note),
-                        // labelText: "Email, or Phone Number",
-                        hintText: "Add notes",
-                        // floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        border: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(28),
-                          borderSide: BorderSide(color: Color(0xFF757575)),
-                          gapPadding: 10,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(height: 8),
+                  // Container(
+                  //   width: size.width / 1.2,
+                  //   height: size.height / 18,
+                  //   decoration: BoxDecoration(color: Colors.grey[100]),
+                  //   child: TextFormField(
+                  //     controller: noteCont,
+                  //     decoration: InputDecoration(
+                  //       isDense: true,
+                  //       isCollapsed: true,
+                  //       suffixIcon: Icon(Icons.note),
+                  //       // labelText: "Email, or Phone Number",
+                  //       hintText: "Add notes",
+                  //       // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  //       contentPadding:
+                  //           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  //       border: OutlineInputBorder(
+                  //         // borderRadius: BorderRadius.circular(28),
+                  //         borderSide: BorderSide(color: Color(0xFF757575)),
+                  //         gapPadding: 10,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 10,
                   ),
@@ -293,6 +293,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                     onTap: () async {
                       DatePicker.showTimePicker(
                         context,
+                        showSecondsColumn: false,
                         showTitleActions: true,
                         currentTime: DateTime.now(),
                         onConfirm: (val) {
@@ -377,20 +378,6 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                         items: [
                           DropdownMenuItem(
                             child: Text(
-                              '1 jam',
-                              style: kCardSubtitleTextStyle,
-                            ),
-                            value: 1,
-                          ),
-                          DropdownMenuItem(
-                            child: Text(
-                              '2 jam',
-                              style: kCardSubtitleTextStyle,
-                            ),
-                            value: 2,
-                          ),
-                          DropdownMenuItem(
-                            child: Text(
                               '3 jam',
                               style: kCardSubtitleTextStyle,
                             ),
@@ -398,17 +385,38 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                           ),
                           DropdownMenuItem(
                             child: Text(
-                              '4 jam',
+                              '6 jam',
                               style: kCardSubtitleTextStyle,
                             ),
-                            value: 4,
+                            value: 6,
                           ),
                           DropdownMenuItem(
                             child: Text(
-                              '5jam',
+                              '12 jam',
                               style: kCardSubtitleTextStyle,
                             ),
-                            value: 5,
+                            value: 12,
+                          ),
+                          DropdownMenuItem(
+                            child: Text(
+                              '24 jam',
+                              style: kCardSubtitleTextStyle,
+                            ),
+                            value: 24,
+                          ),
+                          DropdownMenuItem(
+                            child: Text(
+                              '2 hari',
+                              style: kCardSubtitleTextStyle,
+                            ),
+                            value: 48,
+                          ),
+                          DropdownMenuItem(
+                            child: Text(
+                              '3 hari',
+                              style: kCardSubtitleTextStyle,
+                            ),
+                            value: 72,
                           )
                         ],
                         onChanged: (val) {
@@ -547,7 +555,7 @@ class _UnggahMakananPageState extends State<UnggahMakananPage> {
                             'food-${namaMakananCont.text}-${DateTime.now().toIso8601String()}',
                             namaMakananCont.text.toString(),
                             jmlMakanan.toInt(),
-                            noteCont.text,
+                            '',
                             deskripsiCont.text,
                             waktuPengambilan,
                             lamatayang,
