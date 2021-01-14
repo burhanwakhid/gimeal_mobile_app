@@ -9,6 +9,14 @@ import 'config/app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool _firstOpen = await MainSharedPreferences().isFirstOpenedApp();
+  bool isLogin;
+  MainSharedPreferences().getIdUser().then((value) {
+    if (value != null) {
+      isLogin = true;
+    } else {
+      isLogin = false;
+    }
+  });
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.transparent, // navigation bar color
     statusBarColor: Colors.transparent, // status bar color
@@ -16,5 +24,6 @@ void main() async {
   await Firebase.initializeApp();
   runApp(App(
     firstOpen: _firstOpen,
+    isLogin: isLogin,
   ));
 }

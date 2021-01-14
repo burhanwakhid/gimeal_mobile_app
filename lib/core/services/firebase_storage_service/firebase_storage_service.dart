@@ -18,6 +18,20 @@ class FirebaseStorageService {
     return Future.value(uploadTask);
   }
 
+  static Future<UploadTask> uploadImageUser(File image, String path) async {
+    UploadTask uploadTask;
+    Reference ref =
+        FirebaseStorage.instance.ref().child('user').child('/$path.png');
+
+    final metadata = SettableMetadata(
+        contentType: 'image/png',
+        customMetadata: {'picked-file-path': image.path});
+
+    uploadTask = ref.putFile(image, metadata);
+
+    return Future.value(uploadTask);
+  }
+
   static Future<String> getUrlImage(Reference refs) async {
     // print(path);
     // Reference ref =

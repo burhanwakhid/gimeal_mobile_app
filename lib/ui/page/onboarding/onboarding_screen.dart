@@ -12,8 +12,8 @@ class Onboarding extends StatefulWidget {
 
 class _OnboardingState extends State<Onboarding> {
   //todo fungsi ketika selesai dari onboard screen
-  void _onDone() {
-    MainSharedPreferences().openAppFirstTime();
+  _onDone() async {
+    await MainSharedPreferences().openAppFirstTime();
     Navigator.popAndPushNamed(context, Routers.welcomePage);
   }
 
