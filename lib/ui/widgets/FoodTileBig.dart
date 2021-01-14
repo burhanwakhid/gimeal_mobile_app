@@ -52,12 +52,6 @@ class _FoodTileBigState extends State<FoodTileBig> {
                   height: 150,
                   width: MediaQuery.of(context).size.width - 20,
                 ),
-//                Image.network(
-//                  '${widget.foodData.pathFoodPhoto}',
-//                  fit: BoxFit.cover,
-//                  height: 150,
-//                  width: MediaQuery.of(context).size.width - 20,
-//                ),
                 ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Colors.white,

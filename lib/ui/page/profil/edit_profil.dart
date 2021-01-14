@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/core/services/firebase_firestore/FireUserService.dart';
+import 'package:gimeal/core/services/firebase_storage_service/firebase_storage_service.dart';
 import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:gimeal/ui/widgets/TransparentDivider.dart';
@@ -17,21 +18,36 @@ class _EditProfileState extends State<EditProfile> {
   MainSharedPreferences mainSharedPreferences = MainSharedPreferences();
   final ImagePicker imagePicker = ImagePicker();
   File userPhoto;
+  String oldUserPhoto;
+  String pathPhoto;
   FocusNode _phoneFN = FocusNode();
   FocusNode _nameFN = FocusNode();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
   String idUser = '';
 
-  Future actionEditUser({String idUser, String hp, String nama}) async {
+  //---------------------------------- action update
+  Future actionEditUser(
+      {String idUser, String hp, String nama, String foto}) async {
     if (hp[0] == '0') {
       hp = hp.replaceRange(0, 1, '+62');
     }
-    await UserServices.editUser(idUser, hp, nama).then((value) {
+    await changePhoto();
+    await UserServices.editUser(idUser, hp, nama, foto).then((value) {
       Navigator.pop(context);
     });
   }
 
+  Future changePhoto() async {
+    if (userPhoto != null) {
+      await FirebaseStorageService.uploadImageUser(userPhoto, pathPhoto);
+      print('ganti foto');
+    } else {
+      print('tidak ganti foto');
+    }
+  }
+
+  //---------------------------------- end action update
   Future getSavedData() async {
     mainSharedPreferences.getIdUser().then((value) {
       print(value);
@@ -44,6 +60,7 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       if (pickedFile != null) {
         userPhoto = File(pickedFile.path);
+        pathPhoto = idUser;
       } else {
         print('No image selected.');
       }
@@ -54,11 +71,16 @@ class _EditProfileState extends State<EditProfile> {
     _phoneController.text = await mainSharedPreferences.getHpUser() ?? '';
     _nameController.text = await mainSharedPreferences.getUserName() ?? '';
     idUser = await mainSharedPreferences.getIdUser();
+    var temp = await mainSharedPreferences.getUserFoto();
+    setState(() {
+      oldUserPhoto = temp;
+      pathPhoto = temp;
+    });
   }
 
   @override
   void initState() {
-    this.initForm();
+    initForm();
     super.initState();
   }
 
@@ -95,7 +117,7 @@ class _EditProfileState extends State<EditProfile> {
                         radius: 60,
                         backgroundColor: Colors.white,
                         backgroundImage: NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRUj_RjV66y5BZlTyn3GZVKy7Ioc09fe9acw&usqp=CAU',
+                          'https://firebasestorage.googleapis.com/v0/b/gimeal-a56d7.appspot.com/o/user%2$oldUserPhoto.png?alt=media',
                         ),
                       ),
                       Visibility(
@@ -122,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                             left: Radius.circular(50),
                             right: Radius.circular(50))),
                     onPressed: () {
-//                      this.getImage();
+                      this.getImage();
                     },
                     color: kMainColor,
                     child: Text(
@@ -172,9 +194,12 @@ class _EditProfileState extends State<EditProfile> {
                         left: Radius.circular(50), right: Radius.circular(50))),
                 onPressed: () {
                   this.actionEditUser(
-                      idUser: this.idUser,
-                      hp: _phoneController.text,
-                      nama: _nameController.text);
+                    idUser: this.idUser,
+                    hp: _phoneController.text,
+                    nama: _nameController.text,
+                    foto: this.pathPhoto,
+                  );
+//                  print(this.pathPhoto);
                 },
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 color: kAccentColor,

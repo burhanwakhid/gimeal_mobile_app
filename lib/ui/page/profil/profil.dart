@@ -46,7 +46,7 @@ class _ProfilState extends State<Profil> {
     super.initState();
   }
 
-  getData() async {
+  Future getData() async {
     var name = await MainSharedPreferences().getUserName();
     var photo = await MainSharedPreferences().getUserFoto();
     setState(() {
@@ -59,43 +59,46 @@ class _ProfilState extends State<Profil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      body: ListView(
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          _userProfile(),
-          SizedBox(
-            height: 30,
-          ),
-          _statisticRow(context),
-          SizedBox(
-            height: 20,
-          ),
-          _profileMenu(),
-          SizedBox(
-            height: 40,
-          ),
-          Center(
-            child: RaisedButton(
-              padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              onPressed: () async {
-                _showMyDialog();
-              },
-              child: Text(
-                'Keluar',
-                style: TextStyling(
-                    color: Colors.grey, decoration: TextDecoration.underline)
-                  ..big()
-                  ..bold(),
-              ),
-              color: Colors.blueGrey.shade50,
+      body: RefreshIndicator(
+        onRefresh: getData,
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-        ],
+            _userProfile(),
+            SizedBox(
+              height: 30,
+            ),
+            _statisticRow(context),
+            SizedBox(
+              height: 20,
+            ),
+            _profileMenu(),
+            SizedBox(
+              height: 40,
+            ),
+            Center(
+              child: RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
+                onPressed: () async {
+                  _showMyDialog();
+                },
+                child: Text(
+                  'Keluar',
+                  style: TextStyling(
+                      color: Colors.grey, decoration: TextDecoration.underline)
+                    ..big()
+                    ..bold(),
+                ),
+                color: Colors.blueGrey.shade50,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -198,7 +201,10 @@ class _ProfilState extends State<Profil> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/editProfile');
+                        Navigator.pushNamed(context, Routers.editProfile)
+                            .then((value) {
+                          this.getData();
+                        });
                       },
                       child: Icon(
                         Icons.edit,

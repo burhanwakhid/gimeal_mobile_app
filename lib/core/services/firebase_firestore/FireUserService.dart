@@ -16,15 +16,18 @@ class UserServices {
     });
   }
 
-  static Future<bool> editUser(String idUser, String hp, String nama) async {
+  static Future<bool> editUser(
+      String idUser, String hp, String nama, String fotoUser) async {
     try {
       _collectionReference.doc(idUser).update({
 //        'email': email,
         'hp': hp,
         'nama': nama,
+        'foto_user': 'F$fotoUser',
       });
       await MainSharedPreferences().setHpUser(hp);
       await MainSharedPreferences().setUserName(nama);
+      await MainSharedPreferences().setUserFoto('F$fotoUser');
       return true;
     } catch (e) {
       throw e.toString();
