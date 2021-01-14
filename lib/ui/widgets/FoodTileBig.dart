@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
@@ -45,12 +46,18 @@ class _FoodTileBigState extends State<FoodTileBig> {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.network(
-                  '${widget.foodData.pathFoodPhoto}',
+                CachedNetworkImage(
+                  imageUrl: '${widget.foodData.pathFoodPhoto}',
                   fit: BoxFit.cover,
                   height: 150,
                   width: MediaQuery.of(context).size.width - 20,
                 ),
+//                Image.network(
+//                  '${widget.foodData.pathFoodPhoto}',
+//                  fit: BoxFit.cover,
+//                  height: 150,
+//                  width: MediaQuery.of(context).size.width - 20,
+//                ),
                 ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Colors.white,

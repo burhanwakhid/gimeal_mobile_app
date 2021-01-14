@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/provider/navbar_provider.dart';
+import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/page/onboarding/onboarding_screen.dart';
 import 'package:gimeal/ui/page/people/people_profile_page.dart';
 import 'package:gimeal/ui/page/profil/edit_profil.dart';
@@ -11,9 +12,11 @@ import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
   final bool firstOpen;
+  final bool isLogin;
 
   App({
     @required this.firstOpen,
+    @required this.isLogin,
   });
 
   @override
@@ -40,7 +43,11 @@ class _AppState extends State<App> {
         //  home: this.widget.firstOpen ? Onboarding() : WelcomePage(),
         home: SplashScreen(
           duration: 4,
-          afterSplash: this.widget.firstOpen ? Onboarding() : WelcomePage(),
+          afterSplash: this.widget.firstOpen
+              ? Onboarding()
+              : this.widget.isLogin
+                  ? BottomNav(index: 0)
+                  : WelcomePage(),
         ),
 //      BottomNav(index: 0),
       ),
