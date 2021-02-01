@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 18),
                     child: Text(
-                      'Sign Up',
+                      'Daftar',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 30.0,
@@ -168,7 +168,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                 },
                                 child: Text(
-                                  'Sign Up',
+                                  'Daftar',
                                   style: kSubtitleStyle.copyWith(
                                       color: Colors.white),
                                 ),

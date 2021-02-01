@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 18),
                       child: Text(
-                        'Sign In',
+                        'Masuk',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 30.0,
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                     }
                                   },
                                   child: Text(
-                                    'Sign In',
+                                    'Masuk',
                                     style: kSubtitleStyle.copyWith(
                                         color: Colors.white),
                                   ),

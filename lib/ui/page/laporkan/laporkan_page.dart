@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LaporkanPage extends StatefulWidget {
   @override
@@ -24,7 +25,10 @@ class _LaporkanPageState extends State<LaporkanPage> {
           height: 55,
           width: MediaQuery.of(context).size.width,
           child: RaisedButton(
-            onPressed: () {},
+            onPressed: () async {
+              await Future.delayed(Duration(seconds: 1));
+              Fluttertoast.showToast(msg: 'Berhasil');
+            },
             child: Text(
               'LAPORKAN',
               style: TextStyle(
