@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/config/config.dart';
 import 'package:gimeal/config/routers.dart';
 import 'package:gimeal/core/shared_preferences/config_shared_preferences.dart';
+import 'package:gimeal/ui/shared/styles.dart';
 
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -22,7 +23,7 @@ class _OnboardingState extends State<Onboarding> {
       'title': 'Donasi Makanan Online',
       'body':
           'Begitu mudah kita dapat berbagi makanan kepada siapapun itu. Anda bisa berbagi kepada orang  yang membutuhkan melalui teman yang lain untuk menyalurkannya. Kita Semua Terhubung untuk dapat saling membagikan kepada orang-orang disekitar Kita.',
-      'image': 'assets/onboard1.png',
+      'image': 'assets/onboard4.png',
     },
     {
       'title': 'Sebagai Penyalur Kepada Orang Lain',
@@ -49,6 +50,11 @@ class _OnboardingState extends State<Onboarding> {
                 image: Center(
                   child: Image.asset(_onBoardData[index]['image'], height: 250),
                 ),
+                decoration: PageDecoration(
+                  bodyFlex: 1,
+                  imageFlex: 2,
+                  bodyTextStyle: TextStyling()..small(),
+                ),
                 footer: RaisedButton(
                   onPressed: () {
                     this._onDone();
@@ -62,6 +68,11 @@ class _OnboardingState extends State<Onboarding> {
             : PageViewModel(
                 title: _onBoardData[index]['title'],
                 body: _onBoardData[index]['body'],
+                decoration: PageDecoration(
+                  bodyFlex: 1,
+                  imageFlex: 2,
+                  bodyTextStyle: TextStyling()..small(),
+                ),
                 image: Center(
                   child: Image.asset(_onBoardData[index]['image'], height: 250),
                 ),

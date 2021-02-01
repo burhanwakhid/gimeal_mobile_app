@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
       //    },
       //    child: Icon(Icons.add),
       //  ),
-
       body: RefreshIndicator(
         onRefresh: this._getListFood,
         child: ListView(
@@ -96,14 +95,19 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       automaticallyImplyLeading: false,
       title: Center(
-        child: Text(
-          'gimeal',
-          style: TextStyle(
-            color: Theme.of(context).accentColor,
-            fontWeight: FontWeight.w700,
-            fontSize: 26,
-          ),
+        child: Image.asset(
+          'assets/Icon/donasiyuk.png',
+          height: 40,
+          fit: BoxFit.fitHeight,
         ),
+//        child: Text(
+//          'DonasiYuk!',
+//          style: TextStyle(
+//            color: Theme.of(context).accentColor,
+//            fontWeight: FontWeight.w700,
+//            fontSize: 26,
+//          ),
+//        ),
       ),
       backgroundColor: Colors.white,
     );
