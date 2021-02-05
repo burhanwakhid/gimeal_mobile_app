@@ -274,7 +274,7 @@ class _PesananMakananState extends State<PesananMakanan> {
                                   _phone = _phone.replaceRange(0, 1, '+62');
                                 }
                                 FlutterOpenWhatsapp.sendSingleMessage(_phone,
-                                    'Hai ${snapshot.data.namaPembuat}, \n Saya ingin mengambil makanan *${snapshot.data.foodName}* yang ingin kamu bagikan di aplikasi *Gimeal*');
+                                    'Hai ${snapshot.data.namaPembuat}, \n Saya ingin mengambil makanan *${snapshot.data.foodName}* yang ingin kamu bagikan di aplikasi *DonasiYuk!*');
                               },
                               name: 'Pesan',
                               color: Colors.white,

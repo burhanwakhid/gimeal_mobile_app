@@ -43,7 +43,7 @@ class UserServices {
       nama: snapshot.data()['nama'],
       noHp: snapshot.data()['hp'],
       fotoUser: snapshot.data()['foto_user'],
-      createdAt: snapshot.data()['createdAt'].toString(),
+      createdAt: snapshot.data()['createdAt'],
     );
   }
 }

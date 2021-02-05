@@ -48,11 +48,11 @@ class _OnboardingState extends State<Onboarding> {
                 title: _onBoardData[index]['title'],
                 body: _onBoardData[index]['body'],
                 image: Center(
-                  child: Image.asset(_onBoardData[index]['image'], height: 250),
+                  child: Image.asset(_onBoardData[index]['image'], height: 200),
                 ),
                 decoration: PageDecoration(
                   bodyFlex: 1,
-                  imageFlex: 2,
+                  imageFlex: 1,
                   bodyTextStyle: TextStyling()..small(),
                 ),
                 footer: RaisedButton(
@@ -70,11 +70,11 @@ class _OnboardingState extends State<Onboarding> {
                 body: _onBoardData[index]['body'],
                 decoration: PageDecoration(
                   bodyFlex: 1,
-                  imageFlex: 2,
+                  imageFlex: 1,
                   bodyTextStyle: TextStyling()..small(),
                 ),
                 image: Center(
-                  child: Image.asset(_onBoardData[index]['image'], height: 250),
+                  child: Image.asset(_onBoardData[index]['image'], height: 200),
                 ),
               );
       }),

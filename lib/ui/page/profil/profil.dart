@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gimeal/core/models/user_model.dart';
+import 'package:gimeal/core/services/firebase_firestore/FireUserService.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
 import 'package:gimeal/ui/shared/styles.dart';
 import 'package:gimeal/ui/widgets/custom_dialog_widget.dart';
@@ -39,6 +41,7 @@ class _ProfilState extends State<Profil> {
 
   String nama = '';
   String imagePhoto = '';
+  UserModel user;
 
   @override
   void initState() {
@@ -49,9 +52,12 @@ class _ProfilState extends State<Profil> {
   Future getData() async {
     var name = await MainSharedPreferences().getUserName();
     var photo = await MainSharedPreferences().getUserFoto();
+    var id = await MainSharedPreferences().getIdUser();
+    var user = await UserServices.getUser(id);
     setState(() {
-      nama = name;
-      imagePhoto = photo;
+      this.nama = name;
+      this.imagePhoto = photo;
+      this.user = user;
     });
   }
 
@@ -224,9 +230,9 @@ class _ProfilState extends State<Profil> {
                       child: Column(
                         children: [
                           Text(
-                            'Bergabung 2 minggu yang lalu',
+                            'Bergabung ${DateTime.now().difference(user.createdAt.toDate()).inDays} hari yang lalu',
                             style: TextStyling(color: Colors.grey)..normal(),
-                            overflow: TextOverflow.ellipsis,
+                            // overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),

@@ -14,6 +14,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController namaCont = TextEditingController();
   TextEditingController emailCont = TextEditingController();
   TextEditingController passCont = TextEditingController();
+  TextEditingController confpassCont = TextEditingController();
   TextEditingController hpCont = TextEditingController();
 
   bool securetext = true;
@@ -129,6 +130,23 @@ class _RegisterPageState extends State<RegisterPage> {
                               },
                               decoration:
                                   InputDecoration(labelText: 'Password'),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              controller: confpassCont,
+                              obscureText: securetext,
+                              validator: (val) {
+                                if (val.isEmpty) {
+                                  return 'Tidak boleh kosong';
+                                } else if (passCont.text != val) {
+                                  return 'Password Tidak Sama';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText: 'Confirm Password'),
                             ),
                             SizedBox(
                               height: 25,

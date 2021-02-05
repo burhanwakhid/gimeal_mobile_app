@@ -14,7 +14,6 @@ extension FirebaseUserExtension on auth.User {
         this.email,
         nama: nama,
         noHp: hp,
-        createdAt: createdAt,
         fotoUser: fotoUser,
       );
 
