@@ -20,22 +20,32 @@ class _ProfilState extends State<Profil> {
     {
       'title': 'Unggahan',
       'image': 'assets/Icon/icon_upload.png',
-      'route': '/unggahan',
+      'route': Routers.unggahan,
     },
     {
       'title': 'Penilaian',
       'image': 'assets/Icon/icon_star.png',
-      'route': '/penilaian',
+      'route': Routers.penilaian,
     },
     {
       'title': 'Riwayat',
       'image': 'assets/Icon/icon_list.png',
-      'route': '/riwayat',
+      'route': Routers.riwayat,
+    },
+    {
+      'title': 'Kriteria Donatur',
+      'image': 'assets/Icon/icon_people_love.png',
+      'route': Routers.donaturPage,
+    },
+    {
+      'title': 'Keamanan Privasi',
+      'image': 'assets/Icon/icon_lock.png',
+      'route': Routers.privacyPage,
     },
     {
       'title': 'Bantuan',
       'image': 'assets/Icon/icon_help.png',
-      'route': '/bantuan',
+      'route': Routers.bantuan,
     },
   ];
 

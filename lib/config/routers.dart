@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gimeal/core/models/list_food_model.dart';
 import 'package:gimeal/ui/page/bantuan/bantuan_page.dart';
 import 'package:gimeal/ui/page/bottom_nav/bottom_nav_page.dart';
+import 'package:gimeal/ui/page/kriteria/kriteria_donatur.dart';
 import 'package:gimeal/ui/page/laporkan/laporkan_page.dart';
 import 'package:gimeal/ui/page/login/login_page.dart';
 import 'package:gimeal/ui/page/makanan_page/detail_makanan.dart';
+import 'package:gimeal/ui/page/privacy/privacy.dart';
 import 'package:gimeal/ui/page/profil/edit_profil.dart';
 import 'package:gimeal/ui/page/rating/rating_page.dart';
 import 'package:gimeal/ui/page/register_page/register_page.dart';
@@ -30,6 +32,8 @@ class Routers {
   static const String penilaian = '/penilaian';
   static const String riwayat = '/riwayat';
   static const String editProfile = '/editProfile';
+  static const String privacyPage = '/privacyPage';
+  static const String donaturPage = '/donaturPage';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
@@ -79,6 +83,12 @@ class Routers {
         break;
       case editProfile:
         return MaterialPageRoute(builder: (_) => EditProfile());
+        break;
+      case privacyPage:
+        return MaterialPageRoute(builder: (_) => PrivacyPage());
+        break;
+      case donaturPage:
+        return MaterialPageRoute(builder: (_) => DonaturPage());
         break;
       case detailMakanan:
         if (args is DetailMakananArgs)
