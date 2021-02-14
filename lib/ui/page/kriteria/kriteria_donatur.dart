@@ -66,7 +66,7 @@ class DonaturPage extends StatelessWidget {
                   title: Text(
                     "Kriteria Donatur",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: kMainColor,
                     ),
@@ -76,7 +76,7 @@ class DonaturPage extends StatelessWidget {
                     style: TextStyling()..small(),
                   ),
                   trailing: SizedBox(
-                    width: MediaQuery.of(context).size.width * .15,
+                    width: MediaQuery.of(context).size.width * .10,
                   ),
                 ),
                 _buildDivider(),
@@ -141,11 +141,11 @@ class DonaturPage extends StatelessWidget {
                 title,
                 style: TextStyling(color: kMainColor)
                   ..bold()
-                  ..huge(),
+                  ..big(),
               ),
               subtitle: Text(
                 content,
-                style: TextStyling()..small(),
+                style: TextStyling()..tiny(),
               ),
               trailing: SizedBox(
                 width: MediaQuery.of(context).size.width * .25,
@@ -154,7 +154,7 @@ class DonaturPage extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: 10,
+          right: 2,
           child: Image.asset(
             image,
             height: MediaQuery.of(context).size.width * .45,
